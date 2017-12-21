@@ -1,69 +1,6 @@
 fileFormatVersion: 2
 guid: 59177834662aa4ead89a6c07a4715165
-timeCreated: 1465328657
-licenseType: Pro
 PluginImporter:
-<<<<<<< HEAD
-  serializedVersion: 1
-  iconMap: {}
-  executionOrder: {}
-  isPreloaded: 1
-  platformData:
-    Android:
-      enabled: 0
-      settings:
-        CPU: AnyCPU
-    Any:
-      enabled: 0
-      settings: {}
-    Editor:
-      enabled: 1
-      settings:
-        CPU: x86_64
-        DefaultValueInitialized: true
-        OS: Windows
-    Linux:
-      enabled: 0
-      settings:
-        CPU: None
-    Linux64:
-      enabled: 1
-      settings:
-        CPU: x86_64
-    LinuxUniversal:
-      enabled: 0
-      settings:
-        CPU: x86_64
-    OSXIntel:
-      enabled: 0
-      settings:
-        CPU: None
-    OSXIntel64:
-      enabled: 1
-      settings:
-        CPU: AnyCPU
-    OSXUniversal:
-      enabled: 0
-      settings:
-        CPU: x86_64
-    SamsungTV:
-      enabled: 0
-      settings:
-        STV_MODEL: STANDARD_13
-    Win:
-      enabled: 0
-      settings:
-        CPU: None
-    Win64:
-      enabled: 1
-      settings:
-        CPU: AnyCPU
-    iOS:
-      enabled: 0
-      settings:
-        CompileFlags: 
-        FrameworkDependencies: 
-=======
   serializedVersion: 2
   iconMap: {}
   executionOrder: {}
@@ -72,26 +9,18 @@ PluginImporter:
   platformData:
     data:
       first:
-        Android: Android
-      second:
-        enabled: 0
-        settings:
-          CPU: AnyCPU
-    data:
-      first:
         Any: 
       second:
-        enabled: 0
+        enabled: 1
         settings: {}
     data:
       first:
         Editor: Editor
       second:
-        enabled: 1
+        enabled: 0
         settings:
           CPU: x86_64
           DefaultValueInitialized: true
-          OS: Windows
     data:
       first:
         Facebook: Win
@@ -106,13 +35,6 @@ PluginImporter:
         enabled: 1
         settings:
           CPU: AnyCPU
-    data:
-      first:
-        Samsung TV: SamsungTV
-      second:
-        enabled: 0
-        settings:
-          STV_MODEL: STANDARD_13
     data:
       first:
         Standalone: Linux
@@ -131,7 +53,7 @@ PluginImporter:
       first:
         Standalone: LinuxUniversal
       second:
-        enabled: 0
+        enabled: 1
         settings:
           CPU: x86_64
     data:
@@ -169,15 +91,6 @@ PluginImporter:
         enabled: 1
         settings:
           CPU: AnyCPU
-    data:
-      first:
-        iPhone: iOS
-      second:
-        enabled: 0
-        settings:
-          CompileFlags: 
-          FrameworkDependencies: 
->>>>>>> Nadir'sBranch
   userData: 
   assetBundleName: 
   assetBundleVariant: 
