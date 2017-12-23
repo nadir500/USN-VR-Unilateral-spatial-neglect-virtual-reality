@@ -20,9 +20,9 @@ public class RoadController : MonoBehaviour {
     void Start () {
        
        //by example on handler 
-        _handler= new GameObjectHandler(Resources.Load("Prefabs/Midwalk") as GameObject,numberOfPathsInSingleRoad / 2,true,"Sidewalk");
+        //_handler= new GameObjectHandler(Resources.Load("Prefabs/Midwalk") as GameObject,numberOfPathsInSingleRoad / 2,true,"Sidewalk");
        
-        Debug.Log("WAT " + _handler.RetrieveInstance(Vector3.zero,Quaternion.identity) .gameObject.name);
+     //   Debug.Log("WAT " + _handler.RetrieveInstance(Vector3.zero,Quaternion.identity) .gameObject.name);
       
         for(int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
         {
