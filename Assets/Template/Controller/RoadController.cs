@@ -15,7 +15,15 @@ public class RoadController : MonoBehaviour {
     public GameObject BuildingsWrapper;
 
     // Use this for initialization
+
+    private GameObjectHandler _handler;
     void Start () {
+       
+       //by example on handler 
+        _handler= new GameObjectHandler(Resources.Load("Prefabs/Midwalk") as GameObject,numberOfPathsInSingleRoad / 2,true,"Sidewalk");
+       
+        Debug.Log("WAT " + _handler.RetrieveInstance(Vector3.zero,Quaternion.identity) .gameObject.name);
+      
         for(int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
         {
             Instantiate(streatPath, new Vector3(10f + (streatPathWidth * i), -2.0f, 0.0f), Quaternion.identity);
@@ -30,6 +38,11 @@ public class RoadController : MonoBehaviour {
 
     }
 	
+    public void Instantiate_Cars_FastRoad(List<Transform> beginPoint ,List<Transform> endPoint,Transform carObject)
+	{
+			
+
+	}
 	// Update is called once per frame
 	void Update () {
 		
