@@ -12,10 +12,9 @@ public class RoadController : MonoBehaviour {
     const int streatPathWidth = 10;
     const float sidewalkWidth = 2.5f;
     private Vector3 startPosition = new Vector3(10f, -2.0f, 0.0f);
-<<<<<<< HEAD
-=======
+
     public GameObject BuildingsWrapper;
->>>>>>> master
+
 
     // Use this for initialization
     void Start () {

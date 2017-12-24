@@ -4,12 +4,4 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-<<<<<<< HEAD
-    path: Assets/GoogleVR/Demos/Scenes/GVRDemo.unity
-    guid: 00000000000000000000000000000000
-=======
-    path: Assets/Scenes/Main.unity
-    guid: 405960256cabfac44852f0e8b270b7db
->>>>>>> master
+  m_Scenes: []
