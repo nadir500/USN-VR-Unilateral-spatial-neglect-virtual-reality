@@ -12,6 +12,10 @@ public class RoadController : MonoBehaviour {
     const int streatPathWidth = 10;
     const float sidewalkWidth = 2.5f;
     private Vector3 startPosition = new Vector3(10f, -2.0f, 0.0f);
+<<<<<<< HEAD
+=======
+    public GameObject BuildingsWrapper;
+>>>>>>> master
 
     // Use this for initialization
     void Start () {
@@ -25,6 +29,10 @@ public class RoadController : MonoBehaviour {
             Instantiate(streatPath, new Vector3(12.5f + (streatPathWidth * i) + (streatPathWidth * (numberOfPathsInSingleRoad / 2)), -2.0f, 0.0f), Quaternion.identity);
         }
         Instantiate(midWalk, new Vector3(8.75f + streatPathWidth * (numberOfPathsInSingleRoad), -2.0f, 0.0f), Quaternion.identity);
+<<<<<<< HEAD
+=======
+        BuildingsWrapper.transform.position = new Vector3(9.3f + streatPathWidth * (numberOfPathsInSingleRoad), 0, 0);
+>>>>>>> master
 
     }
 	
@@ -32,4 +40,9 @@ public class RoadController : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void ButtonPressed()
+    {
+        Debug.Log("FUCK YOU FUCKEN BUTTON");
+    }
 }

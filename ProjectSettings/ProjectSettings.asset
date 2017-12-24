@@ -135,10 +135,21 @@ PlayerSettings:
       depthFormat: 1
   protectGraphicsMemory: 0
   useHDRDisplay: 0
+<<<<<<< HEAD
   applicationIdentifier: {}
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 21
+=======
+  targetPixelDensity: 0
+  resolutionScalingMode: 0
+  applicationIdentifier:
+    Android: com.a.a
+    Standalone: com.a.a
+  buildNumber: {}
+  AndroidBundleVersionCode: 1
+  AndroidMinSdkVersion: 19
+>>>>>>> master
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -229,6 +240,10 @@ PlayerSettings:
     m_Enabled: 1
     m_Devices:
     - cardboard
+<<<<<<< HEAD
+=======
+    - daydream
+>>>>>>> master
   openGLRequireES31: 0
   openGLRequireES31AEP: 0
   webPlayerTemplate: APPLICATION:Default
