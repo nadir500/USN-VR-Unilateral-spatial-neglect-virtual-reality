@@ -17,9 +17,11 @@ public class RoadController : MonoBehaviour {
     private List<Vector3> beginPoints = new List<Vector3>();
     private List<float> endPoints = new List<float>();
      private GameObjectHandler car_handler1;
+    private float speed = 3.5f;
 
     void Start () {
        
+        speed = Random.RandomRange(2, 4f);
         //by example on handler 
         car_handler1= new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject,numberOfPathsInSingleRoad,true,"");
 
@@ -34,7 +36,7 @@ public class RoadController : MonoBehaviour {
              generatedRoad.name= "Road " +i;
             //two instantiates :D plzzzz
         
-            Instantiate_Cars_FastRoad(RoadMeasure,RoadMeasure.z =200,generatedRoad.name,car_handler1);
+            Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x,RoadMeasure.y+5 ,RoadMeasure.z),RoadMeasure.z =200,generatedRoad.name,car_handler1);
         }
        
         Instantiate(midWalk, new Vector3(6.25f + streatPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
@@ -56,25 +58,25 @@ public class RoadController : MonoBehaviour {
 	void Update()
     {
         //making the cars move 
-        MovingTheCars(car_handler1);
+      //  MovingTheCars(car_handler1);
 
     }
     public void Instantiate_Cars_FastRoad( Vector3 beginPoint ,float endPoint,string roadParent
     ,GameObjectHandler carObjectHandler)
 	{   
-	   carObjectHandler.RetrieveInstance(beginPoint,Quaternion.identity,roadParent);
+	  GameObject car= carObjectHandler.RetrieveInstance(beginPoint,Quaternion.identity,roadParent);
+       car.AddComponent<CarMove>();
        beginPoints.Add(beginPoint);
        endPoints.Add(endPoint);
        
 	}
 
+    //Moving Cars in Update 
     public void MovingTheCars(GameObjectHandler carObjectHandler)
     {
       GameObject car;
-      float movementSpeed = 2.0f;
-      float currentLerpTime=0;
-      float LerpTime =5;
       GameObject[] carsPool = carObjectHandler.Pool;
+
      //  GameObject  carObject = carObjectHandler.Pool[];
      for (int i = 0; i < carsPool.Length; i++)
      {
@@ -84,6 +86,8 @@ public class RoadController : MonoBehaviour {
           if (car.transform.position.z == 0.0f)
             //frmmmmmmmmmmmmm
             {         
+            car.transform.localPosition += Vector3.forward * Time.deltaTime * speed;
+            Debug.Log("{0} "+i +car.transform.localPosition.z );
 
             }
             else
