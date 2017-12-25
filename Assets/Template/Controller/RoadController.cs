@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoadController : MonoBehaviour {
 
 
-    public int numberOfPathsInSingleRoad = 4;
+    public int numberOfPathsInSingleRoad = 2;
     public GameObject sidewalk;
     public GameObject streatPath;
     public GameObject midWalk;
