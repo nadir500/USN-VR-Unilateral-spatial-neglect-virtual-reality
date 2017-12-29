@@ -7,7 +7,7 @@ public class CarMove : MonoBehaviour {
   
 	// Use this for initialization
 	void Start () {
-        speed = Random.RandomRange(2, 4f);
+        speed = Random.RandomRange(2, 7f);
     }
 	
 	// Update is called once per frame

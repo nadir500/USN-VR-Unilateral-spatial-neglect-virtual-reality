@@ -27,16 +27,16 @@ public class RoadController : MonoBehaviour {
 
       //instantiate all cars 
 
-     //   Debug.Log("WAT " + _handler.RetrieveInstance(Vector3.zero,Quaternion.identity).gameObject.name);
-      
         for(int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
         {
             RoadMeasure = new Vector3(10f + (streatPathWidth * i), -2.0f, 0.0f);
             GameObject generatedRoad=  Instantiate(streatPath,RoadMeasure,Quaternion.identity) as GameObject;
              generatedRoad.name= "Road " +i;
+          
             //two instantiates :D plzzzz
-        
-            Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x,RoadMeasure.y+1 ,RoadMeasure.z),RoadMeasure.z =200,generatedRoad.name,car_handler1);
+                Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x,RoadMeasure.y ,RoadMeasure.z + 150),
+                RoadMeasure.z =500
+                ,generatedRoad,car_handler1);
         }
        
         Instantiate(midWalk, new Vector3(6.25f + streatPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
@@ -48,10 +48,12 @@ public class RoadController : MonoBehaviour {
      
      
        //two instantiates plzzzz
-            Instantiate_Cars_FastRoad(RoadMeasure,RoadMeasure.z = 200.0f,generatedRoad.name,car_handler1);
+            Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x,RoadMeasure.y ,RoadMeasure.z + 150),
+            RoadMeasure.z = 200.0f/*END POINT TO REPEAT*/,generatedRoad,car_handler1);
         }
     
         Instantiate(midWalk, new Vector3(8.75f + streatPathWidth * (numberOfPathsInSingleRoad), -2.0f, 0.0f), Quaternion.identity);
+        
         BuildingsWrapper.transform.position = new Vector3(9.3f + streatPathWidth * (numberOfPathsInSingleRoad), 0, 0);
 
     }
@@ -61,13 +63,21 @@ public class RoadController : MonoBehaviour {
       //  MovingTheCars(car_handler1);
 
     }
-    public void Instantiate_Cars_FastRoad( Vector3 beginPoint ,float endPoint,string roadParent
+    public void Instantiate_Cars_FastRoad( Vector3 beginPoint ,float endPoint,GameObject roadParent
     ,GameObjectHandler carObjectHandler)
 	{   
-		GameObject car= carObjectHandler.RetrieveInstance(beginPoint,new Quaternion(0,90,0,0),roadParent);
-       car.AddComponent<CarMove>();
-       beginPoints.Add(beginPoint);
-       endPoints.Add(endPoint);
+    for (int i = 0; i<2; i++)
+     {    
+        GameObject car= carObjectHandler.RetrieveInstance(new Vector3(beginPoint.x+ 4.0f*i ,beginPoint.y,beginPoint.z + 1.0f*i), Quaternion.Euler(new Vector3(0, -90,0)));
+        car.transform.localRotation =  Quaternion.Euler(new Vector3(0, -90, 0));
+        car.AddComponent<CarMove>();
+        car.transform.parent = roadParent.transform;
+     }
+     //   Debug.Log("CARS =" + car.transform.localRotation.y);
+
+	  //  car.transform.parent = GameObject.Find(roadParent) as GameObject;
+        //beginPoints.Add(beginPoint);
+        //endPoints.Add(endPoint);
        
 	}
 
