@@ -18,8 +18,9 @@ public class MainMenu : MonoBehaviour {
         myCanvas = this.gameObject.GetComponent<Canvas>();
         mainMenuAnimator = this.gameObject.GetComponent<Animator>();
         myCanvas.enabled = true;
-        
-	}
+        uiMainCanvas.enabled = true;
+
+    }
     public void hide()
     {
         active = false;

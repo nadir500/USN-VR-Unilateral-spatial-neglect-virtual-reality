@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoadController : MonoBehaviour {
 
 
-    public int numberOfPathsInSingleRoad = 4;
+    public int numberOfPathsInSingleRoad = 2;
     public GameObject sidewalk;
     public GameObject streatPath;
     public GameObject midWalk;
@@ -36,7 +36,7 @@ public class RoadController : MonoBehaviour {
              generatedRoad.name= "Road " +i;
             //two instantiates :D plzzzz
         
-            Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x,RoadMeasure.y+5 ,RoadMeasure.z),RoadMeasure.z =200,generatedRoad.name,car_handler1);
+            Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x,RoadMeasure.y+1 ,RoadMeasure.z),RoadMeasure.z =200,generatedRoad.name,car_handler1);
         }
        
         Instantiate(midWalk, new Vector3(6.25f + streatPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
@@ -64,7 +64,7 @@ public class RoadController : MonoBehaviour {
     public void Instantiate_Cars_FastRoad( Vector3 beginPoint ,float endPoint,string roadParent
     ,GameObjectHandler carObjectHandler)
 	{   
-	  GameObject car= carObjectHandler.RetrieveInstance(beginPoint,Quaternion.identity,roadParent);
+		GameObject car= carObjectHandler.RetrieveInstance(beginPoint,new Quaternion(0,90,0,0),roadParent);
        car.AddComponent<CarMove>();
        beginPoints.Add(beginPoint);
        endPoints.Add(endPoint);
@@ -72,7 +72,7 @@ public class RoadController : MonoBehaviour {
 	}
 
     //Moving Cars in Update 
-    public void MovingTheCars(GameObjectHandler carObjectHandler)
+    /*public void MovingTheCars(GameObjectHandler carObjectHandler)
     {
       GameObject car;
       GameObject[] carsPool = carObjectHandler.Pool;
@@ -96,7 +96,7 @@ public class RoadController : MonoBehaviour {
                // car.transform.position= new Vector3(0,0,0);
             }
         }
-    }
+    }*/
 
 
  }
