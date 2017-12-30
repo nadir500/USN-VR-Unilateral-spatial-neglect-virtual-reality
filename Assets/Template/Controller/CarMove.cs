@@ -4,14 +4,32 @@ using UnityEngine;
 
 public class CarMove : MonoBehaviour {
  public float speed = 3.5f;
-  
-	// Use this for initialization
-	void Start () {
-        speed = Random.RandomRange(2, 7f);
+private string[] roadType = new string[4];
+private Vector3 _start_car_position;
+ 	void Start () {
+	
+		_start_car_position = this.transform.position;
+		speed = 100;
+		roadType= this.transform.parent.gameObject.name.Split(' ');
     }
 	
-	// Update is called once per frame
-	void Update () {
-	 transform.position -= Vector3.forward * Time.deltaTime * speed;
+ 	void Update()
+    {
+
+        if (roadType[1] == "Side_Go")
+        {
+            this.transform.position -= Vector3.forward * Time.deltaTime * speed; //put the distance instead
+        }
+        else
+        {
+            if (roadType[1] == "Side_Back")
+                this.transform.position += Vector3.forward * Time.deltaTime * speed; //put the distance instead 
+        }
+        //if exceeds the street's limit configure the position again  
+        if (Mathf.Round(this.transform.position.z) <= -266.0f || Mathf.Round(this.transform.position.z) >= 200)  // going and back street
+        {
+            this.transform.position = _start_car_position;
+        }
+
     }
 }
