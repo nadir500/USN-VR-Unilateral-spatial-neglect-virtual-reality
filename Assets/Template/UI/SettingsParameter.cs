@@ -20,7 +20,7 @@ public class SettingsParameter : MonoBehaviour {
     public string parameterValue {
         get
         {
-            return parameterText.text;
+            return parameterText.text.Replace(" " + unitOfParameterValue, "");
         }
         set
         {
