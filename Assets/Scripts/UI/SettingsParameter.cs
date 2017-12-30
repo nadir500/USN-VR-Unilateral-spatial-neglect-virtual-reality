@@ -5,7 +5,17 @@ using UnityEngine.UI;
 
 public class SettingsParameter : MonoBehaviour {
     public List<string> values;
-    public int index = 0;       // it is public because it will be change in Settings class in change mode method
+    public string unitOfParameterValue;
+    public int _index = 0;   // it is public because it will be setten in the inspector to default value
+    public int index {
+        get { return _index; }
+        set
+        {
+            _index = value;
+            indexValidator();
+        }
+
+    }       // it is public because it will be change in Settings class in change mode method
     public Text parameterText;
     public string parameterValue {
         get
@@ -14,7 +24,7 @@ public class SettingsParameter : MonoBehaviour {
         }
         set
         {
-            parameterText.text = value;
+            parameterText.text = value + " "+ unitOfParameterValue;
         }
     }
     public Button plusButton;
@@ -30,50 +40,37 @@ public class SettingsParameter : MonoBehaviour {
         plusButton.onClick.AddListener(increase);
         minusButton.onClick.AddListener(decrease);
 
-        if(index == 0)
-        {
-            minusButton.interactable = false;
-        }
-        if(index == values.Count - 1)
-        {
-            plusButton.interactable = false;;
-        }
+        indexValidator();
     }
     public void increase()
     {
         Debug.Log("increase()");
-        if (index == 0)
-        {
-            minusButton.interactable = true;
-        }
-
         index++;
-        if (index == values.Count - 1)
-            plusButton.interactable = false;;
         parameterValue = values[index];
+
         if (OnVariableChange != null)
             OnVariableChange();
     }
     public void decrease()
     {
         Debug.Log("decrease()");
-
-        if (index == values.Count - 1)
-        {
-            plusButton.interactable = true;
-        }
-
-
         index--;
-
-        if (index == 0)
-            minusButton.interactable = false;
-
         parameterValue = values[index];
+
         if (OnVariableChange != null)
             OnVariableChange();
     }
 
-    
-	
+    private void indexValidator()
+    {
+        if (_index == values.Count - 1)
+            plusButton.interactable = false;
+        else
+            plusButton.interactable = true;
+
+        if (_index == 0)
+            minusButton.interactable = false;
+        else
+            minusButton.interactable = true;
+    }
 }

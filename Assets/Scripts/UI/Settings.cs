@@ -15,6 +15,10 @@ public class Settings : MonoBehaviour {
     public int numberOfPathsPerStreetValue { get { return int.Parse(numberOfPathsPerStreetParameterWrapper.parameterValue); } set { numberOfPathsPerStreetParameterWrapper.parameterValue = value.ToString(); } }
     public SettingsParameter streetsDirectionsparameterWrapper;
     public string streetsDirectionsValue { get { return streetsDirectionsparameterWrapper.parameterValue; } set { streetsDirectionsparameterWrapper.parameterValue = value; } }
+    public SettingsParameter distanceBetweenCarsParameterWrapper;
+    public int distanceBetweenCarsValue { get { return int.Parse(distanceBetweenCarsParameterWrapper.parameterValue); } set { distanceBetweenCarsParameterWrapper.parameterValue = value.ToString(); } }
+    public SettingsParameter carsSpeedParameterWrapper;
+    public int carsSpeedValue { get { return int.Parse(carsSpeedParameterWrapper.parameterValue); } set { carsSpeedParameterWrapper.parameterValue = value.ToString(); } }
 
     // Use this for initialization
     void Start()
@@ -48,15 +52,15 @@ public class Settings : MonoBehaviour {
         {
             case "Mode1":
                 Debug.Log("Mode1");
-                setModeParameters(2, "Left");
+                setModeParameters(2, "Left", 20, 30);
                 break;
             case "Mode2":
                 Debug.Log("Mode2");
-                setModeParameters(4, "Left To Right");
+                setModeParameters(4, "Left To Right", 30, 25);
                 break;
             case "Mode3":
                 Debug.Log("Mode3");
-                setModeParameters(6, "Right To Left");
+                setModeParameters(6, "Right To Left", 40, 20);
                 break;
             default:
                 break;
@@ -66,29 +70,27 @@ public class Settings : MonoBehaviour {
     private void setParameterIndex(SettingsParameter parameter)
     {
         parameter.index = parameter.values.IndexOf(parameter.parameterValue);
-
-        if (parameter.index == parameter.values.Count - 1)
-            parameter.plusButton.interactable = false;   
-        else
-            parameter.plusButton.interactable = true;
-
-        if (parameter.index == 0)
-            parameter.minusButton.interactable = false;
-        else
-            parameter.minusButton.interactable = true;
     }
-    private void setModeParameters(int numberOfPathsPerStreet, string streetsDirections)
+    private void setModeParameters(int numberOfPathsPerStreet, string streetsDirections, int carsSpeed, int distanceBetweenCars)
     {
-        numberOfPathsPerStreetValue = numberOfPathsPerStreet;
-        setParameterIndex(numberOfPathsPerStreetParameterWrapper);
+        this.numberOfPathsPerStreetValue = numberOfPathsPerStreet;
+        this.setParameterIndex(numberOfPathsPerStreetParameterWrapper);
 
-        streetsDirectionsValue = streetsDirections;
-        setParameterIndex(streetsDirectionsparameterWrapper);
+        this.streetsDirectionsValue = streetsDirections;
+        this.setParameterIndex(streetsDirectionsparameterWrapper);
+
+        this.carsSpeedValue = carsSpeed;
+        this.setParameterIndex(carsSpeedParameterWrapper);
+
+        this.distanceBetweenCarsValue = distanceBetweenCars;
+        this.setParameterIndex(distanceBetweenCarsParameterWrapper);
     }
 
     private void setExperementParameters()
     {
         ExperementParameters.numberOfPathsPerStreet = numberOfPathsPerStreetValue;
         ExperementParameters.streetsDirections = streetsDirectionsValue;
+        ExperementParameters.carsSpeed = carsSpeedValue;
+        ExperementParameters.distanceBetweenCars = distanceBetweenCarsValue;
     }
 }
