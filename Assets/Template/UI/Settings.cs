@@ -16,9 +16,9 @@ public class Settings : MonoBehaviour {
     public SettingsParameter streetsDirectionsparameterWrapper;
     public string streetsDirectionsValue { get { return streetsDirectionsparameterWrapper.parameterValue; } set { streetsDirectionsparameterWrapper.parameterValue = value; } }
     public SettingsParameter distanceBetweenCarsParameterWrapper;
-    public int distanceBetweenCarsValue { get { return int.Parse(distanceBetweenCarsParameterWrapper.parameterValue); } set { distanceBetweenCarsParameterWrapper.parameterValue = value.ToString(); } }
+    public int distanceBetweenCarsValue { get { return int.Parse(distanceBetweenCarsParameterWrapper.parameterValue.Split(' ')[0].ToString()); } set { distanceBetweenCarsParameterWrapper.parameterValue = value.ToString(); } }
     public SettingsParameter carsSpeedParameterWrapper;
-    public int carsSpeedValue { get { return int.Parse(carsSpeedParameterWrapper.parameterValue); } set { carsSpeedParameterWrapper.parameterValue = value.ToString(); } }
+    public int carsSpeedValue { get { return  int.Parse(carsSpeedParameterWrapper.parameterValue.Split(' ')[0].ToString()); } set { carsSpeedParameterWrapper.parameterValue = value.ToString(); } }
 
     // Use this for initialization
     void Start()

@@ -24,8 +24,7 @@ public class RoadController : MonoBehaviour {
     {
        
         //by example on handler 
-       // numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
-
+        numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
         car_handler1= new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject,numberOfPathsInSingleRoad,true,"");
         StringBuilder stringBuilder =new StringBuilder();
 
@@ -40,7 +39,7 @@ public class RoadController : MonoBehaviour {
              generatedRoad.name = stringBuilder.ToString();
 
             //two instantiates :D plzzzz
-                Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x,RoadMeasure.y ,RoadMeasure.z + 150),
+                Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x,RoadMeasure.y ,RoadMeasure.z + 150 ),
                 RoadMeasure.z =500
                 ,generatedRoad,car_handler1);
         }
@@ -81,7 +80,7 @@ public class RoadController : MonoBehaviour {
             if (roadType[1] == "Side_Go")
             {
                 GameObject car = carObjectHandler.RetrieveInstance(
-                    new Vector3(beginPoint.x + 4.0f * i, beginPoint.y, beginPoint.z + 1.0f * i),
+                    new Vector3(beginPoint.x + 4.0f * i, beginPoint.y, beginPoint.z + ExperementParameters.distanceBetweenCars *i),
                                                                         Quaternion.Euler(new Vector3(0, -90, 0)));
 
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, -90, 0));
@@ -93,7 +92,7 @@ public class RoadController : MonoBehaviour {
             if (roadType[1] =="Side_Back")
             {
                 GameObject car = carObjectHandler.RetrieveInstance(
-                    new Vector3(beginPoint.x - 4.0f * i, beginPoint.y, beginPoint.z - 1.0f * i),
+                    new Vector3(beginPoint.x - 4.0f * i, beginPoint.y, beginPoint.z - ExperementParameters.distanceBetweenCars *i),
                                                                     Quaternion.Euler(new Vector3(0, 90, 0)));
 
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));
