@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CarMove : MonoBehaviour {
- public float speed = 3.5f;
+ public float speed ;
 private string[] roadType = new string[4];
 private Vector3 _start_car_position;
+
  	void Start () {
-	
+         speed = ExperementParameters.carsSpeed;
 		_start_car_position = this.transform.position;
-		speed = 100;
+
 		roadType= this.transform.parent.gameObject.name.Split(' ');
     }
 	
