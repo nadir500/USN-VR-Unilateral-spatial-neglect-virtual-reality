@@ -48,6 +48,7 @@ public class Settings : MonoBehaviour {
 
 	private void changeModeHandler()
     {
+        Debug.Log("changeModeHandler");
         switch (modeValue)
         {
             case "Mode1":
