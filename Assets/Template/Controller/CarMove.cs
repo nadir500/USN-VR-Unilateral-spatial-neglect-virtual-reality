@@ -6,8 +6,9 @@ public class CarMove : MonoBehaviour {
  public float speed ;
 private string[] roadType = new string[4];
 private Vector3 _start_car_position;
+    string[] streetsDirections = ExperementParameters.streetsDirections.Split(' ');
 
- 	void Start () {
+    void Start () {
          speed = ExperementParameters.carsSpeed; //from UI
 		_start_car_position = this.transform.position; //taking the prev position 
 
@@ -17,13 +18,13 @@ private Vector3 _start_car_position;
  	void Update()
     {
         //i need to know which road is this is it from left to right road? and vice versa 
-        if (roadType[1] == "Side_Go")
+        if (roadType[1] == streetsDirections[0])
         {
             this.transform.position -= Vector3.forward * Time.deltaTime * speed; 
         }
         else
         {
-            if (roadType[1] == "Side_Back")
+            if (roadType[1] == streetsDirections[2])
                 this.transform.position += Vector3.forward * Time.deltaTime * speed;  
         }
         //if exceeds the street's limit configure the position again  

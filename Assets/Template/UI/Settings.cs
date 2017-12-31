@@ -48,18 +48,19 @@ public class Settings : MonoBehaviour {
 
 	private void changeModeHandler()
     {
+        Debug.Log("changeModeHandler");
         switch (modeValue)
         {
             case "Mode1":
-                Debug.Log("Mode1");
+
                 setModeParameters(2, "Left", 20, 30);
                 break;
             case "Mode2":
-                Debug.Log("Mode2");
+
                 setModeParameters(4, "Left To Right", 30, 25);
                 break;
             case "Mode3":
-                Debug.Log("Mode3");
+
                 setModeParameters(6, "Right To Left", 40, 20);
                 break;
             default:
@@ -78,6 +79,8 @@ public class Settings : MonoBehaviour {
 
         this.streetsDirectionsValue = streetsDirections;
         this.setParameterIndex(streetsDirectionsparameterWrapper);
+        Debug.Log("parameter " + streetsDirections);
+        Debug.Log("setParameterIndex " + this.streetsDirectionsValue);
 
         this.carsSpeedValue = carsSpeed;
         this.setParameterIndex(carsSpeedParameterWrapper);
@@ -90,6 +93,7 @@ public class Settings : MonoBehaviour {
     {
         ExperementParameters.numberOfPathsPerStreet = numberOfPathsPerStreetValue;
         ExperementParameters.streetsDirections = streetsDirectionsValue;
+        Debug.Log("setExperementParameters " + ExperementParameters.streetsDirections);
         ExperementParameters.carsSpeed = carsSpeedValue;
         ExperementParameters.distanceBetweenCars = distanceBetweenCarsValue;
     }
