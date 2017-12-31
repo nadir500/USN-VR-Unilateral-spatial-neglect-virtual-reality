@@ -102,9 +102,11 @@ public class RoadController : MonoBehaviour {
         {
             //now i am seperating between going cars which is the cars from left to right direction
             //and back cars which is from right to left direction
-            if (roadType[1].Equals(streetsDirections[0]))  //from left to right 
+            if (roadType[1].Equals(value: "Left"))  //from left to right 
             {
+                
                 //now instantiate the cars with the positions explained above 
+                
                 GameObject car = carObjectHandler.RetrieveInstance(
                     new Vector3(beginPoint.x + 4.0f * i, beginPoint.y, beginPoint.z + ExperementParameters.distanceBetweenCars *i), //putting the position with the distance between each car
                                                                         Quaternion.Euler(new Vector3(0, -90, 0))); //the rotation of course 
@@ -115,7 +117,7 @@ public class RoadController : MonoBehaviour {
 
             }
             else
-            if (roadType[1].Equals(streetsDirections[2])) //from right to left 
+            if (roadType[1].Equals(value: "Right")) //from right to left 
             {
                 //now instantiate the cars with the positions explained above 
                 
