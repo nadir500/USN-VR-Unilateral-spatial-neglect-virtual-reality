@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-
+using System;
 public class RoadController : MonoBehaviour {
 
 
@@ -18,11 +18,11 @@ public class RoadController : MonoBehaviour {
     private Vector3 startPosition = new Vector3(10f, -2.0f, 0.0f);
     private List<Vector3> beginPoints = new List<Vector3>();
     private List<float> endPoints = new List<float>();
-     private GameObjectHandler car_handler1;
+    private GameObjectHandler car_handler1;
+    private StringBuilder stringBuilder;
 
     void Start () 
     {
-       StringBuilder stringBuilder;
         //Assigning number of paths from the UI
 
         numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
