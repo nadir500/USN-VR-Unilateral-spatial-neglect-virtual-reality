@@ -20,11 +20,14 @@ public class SettingsParameter : MonoBehaviour {
     public string parameterValue {
         get
         {
-            return parameterText.text.Replace(" " + unitOfParameterValue, "");
+            string str = (string.IsNullOrEmpty(unitOfParameterValue)) ? parameterText.text : parameterText.text.Replace(" " + unitOfParameterValue, "");
+            Debug.Log("str = "+str);
+            return str;
         }
         set
         {
-            parameterText.text = value + " "+ unitOfParameterValue;
+            parameterText.text = value + ((string.IsNullOrEmpty(unitOfParameterValue))? "" :" " + unitOfParameterValue);
+
         }
     }
     public Button plusButton;
@@ -44,7 +47,7 @@ public class SettingsParameter : MonoBehaviour {
     }
     public void increase()
     {
-        Debug.Log("increase()");
+
         index++;
         parameterValue = values[index];
 
@@ -53,7 +56,7 @@ public class SettingsParameter : MonoBehaviour {
     }
     public void decrease()
     {
-        Debug.Log("decrease()");
+
         index--;
         parameterValue = values[index];
 
