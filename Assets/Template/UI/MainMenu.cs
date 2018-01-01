@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour {
 
     public GameObject settingsWrapper;
     public GameObject creditsWrapper;
-
+    public RoadController roadController;
     public Canvas uiMainCanvas;
 
     // Use this for initialization
@@ -35,6 +35,7 @@ public class MainMenu : MonoBehaviour {
     {
         Debug.Log("newGame()");
         uiMainCanvas.enabled = false;
+        roadController.gameObject.SetActive(true);
     }
     public void loadGame()
     {

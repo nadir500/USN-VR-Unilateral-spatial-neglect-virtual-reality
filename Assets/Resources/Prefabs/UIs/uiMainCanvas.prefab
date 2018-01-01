@@ -2432,6 +2432,7 @@ MonoBehaviour:
   - 110
   - 115
   - 120
+  unitOfParameterValue: km/h
   _index: 0
   parameterText: {fileID: 114206510619902802}
   plusButton: {fileID: 114219882282071538}
@@ -3270,6 +3271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsWrapper: {fileID: 1901271010300920}
   creditsWrapper: {fileID: 1949309145748206}
+  roadController: {fileID: 0}
   uiMainCanvas: {fileID: 223617763562635276}
 --- !u!114 &114364874689202684
 MonoBehaviour:
@@ -4025,6 +4027,7 @@ MonoBehaviour:
   - 18
   - 19
   - 20
+  unitOfParameterValue: m
   _index: 0
   parameterText: {fileID: 114577644198370986}
   plusButton: {fileID: 114876530045199352}
@@ -4266,6 +4269,7 @@ MonoBehaviour:
   - 4
   - 6
   - 8
+  unitOfParameterValue: 
   _index: 0
   parameterText: {fileID: 114264062627608234}
   plusButton: {fileID: 114748350656207350}
@@ -4336,7 +4340,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 20 km
+  m_Text: 20
 --- !u!114 &114579383521172934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4574,6 +4578,7 @@ MonoBehaviour:
   - Right
   - Left To Right
   - Right To Left
+  unitOfParameterValue: 
   _index: 0
   parameterText: {fileID: 114551678685199290}
   plusButton: {fileID: 114502927319060542}
@@ -4951,6 +4956,7 @@ MonoBehaviour:
   - Mode1
   - Mode2
   - Mode3
+  unitOfParameterValue: 
   _index: 0
   parameterText: {fileID: 114444494425293852}
   plusButton: {fileID: 114477881229580492}
@@ -5287,8 +5293,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114611742553019962}
   m_HandleRect: {fileID: 224770417204216080}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.32834247
+  m_Value: 0.9999999
+  m_Size: 0.32834244
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6645,7 +6651,7 @@ Canvas:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1901271010300920}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -8289,10 +8295,10 @@ RectTransform:
   m_Father: {fileID: 224844760016382744}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 730, y: -50}
+  m_SizeDelta: {x: 1360, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224842539244665974
 RectTransform:

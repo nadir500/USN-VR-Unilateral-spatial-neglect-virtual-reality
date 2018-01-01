@@ -37,9 +37,9 @@ public class RoadController : MonoBehaviour {
         for(int i = 0; i < streetsDirections.Length; i++)
             Debug.Log("streetsDirections["+i+"] = "+ streetsDirections[i]);
 
-        float lastPosition = (numberOfPathsInSingleRoad / 2);
+        float lastPosition = 5f + streetPathWidth * (numberOfPathsInSingleRoad / 2);
         //Road #1
-        for (int i = 0; i < lastPosition; i++)
+        for (int i = 0; i < (numberOfPathsInSingleRoad/2); i++)
         {
             stringBuilder = new StringBuilder();
             RoadMeasure = new Vector3(10f + (streetPathWidth * i), -2.0f, 0.0f);
@@ -59,7 +59,8 @@ public class RoadController : MonoBehaviour {
         }
         if (streetsDirections.Length > 1)
         {
-            lastPosition = 6.25f + streetPathWidth * (numberOfPathsInSingleRoad / 2);
+            lastPosition = 7.25f + (streetPathWidth * numberOfPathsInSingleRoad);
+            // add the mid walk
             Instantiate(midWalk, new Vector3(6.25f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
             //Road #2
             for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
@@ -84,9 +85,9 @@ public class RoadController : MonoBehaviour {
 
 
         }
-        Instantiate(midWalk, new Vector3(8.75f + streetPathWidth * (numberOfPathsInSingleRoad), -2.0f, 0.0f), Quaternion.identity);
+        Instantiate(sidewalk, new Vector3(lastPosition, -2.0f, 0.0f), Quaternion.identity);
 
-        BuildingsWrapper.transform.position = new Vector3(9.3f + streetPathWidth * (numberOfPathsInSingleRoad), 0, 0);
+        BuildingsWrapper.transform.position = new Vector3(lastPosition+2.5f, 0, 0);
     }
 
 /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
