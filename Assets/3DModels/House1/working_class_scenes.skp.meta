@@ -15,8 +15,8 @@ SketchUpImporter:
   fileUnit: 0
   sketchUpImportData:
     defaultCamera:
-      position: {x: 18.201023, y: 5.9884152, z: -0.9728668}
-      lookAt: {x: -22.682743, y: 2.9155443, z: -3.1400876}
+      position: {x: 15.410199, y: 5.0701914, z: -0.8236938}
+      lookAt: {x: -19.204721, y: 2.4684942, z: -2.6586075}
       up: {x: -0.07474031, y: 0.9971952, z: -0.003961934}
       fov: 36.02351
       aspectRatio: 0
@@ -24,8 +24,8 @@ SketchUpImporter:
       isPerspective: 1
     scenes:
     - camera:
-        position: {x: 18.201023, y: 5.9884152, z: -0.9728668}
-        lookAt: {x: -22.682743, y: 2.9155443, z: -3.1400876}
+        position: {x: 15.410199, y: 5.0701914, z: -0.8236938}
+        lookAt: {x: -19.204721, y: 2.4684942, z: -2.6586075}
         up: {x: -0.07474031, y: 0.9971952, z: -0.003961934}
         fov: 36.02351
         aspectRatio: 0
@@ -33,8 +33,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Street view
     - camera:
-        position: {x: -5.274542, y: 1.98, z: -5.3007197}
-        lookAt: {x: -45.965588, y: 3.194571, z: 0.027074242}
+        position: {x: -4.4657784, y: 1.6764, z: -4.4879427}
+        lookAt: {x: -38.917526, y: 2.7047367, z: 0.022922857}
         up: {x: 0.02933268, y: 0.9995624, z: -0.003840611}
         fov: 36.02351
         aspectRatio: 0
@@ -42,8 +42,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Front door
     - camera:
-        position: {x: -8.386291, y: 2.041444, z: -5.096001}
-        lookAt: {x: -29.628574, y: 1.7283199, z: -5.171329}
+        position: {x: -7.100392, y: 1.7284225, z: -4.3146143}
+        lookAt: {x: -25.085524, y: 1.4633107, z: -4.3783917}
         up: {x: -0.014738823, y: 0.9998914, z: -0.00005226589}
         fov: 36.02351
         aspectRatio: 0
@@ -51,8 +51,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Passage
     - camera:
-        position: {x: -9.548797, y: 2.076137, z: -4.457944}
-        lookAt: {x: 3.1561663, y: -6.5156665, z: 28.587502}
+        position: {x: -8.084647, y: 1.7577959, z: -3.7743924}
+        lookAt: {x: 2.6722207, y: -5.5165973, z: 24.204084}
         up: {x: 0.08463221, y: 0.9717929, z: 0.22012728}
         fov: 36.02351
         aspectRatio: 0
@@ -60,8 +60,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Parlor1
     - camera:
-        position: {x: -10.10251, y: 2.2162206, z: -0.9936668}
-        lookAt: {x: 18.485777, y: -10.893449, z: -19.380701}
+        position: {x: -8.553458, y: 1.8764, z: -0.84130454}
+        lookAt: {x: 15.651291, y: -9.22312, z: -16.408993}
         up: {x: 0.30265272, y: 0.9330114, z: -0.19465613}
         fov: 36.02351
         aspectRatio: 0
@@ -69,8 +69,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Parlor2
     - camera:
-        position: {x: -6.173647, y: 2.2162206, z: -2.8160555}
-        lookAt: {x: -42.115185, y: -2.7171552, z: 0.5162339}
+        position: {x: -5.2270207, y: 1.8764, z: -2.3842602}
+        lookAt: {x: -35.657524, y: -2.3005247, z: 0.43707803}
         up: {x: -0.13483775, y: 0.9907889, z: 0.012501366}
         fov: 36.02351
         aspectRatio: 0
@@ -78,8 +78,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Parlor3
     - camera:
-        position: {x: -11.450851, y: 2.1810472, z: -4.992461}
-        lookAt: {x: -32.518364, y: 0.10863787, z: 24.657188}
+        position: {x: -9.695054, y: 1.8466198, z: -4.22695}
+        lookAt: {x: -27.532213, y: 0.091980055, z: 20.87642}
         up: {x: -0.032949153, y: 0.9983807, z: 0.046371438}
         fov: 36.02351
         aspectRatio: 0
@@ -87,8 +87,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Kitchen
     - camera:
-        position: {x: -14.172429, y: 2.2162206, z: -4.898356}
-        lookAt: {x: 4.187908, y: -8.845296, z: 24.55971}
+        position: {x: -11.999323, y: 1.8764, z: -4.1472745}
+        lookAt: {x: 3.5457623, y: -7.4890165, z: 20.793886}
         up: {x: 0.16060139, y: 0.952791, z: 0.25767535}
         fov: 36.02351
         aspectRatio: 0
@@ -96,8 +96,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Kitchen2
     - camera:
-        position: {x: -14.795967, y: 1.936242, z: -4.6030765}
-        lookAt: {x: -45.141323, y: -2.8981044, z: 14.96795}
+        position: {x: -12.527251, y: 1.6393515, z: -3.8972714}
+        lookAt: {x: -38.21965, y: -2.4537282, z: 12.672864}
         up: {x: -0.111516565, y: 0.9911566, z: 0.07192183}
         fov: 36.02351
         aspectRatio: 0
@@ -105,8 +105,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Scullery1
     - camera:
-        position: {x: -15.356566, y: 2.0744882, z: -4.108225}
-        lookAt: {x: -51.451397, y: 1.6706107, z: 0.8148486}
+        position: {x: -13.001892, y: 1.7564, z: -3.478297}
+        lookAt: {x: -43.56218, y: 1.4144503, z: 0.6899051}
         up: {x: -0.010984319, y: 0.99993855, z: 0.0014981815}
         fov: 36.02351
         aspectRatio: 0
@@ -114,8 +114,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Scullery2
     - camera:
-        position: {x: -16.100517, y: 1.8013532, z: -3.2078862}
-        lookAt: {x: -35.023567, y: -5.827888, z: -33.389824}
+        position: {x: -13.631771, y: 1.5251456, z: -2.71601}
+        lookAt: {x: -29.653284, y: -4.934278, z: -28.27005}
         up: {x: -0.1112403, y: 0.97782695, z: -0.17742638}
         fov: 36.02351
         aspectRatio: 0
@@ -123,8 +123,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Scullery3
     - camera:
-        position: {x: -18.868233, y: 1.8274095, z: -3.1864805}
-        lookAt: {x: 8.173499, y: 0.44281214, z: -27.559916}
+        position: {x: -15.975102, y: 1.5472066, z: -2.6978867}
+        lookAt: {x: 6.9202285, y: 0.37491426, z: -23.33406}
         up: {x: 0.02823082, y: 0.99927753, z: -0.025445193}
         fov: 36.02351
         aspectRatio: 0
@@ -132,8 +132,8 @@ SketchUpImporter:
         isPerspective: 1
       name: coalhole
     - camera:
-        position: {x: -11.242484, y: 2.2162206, z: -5.3834968}
-        lookAt: {x: -43.82072, y: 18.301245, z: -8.060661}
+        position: {x: -9.518636, y: 1.8764, z: -4.5580273}
+        lookAt: {x: -37.101543, y: 15.495052, z: -6.8246927}
         up: {x: 0.4400338, y: 0.89725286, z: 0.03616042}
         fov: 36.02351
         aspectRatio: 0
@@ -141,8 +141,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Stairs
     - camera:
-        position: {x: -13.845685, y: 5.2752757, z: -5.504571}
-        lookAt: {x: -50.154552, y: 5.2752757, z: -8.488306}
+        position: {x: -11.72268, y: 4.4663997, z: -4.6605363}
+        lookAt: {x: -42.464188, y: 4.4663997, z: -7.186765}
         up: {x: 0, y: 1, z: 0}
         fov: 36.02351
         aspectRatio: 0
@@ -150,8 +150,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Landing
     - camera:
-        position: {x: -18.22558, y: 5.287087, z: -5.340327}
-        lookAt: {x: 11.288769, y: -5.2629576, z: 13.229443}
+        position: {x: -15.430991, y: 4.4764, z: -4.5214763}
+        lookAt: {x: 9.557823, y: -4.455971, z: 11.200928}
         up: {x: 0.24510856, y: 0.9571515, z: 0.15421683}
         fov: 36.02351
         aspectRatio: 0
@@ -159,8 +159,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Backroom
     - camera:
-        position: {x: -15.756591, y: 4.487774, z: -5.502022}
-        lookAt: {x: 19.85456, y: 5.7781816, z: 2.0754082}
+        position: {x: -13.340579, y: 3.7996483, z: -4.6583786}
+        lookAt: {x: 16.810194, y: 4.892194, z: 1.7571788}
         up: {x: -0.034644738, y: 0.9993725, z: -0.0073717944}
         fov: 36.02351
         aspectRatio: 0
@@ -168,8 +168,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Landing2
     - camera:
-        position: {x: -14.903876, y: 5.287087, z: -4.008555}
-        lookAt: {x: 8.965294, y: -5.6907544, z: 21.230034}
+        position: {x: -12.618615, y: 4.4764, z: -3.39391}
+        lookAt: {x: 7.590615, y: -4.8181715, z: 17.974762}
         up: {x: 0.20705043, y: 0.9535198, z: 0.21892932}
         fov: 36.02351
         aspectRatio: 0
@@ -177,8 +177,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Mid_bedroom
     - camera:
-        position: {x: -10.655365, y: 5.287087, z: -4.561433}
-        lookAt: {x: 14.725711, y: 0.68102777, z: 21.164467}
+        position: {x: -9.021543, y: 4.4764, z: -3.862013}
+        lookAt: {x: 12.467768, y: 0.5766035, z: 17.919247}
         up: {x: 0.088795364, y: 0.99197537, z: 0.090001725}
         fov: 36.02351
         aspectRatio: 0
@@ -186,8 +186,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Main_bedroom
     - camera:
-        position: {x: -7.125798, y: 5.287087, z: -1.4623984}
-        lookAt: {x: -29.91866, y: -2.0083475, z: -28.930538}
+        position: {x: -6.0331755, y: 4.4764, z: -1.238164}
+        lookAt: {x: -25.33113, y: -1.7004008, z: -24.494522}
         up: {x: -0.12787594, y: 0.97974443, z: -0.1541059}
         fov: 36.02351
         aspectRatio: 0
@@ -195,8 +195,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Main_bedroom2
     - camera:
-        position: {x: -20.112875, y: 1.98, z: -1.6910293}
-        lookAt: {x: 14.630347, y: -1.2959085, z: -2.935548}
+        position: {x: -17.0289, y: 1.6764, z: -1.431738}
+        lookAt: {x: 12.387027, y: -1.0972024, z: -2.4854307}
         up: {x: 0.09375302, y: 0.99558985, z: -0.003358278}
         fov: 36.02351
         aspectRatio: 0
@@ -204,8 +204,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Backyard1
     - camera:
-        position: {x: -31.23497, y: 1.1316816, z: -1.0152533}
-        lookAt: {x: 2.3822484, y: 5.354381, z: -9.46648}
+        position: {x: -26.445606, y: 0.958157, z: -0.85958105}
+        lookAt: {x: 2.0169702, y: 4.5333757, z: -8.014953}
         up: {x: -0.11727747, y: 0.9926614, z: 0.029483061}
         fov: 36.02351
         aspectRatio: 0
@@ -213,8 +213,8 @@ SketchUpImporter:
         isPerspective: 1
       name: Backyard2
     - camera:
-        position: {x: -23.650978, y: 1.732189, z: -4.2385354}
-        lookAt: {x: 9.589844, y: -0.8576856, z: -14.616985}
+        position: {x: -20.024494, y: 1.4665866, z: -3.5886261}
+        lookAt: {x: 8.1194, y: -0.72617376, z: -12.375713}
         up: {x: 0.07079655, y: 0.99724585, z: -0.022104101}
         fov: 36.02351
         aspectRatio: 0
@@ -4985,7 +4985,7 @@ SketchUpImporter:
     addColliders: 0
     importBlendShapes: 0
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
