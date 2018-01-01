@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ExperementParameters  {
 
-     public static int numberOfPathsPerStreet {get;set;}
+    public static int numberOfPathsPerStreet = 2;
+    public static string streetsDirections = "Left";
+    public static int distanceBetweenCars = 10;
+    public static int carsSpeed = 20;
 
-    public static string streetsDirections{get;set;}
-    public static int distanceBetweenCars{get;set;}
-    public static int carsSpeed{get;set;}
+
     
 }

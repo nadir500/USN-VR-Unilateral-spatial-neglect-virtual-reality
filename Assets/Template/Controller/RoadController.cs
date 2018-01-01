@@ -27,7 +27,7 @@ public class RoadController : MonoBehaviour {
         //Assigning number of paths from the UI
 
         numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
-        
+
         //making a prefab copy with a number enough to coer a whole one path 
         car_handler1 = new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, numberOfPathsInSingleRoad, true, "");
         //i am using string builder to rename the roads into a correct format just to make it easy reaching them
@@ -37,13 +37,12 @@ public class RoadController : MonoBehaviour {
         for(int i = 0; i < streetsDirections.Length; i++)
             Debug.Log("streetsDirections["+i+"] = "+ streetsDirections[i]);
 
-        float lastPosition = 6.25f + (streetPathWidth * (numberOfPathsInSingleRoad / 2)); // one sec to do the math :3
+        float lastPosition = 5f + streetPathWidth * (numberOfPathsInSingleRoad / 2);
         //Road #1
-        for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
+        for (int i = 0; i < (numberOfPathsInSingleRoad/2); i++)
         {
             stringBuilder = new StringBuilder();
-            RoadMeasure = new Vector3(10f + (streetPathWidth * i)
-            , -2.0f, 0.0f);
+            RoadMeasure = new Vector3(10f + (streetPathWidth * i), -2.0f, 0.0f);
             GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity) as GameObject;
             //i'll take each road generated (the cars are from left to right movement) and rename it into a specific name
             //i used string builder for the performance issues
@@ -60,7 +59,8 @@ public class RoadController : MonoBehaviour {
         }
         if (streetsDirections.Length > 1)
         {
-            lastPosition = 6.25f + streetPathWidth * (numberOfPathsInSingleRoad / 2);
+            lastPosition = 7.25f + (streetPathWidth * numberOfPathsInSingleRoad);
+            // add the mid walk
             Instantiate(midWalk, new Vector3(6.25f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
             //Road #2
             for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
@@ -85,16 +85,9 @@ public class RoadController : MonoBehaviour {
 
 
         }
-        // HERE thie position is calculated to be at the end of the second street
-        // there is not devide by two
-        // if there was one direction you should set the position to the  last position from the first for loop
-        // if there were two directions you should set the postion to the last position from the second for loo
-        if(streetsDirections.Length>1)
-         Instantiate(midWalk, new Vector3(lastPosition, -2.0f, 0.0f), Quaternion.identity);
-        //else put the corner 
-        BuildingsWrapper.transform.position = 
-        new Vector3(9.3f + streetPathWidth * (numberOfPathsInSingleRoad)
-        , 0, 0);
+        Instantiate(sidewalk, new Vector3(lastPosition, -2.0f, 0.0f), Quaternion.identity);
+
+        BuildingsWrapper.transform.position = new Vector3(lastPosition+2.5f, 0, 0);
     }
 
 /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
@@ -110,11 +103,9 @@ public class RoadController : MonoBehaviour {
         {
             //now i am seperating between going cars which is the cars from left to right direction
             //and back cars which is from right to left direction
-            if (roadType[1].Equals(value: "Left"))  //from left to right 
+            if (roadType[1].Equals(streetsDirections[0]))  //from left to right 
             {
-                
                 //now instantiate the cars with the positions explained above 
-                
                 GameObject car = carObjectHandler.RetrieveInstance(
                     new Vector3(beginPoint.x + 4.0f * i, beginPoint.y, beginPoint.z + ExperementParameters.distanceBetweenCars *i), //putting the position with the distance between each car
                                                                         Quaternion.Euler(new Vector3(0, -90, 0))); //the rotation of course 
@@ -125,7 +116,7 @@ public class RoadController : MonoBehaviour {
 
             }
             else
-            if (roadType[1].Equals(value: "Right")) //from right to left 
+            if (roadType[1].Equals(streetsDirections[2])) //from right to left 
             {
                 //now instantiate the cars with the positions explained above 
                 
