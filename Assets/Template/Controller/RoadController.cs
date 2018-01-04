@@ -29,7 +29,7 @@ public class RoadController : MonoBehaviour {
         numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
 
         //making a prefab copy with a number enough to coer a whole one path 
-        car_handler1 = new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, numberOfPathsInSingleRoad, true, "");
+        car_handler1 = new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, numberOfPathsInSingleRoad *2, true, "");
         //i am using string builder to rename the roads into a correct format just to make it easy reaching them
 
         streetsDirections = ExperementParameters.streetsDirections.Split(' ');
@@ -99,35 +99,60 @@ public class RoadController : MonoBehaviour {
      //here everytime i am taking the gameObject.name of the road and spliting it then taking the index [1] to know which direction this road is    
      string[]  roadType = roadParent.name.Split(' '); 
      
-        for (int i = 0; i < 2; i++) //2 cars each road
+        for (int i = 0; i < 4; i++) //2 cars each road
         {
             //now i am seperating between going cars which is the cars from left to right direction
             //and back cars which is from right to left direction
-            if (roadType[1].Equals(streetsDirections[0]))  //from left to right 
+            if (roadType[1].Equals(value: "Left"))  //from left to right 
             {
                 //now instantiate the cars with the positions explained above 
                 GameObject car = carObjectHandler.RetrieveInstance(
                     new Vector3(beginPoint.x + 4.0f * i, beginPoint.y, beginPoint.z + ExperementParameters.distanceBetweenCars *i), //putting the position with the distance between each car
                                                                         Quaternion.Euler(new Vector3(0, -90, 0))); //the rotation of course 
-
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, -90, 0)); //this is temporary 
                 car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
                 car.AddComponent<CarMove>(); //adding the car movement component 
-
+                
+                if(car.transform.localPosition.x ==8)
+                {
+                    car.transform.localPosition += new Vector3(-4.0f * i,0,0);
+                    car.transform.position += new Vector3(0,0,ExperementParameters.distanceBetweenCars);
+                }
+                if (car.transform.localPosition.x == 12)
+                {
+                    car.transform.localPosition += new Vector3(-8.0f,0,0);
+                    car.transform.position += new Vector3(0,0,ExperementParameters.distanceBetweenCars);
+                }
+                
             }
             else
-            if (roadType[1].Equals(streetsDirections[2])) //from right to left 
+            if (roadType[1].Equals(value: "Right")) //from right to left 
             {
                 //now instantiate the cars with the positions explained above 
                 
                 GameObject car = carObjectHandler.RetrieveInstance(
                     new Vector3(beginPoint.x - 4.0f * i, beginPoint.y, beginPoint.z - ExperementParameters.distanceBetweenCars *i),//putting the position with the distance between each car
                                                                     Quaternion.Euler(new Vector3(0, 90, 0)));//the rotation of course
-
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));//this is temporary
                 car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
-                car.transform.position +=new Vector3(0,0,-400); //this is for making a translate to -400 which is far far right 
+                
+                car.transform.position +=new Vector3(0,0,-360); //this is for making a translate to -400 which is far far right 
                 car.AddComponent<CarMove>(); //adding the car moce component 
+               
+                Debug.Log("Local " + car.transform.localPosition);
+
+                  if(car.transform.localPosition.x ==-8)
+                {
+                    car.transform.localPosition += new Vector3(4.0f * i,0,0);
+                    car.transform.position -= new Vector3(0,0,ExperementParameters.distanceBetweenCars*i);  //distance between two cars section we can benifit from it later on the UI :3 
+                    
+                }
+                if (car.transform.localPosition.x == -12)
+                {
+                    car.transform.localPosition += new Vector3(8.0f,0,0);
+                    car.transform.position -= new Vector3(0,0,ExperementParameters.distanceBetweenCars*i);
+                    
+                }
 
             }
 

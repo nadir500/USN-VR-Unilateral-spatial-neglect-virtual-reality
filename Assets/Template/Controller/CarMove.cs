@@ -18,13 +18,13 @@ private Vector3 _start_car_position;
  	void Update()
     {
         //i need to know which road is this is it from left to right road? and vice versa 
-        if (roadType[1] == streetsDirections[0])
+        if (roadType[1].Equals(value:"Left"))
         {
             this.transform.position -= Vector3.forward * Time.deltaTime * speed; 
         }
         else
         {
-            if (roadType[1] == streetsDirections[2])
+            if (roadType[1].Equals(value:"Right"))
                 this.transform.position += Vector3.forward * Time.deltaTime * speed;  
         }
         //if exceeds the street's limit configure the position again  
