@@ -23,7 +23,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AO: 0.35
-    - _BaseLight: 0.352
+    - _BaseLight: 0.239
     - _Cutoff: 0.29642856
     - _Occlusion: 0.4
     - _ShadowStrength: 1

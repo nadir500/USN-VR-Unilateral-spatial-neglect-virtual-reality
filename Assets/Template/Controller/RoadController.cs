@@ -85,7 +85,7 @@ public class RoadController : MonoBehaviour {
 
 
         }
-        Instantiate(sidewalk, new Vector3(lastPosition, -2.0f, 0.0f), Quaternion.identity);
+        Instantiate(sidewalk, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
 
         BuildingsWrapper.transform.position = new Vector3(lastPosition+2.5f, 0, 0);
     }
