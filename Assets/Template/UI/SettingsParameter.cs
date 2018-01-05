@@ -7,6 +7,7 @@ public class SettingsParameter : MonoBehaviour {
     public List<string> values;
     public string unitOfParameterValue;
     public int _index = 0;   // it is public because it will be setten in the inspector to default value
+    public bool linkToResources;
     public int index {
         get { return _index; }
         set
@@ -26,8 +27,11 @@ public class SettingsParameter : MonoBehaviour {
         }
         set
         {
-            parameterText.text = value + ((string.IsNullOrEmpty(unitOfParameterValue))? "" :" " + unitOfParameterValue);
-
+            parameterText.text = value + ((string.IsNullOrEmpty(unitOfParameterValue)) ? "" : " " + unitOfParameterValue);
+            if (linkToResources)
+            {
+                parameterText.gameObject.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures\\UiSprites\\" + parameterText.text);
+            }
         }
     }
     public Button plusButton;
@@ -39,17 +43,30 @@ public class SettingsParameter : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
         parameterValue = values[index];
         plusButton.onClick.AddListener(increase);
         minusButton.onClick.AddListener(decrease);
 
-        indexValidator();
+
+        if (linkToResources)
+        {
+            parameterText.enabled = false;
+            parameterText.transform.GetChild(0).gameObject.SetActive(true);
+        }
+
+            indexValidator();
     }
     public void increase()
     {
 
         index++;
         parameterValue = values[index];
+        if(linkToResources)
+        {
+            
+        }
+
 
         if (OnVariableChange != null)
             OnVariableChange();
