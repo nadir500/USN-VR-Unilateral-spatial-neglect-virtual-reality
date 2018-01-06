@@ -19,7 +19,20 @@ public class MainMenu : MonoBehaviour {
         mainMenuAnimator = this.gameObject.GetComponent<Animator>();
         myCanvas.enabled = true;
         uiMainCanvas.enabled = true;
+        setExperementParametersToLastSavedOnes();
 
+    }
+
+    public void setExperementParametersToLastSavedOnes()
+    {
+        if (PlayerPrefs.HasKey("numberOfPathsPerStreet") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("numberOfPathsPerStreet"))))
+            ExperementParameters.numberOfPathsPerStreet = int.Parse(PlayerPrefs.GetString("numberOfPathsPerStreet"));
+        if (PlayerPrefs.HasKey("streetsDirections") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("streetsDirections"))))
+            ExperementParameters.streetsDirections = PlayerPrefs.GetString("streetsDirections");
+        if (PlayerPrefs.HasKey("carsSpeed") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("carsSpeed"))))
+            ExperementParameters.carsSpeed = int.Parse(PlayerPrefs.GetString("carsSpeed"));
+        if (PlayerPrefs.HasKey("distanceBetweenCars") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("distanceBetweenCars"))))
+            ExperementParameters.distanceBetweenCars = int.Parse(PlayerPrefs.GetString("distanceBetweenCars"));
     }
     public void hide()
     {
@@ -35,7 +48,7 @@ public class MainMenu : MonoBehaviour {
     {
         Debug.Log("newGame()");
         uiMainCanvas.enabled = false;
-        roadController.gameObject.SetActive(true);
+        roadController.generateRoads();
     }
     public void loadGame()
     {

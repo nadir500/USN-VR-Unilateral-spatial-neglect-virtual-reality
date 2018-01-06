@@ -21,7 +21,7 @@ public class RoadController : MonoBehaviour {
      private GameObjectHandler car_handler1;
     string[] streetsDirections;
 
-    void Start()
+    public void generateRoads()
     {
         StringBuilder stringBuilder;
         //Assigning number of paths from the UI
