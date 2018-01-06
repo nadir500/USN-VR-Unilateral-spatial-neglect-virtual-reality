@@ -172,6 +172,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4911466321370136}
+  - component: {fileID: 65581594797530144}
+  - component: {fileID: 54392158848643512}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -2738,3 +2740,30 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1025106323007610}
   m_Mesh: {fileID: 4300034, guid: 659ab4c63eb140e4e9ac02ea6b1e483d, type: 3}
+--- !u!54 &54392158848643512
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1186301379720090}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65581594797530144
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1186301379720090}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.52, z: 1.55}
