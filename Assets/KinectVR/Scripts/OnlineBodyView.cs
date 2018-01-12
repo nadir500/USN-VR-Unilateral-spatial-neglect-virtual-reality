@@ -288,12 +288,17 @@ public class OnlineBody
 		bodypartarray = bodypartlist.Split ("," [0]);
 		name = aName;
 		go = new GameObject ("OnlineBody:" + name);
-		go.transform.position = KinectWorld.s.transform.position;
+         
+
+        go.transform.position = KinectWorld.s.transform.position;
 		go.transform.parent = OnlineBodyView.s.transform;
 
 		partsDic = new Dictionary<string, BodyPart> ();
-
-
+        
+        go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        Debug.Log("OnlineBody" + go.name);
+        // go.transform.localRotation = new Quaternion (0, 40f, 0,0);
+        go.transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));
 		//height.transform.parent = go.transform;
 	
 		GameObject height = new GameObject ("Height:" + name);

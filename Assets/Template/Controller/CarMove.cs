@@ -50,7 +50,8 @@ public class CarMove : MonoBehaviour {
         Time.fixedDeltaTime = Time.fixedDeltaTime*Time.timeScale; 
 
         //after that in like 1 minute after the scale put some text saying you're about to hit a car 
-        new WaitForSeconds(20);
         float fadeTime = GameObject.Find("FadeGameObject").GetComponent<Fading>().BeginFade(1);
+        new WaitForSeconds(20);
+        
     }
  }

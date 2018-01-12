@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VR;
 
 public class MainMenu : MonoBehaviour {
     private Animator mainMenuAnimator;
@@ -20,7 +21,7 @@ public class MainMenu : MonoBehaviour {
         myCanvas.enabled = true;
         uiMainCanvas.enabled = true;
         setExperementParametersToLastSavedOnes();
-
+        VRSettings.enabled = false;
     }
 
     public void setExperementParametersToLastSavedOnes()
@@ -49,6 +50,7 @@ public class MainMenu : MonoBehaviour {
         Debug.Log("newGame()");
         uiMainCanvas.enabled = false;
         roadController.generateRoads();
+        VRSettings.enabled = true;
     }
     public void loadGame()
     {
