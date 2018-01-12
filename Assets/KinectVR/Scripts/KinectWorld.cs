@@ -13,13 +13,5 @@ public class KinectWorld : MonoBehaviour {
 	public Vector3 startPos;
 	public Transform gearCam;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }

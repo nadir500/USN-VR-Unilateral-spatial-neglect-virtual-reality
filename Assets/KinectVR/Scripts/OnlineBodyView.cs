@@ -290,7 +290,7 @@ public class OnlineBody
 		go = new GameObject ("OnlineBody:" + name);
 		go.transform.position = KinectWorld.s.transform.position;
 		go.transform.parent = OnlineBodyView.s.transform;
-
+		//
 		partsDic = new Dictionary<string, BodyPart> ();
 
 
