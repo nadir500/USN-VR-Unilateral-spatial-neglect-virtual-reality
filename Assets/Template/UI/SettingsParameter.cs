@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SettingsParameter : MonoBehaviour {
     public List<string> values;
     public string unitOfParameterValue;
+    public string parameterKey;
     public int _index = 0;   // it is public because it will be setten in the inspector to default value
     public bool linkToResources;
     public int index {
@@ -37,6 +38,8 @@ public class SettingsParameter : MonoBehaviour {
     public Button plusButton;
     public Button minusButton;
 
+    public bool saveChanges = false;
+
     public delegate void OnVariableChangeDelegate();
     public event OnVariableChangeDelegate OnVariableChange;
 
@@ -48,6 +51,11 @@ public class SettingsParameter : MonoBehaviour {
         plusButton.onClick.AddListener(increase);
         minusButton.onClick.AddListener(decrease);
 
+        if(!string.IsNullOrEmpty(parameterKey) && PlayerPrefs.HasKey(parameterKey) && (!string.IsNullOrEmpty(PlayerPrefs.GetString(parameterKey)) ))
+        {
+            parameterValue = PlayerPrefs.GetString(parameterKey);
+            index = values.IndexOf(parameterValue);
+        }
 
         if (linkToResources)
         {
@@ -55,18 +63,15 @@ public class SettingsParameter : MonoBehaviour {
             parameterText.transform.GetChild(0).gameObject.SetActive(true);
         }
 
+
+
             indexValidator();
     }
     public void increase()
     {
-
+        
         index++;
         parameterValue = values[index];
-        if(linkToResources)
-        {
-            
-        }
-
 
         if (OnVariableChange != null)
             OnVariableChange();

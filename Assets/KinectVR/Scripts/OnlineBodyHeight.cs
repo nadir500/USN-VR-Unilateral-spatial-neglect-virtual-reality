@@ -12,6 +12,7 @@ public class OnlineBodyHeight : MonoBehaviour {
 		rb = gameObject.AddComponent<Rigidbody> ();
 		rb.constraints = RigidbodyConstraints.FreezeRotation;
 		gameObject.AddComponent<SphereCollider> ();
+        gameObject.GetComponent<SphereCollider>().center += new Vector3(0, 1.96f, 0);
 		gameObject.layer = LayerMask.NameToLayer ("PlayerHeight");
 
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VR;
 
 public class MainMenu : MonoBehaviour {
     private Animator mainMenuAnimator;
@@ -19,7 +20,20 @@ public class MainMenu : MonoBehaviour {
         mainMenuAnimator = this.gameObject.GetComponent<Animator>();
         myCanvas.enabled = true;
         uiMainCanvas.enabled = true;
+        setExperementParametersToLastSavedOnes();
+        VRSettings.enabled = false;
+    }
 
+    public void setExperementParametersToLastSavedOnes()
+    {
+        if (PlayerPrefs.HasKey("numberOfPathsPerStreet") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("numberOfPathsPerStreet"))))
+            ExperementParameters.numberOfPathsPerStreet = int.Parse(PlayerPrefs.GetString("numberOfPathsPerStreet"));
+        if (PlayerPrefs.HasKey("streetsDirections") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("streetsDirections"))))
+            ExperementParameters.streetsDirections = PlayerPrefs.GetString("streetsDirections");
+        if (PlayerPrefs.HasKey("carsSpeed") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("carsSpeed"))))
+            ExperementParameters.carsSpeed = int.Parse(PlayerPrefs.GetString("carsSpeed"));
+        if (PlayerPrefs.HasKey("distanceBetweenCars") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("distanceBetweenCars"))))
+            ExperementParameters.distanceBetweenCars = int.Parse(PlayerPrefs.GetString("distanceBetweenCars"));
     }
     public void hide()
     {
@@ -35,7 +49,8 @@ public class MainMenu : MonoBehaviour {
     {
         Debug.Log("newGame()");
         uiMainCanvas.enabled = false;
-        roadController.gameObject.SetActive(true);
+        roadController.generateRoads();
+        VRSettings.enabled = true;
     }
     public void loadGame()
     {

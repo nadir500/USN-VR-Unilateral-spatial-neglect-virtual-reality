@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Settings : MonoBehaviour {
     private Animator settingsAnimator;
@@ -8,6 +9,8 @@ public class Settings : MonoBehaviour {
     private Canvas myCanvas;
 
     public GameObject mainMenuWrapper;
+    public Button saveButton;
+    public Canvas saveWindow;
 
     public SettingsParameter mode;
     public string modeValue { get { return mode.parameterValue; } }
@@ -24,28 +27,63 @@ public class Settings : MonoBehaviour {
     void Start()
     {
         active = false;
-        myCanvas = this.gameObject.GetComponent<Canvas>();
         settingsAnimator = this.gameObject.GetComponent<Animator>();
+        myCanvas = this.gameObject.GetComponent<Canvas>();
+        saveWindow.GetComponent<Canvas>().enabled = false;
+        saveButton.onClick.AddListener(saveParameters);
+        saveButton.interactable = false;
         myCanvas.enabled = false;
+        
+        linkEvents();
+        
 
+    }
+    public void linkEvents()
+    {
         mode.OnVariableChange += changeModeHandler;
-
+        mode.OnVariableChange += enableSaveChanges;
+        streetsDirectionsparameterWrapper.OnVariableChange += enableSaveChanges;
+        numberOfPathsPerStreetParameterWrapper.OnVariableChange += enableSaveChanges;
+        carsSpeedParameterWrapper.OnVariableChange += enableSaveChanges;
+        distanceBetweenCarsParameterWrapper.OnVariableChange += enableSaveChanges;
+    }
+    public void saveParameters()
+    {
+        setExperementParameters();
+        saveButton.interactable = false;
     }
     public void hide()
     {
+        if(saveButton.interactable)
+        {
+            saveWindow.GetComponent<Canvas>().enabled = true;
+            return;
+        }
         active = false;
         settingsAnimator.SetBool("Active", active);
-        mainMenuWrapper.GetComponent<MainMenu>().show();
-
-        setExperementParameters();
+        mainMenuWrapper.GetComponent<MainMenu>().show();  
     }
-    
+    public void saveButtonInSaveWindow()
+    {
+        saveParameters();
+        saveWindow.GetComponent<Canvas>().enabled = false;
+        hide();
+
+    }
+    public void discardButtonInSaveWindow()
+    {
+        saveButton.interactable = false;
+        hide();
+    }
+    public void hideInSaveWindow()
+    {
+        saveWindow.GetComponent<Canvas>().enabled = false;
+    }
     public IEnumerator turnOffCanvas()
     {
         yield return new WaitForSeconds(0.3f);
         myCanvas.enabled = false;
     }
-
 	private void changeModeHandler()
     {
         Debug.Log("changeModeHandler");
@@ -67,7 +105,6 @@ public class Settings : MonoBehaviour {
                 break;
         }
     }
-
     private void setParameterIndex(SettingsParameter parameter)
     {
         parameter.index = parameter.values.IndexOf(parameter.parameterValue);
@@ -79,8 +116,6 @@ public class Settings : MonoBehaviour {
 
         this.streetsDirectionsValue = streetsDirections;
         this.setParameterIndex(streetsDirectionsparameterWrapper);
-        Debug.Log("parameter " + streetsDirections);
-        Debug.Log("setParameterIndex " + this.streetsDirectionsValue);
 
         this.carsSpeedValue = carsSpeed;
         this.setParameterIndex(carsSpeedParameterWrapper);
@@ -88,12 +123,20 @@ public class Settings : MonoBehaviour {
         this.distanceBetweenCarsValue = distanceBetweenCars;
         this.setParameterIndex(distanceBetweenCarsParameterWrapper);
     }
-
+    private void enableSaveChanges()
+    {
+        saveButton.interactable = true;
+    }
     private void setExperementParameters()
     {
+        Debug.Log("numberOfPathsPerStreet"+ numberOfPathsPerStreetValue);
+        PlayerPrefs.SetString("numberOfPathsPerStreet", numberOfPathsPerStreetValue.ToString());
+        PlayerPrefs.SetString("streetsDirections", streetsDirectionsValue.ToString());
+        PlayerPrefs.SetString("carsSpeed", carsSpeedValue.ToString());
+        PlayerPrefs.SetString("distanceBetweenCars", distanceBetweenCarsValue.ToString());
+        PlayerPrefs.Save();
         ExperementParameters.numberOfPathsPerStreet = numberOfPathsPerStreetValue;
         ExperementParameters.streetsDirections = streetsDirectionsValue;
-        Debug.Log("setExperementParameters " + ExperementParameters.streetsDirections);
         ExperementParameters.carsSpeed = carsSpeedValue;
         ExperementParameters.distanceBetweenCars = distanceBetweenCarsValue;
     }
