@@ -5,7 +5,7 @@ using UnityEngine;
 public class CarBrake : MonoBehaviour {
 
 		Rigidbody rb;
-    void OnTriggerStay(Collider playerCollider)
+    void OnTriggerEnter(Collider playerCollider)
     {
 		
 		GameObject parent = this.transform.parent.gameObject;
@@ -14,10 +14,10 @@ public class CarBrake : MonoBehaviour {
 		int fadeValue= Random.Range(0,1);
 
 		rb.drag = 40;
-		 parent.GetComponent<CarMove>().onBreak();
 
 		if(rb.isKinematic != true)
-		StartCoroutine(delayedAction());
+		 parent.GetComponent<CarMove>().onBreak();
+		 StartCoroutine(delayedStopCar());
         
 		 //assign new time scale value
 
@@ -26,7 +26,7 @@ public class CarBrake : MonoBehaviour {
 	   new WaitForSeconds(2);
     }
 
-    IEnumerator delayedAction()
+    IEnumerator delayedStopCar()
     {
         yield return new WaitForSeconds(3f);
 		rb.isKinematic=true;
