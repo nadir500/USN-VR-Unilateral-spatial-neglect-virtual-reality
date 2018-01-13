@@ -5,10 +5,11 @@ using UnityEngine;
 public class CarBrake : MonoBehaviour {
 
 		Rigidbody rb;
+		GameObject parent;
     void OnTriggerEnter(Collider playerCollider)
     {
 		
-		GameObject parent = this.transform.parent.gameObject;
+		 parent = this.transform.parent.gameObject;
 		 rb = parent.GetComponent<Rigidbody>();
 
 		int fadeValue= Random.Range(0,1);
@@ -29,6 +30,11 @@ public class CarBrake : MonoBehaviour {
     IEnumerator delayedStopCar()
     {
         yield return new WaitForSeconds(3f);
+		
+		parent.GetComponent<CarMove>().StopSound();
+
+		parent.GetComponent<CarMove>().onRemove();
+		parent.GetComponent<AudioSource>().Play();
 		rb.isKinematic=true;
 
 
