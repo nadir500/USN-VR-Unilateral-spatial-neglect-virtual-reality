@@ -14,6 +14,8 @@ public class CarBrake : MonoBehaviour {
 		int fadeValue= Random.Range(0,1);
 
 		rb.drag = 40;
+		 parent.GetComponent<CarMove>().onBreak();
+
 		if(rb.isKinematic != true)
 		StartCoroutine(delayedAction());
         

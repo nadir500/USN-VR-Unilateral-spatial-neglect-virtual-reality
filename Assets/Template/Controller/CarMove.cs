@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CarMove : MonoBehaviour {
     public float speed ;
-   
+    public AudioClip enginSound;
+    public AudioClip brakeSound;
     private string[] roadType = new string[4];
     private Vector3 _start_car_position;
    
@@ -12,13 +13,17 @@ public class CarMove : MonoBehaviour {
     
 
     void Start () {
-         
+         enginSound = Resources.Load("Audio/CarEngine") as AudioClip;
+        brakeSound = Resources.Load("Audio/tires_squal_loop") as AudioClip;
+        this.GetComponent<AudioSource>().PlayOneShot(enginSound);
          speed = ExperementParameters.carsSpeed; //from UI
 		_start_car_position = this.transform.position; //taking the prev position 
         
        // slowMoTimeScale = Time.timeScale/factor;    //calculate the new timescale
 		
         roadType= this.transform.parent.gameObject.name.Split(' ');
+        // here
+
     }
 	
  	void Update()
@@ -47,5 +52,14 @@ public class CarMove : MonoBehaviour {
 
         }
 
+    }
+
+   public void onBreak()
+    {
+        this.GetComponent<AudioSource>().PlayOneShot(brakeSound);
+    }
+    void onRemove()
+    {
+        this.GetComponent<AudioSource>().PlayOneShot(enginSound);
     }
  }
