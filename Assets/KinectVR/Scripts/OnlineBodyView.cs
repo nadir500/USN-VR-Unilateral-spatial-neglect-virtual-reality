@@ -292,7 +292,7 @@ public class OnlineBody
 
         go.transform.position = KinectWorld.s.transform.position;
 		go.transform.parent = OnlineBodyView.s.transform;
-
+		//
 		partsDic = new Dictionary<string, BodyPart> ();
         
         go.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);

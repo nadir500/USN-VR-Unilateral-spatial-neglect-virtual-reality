@@ -29,7 +29,7 @@ public class RoadController : MonoBehaviour {
         numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
 
         //making a prefab copy with a number enough to coer a whole one path 
-        car_handler1 = new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, numberOfPathsInSingleRoad *2, true, "");
+        car_handler1 = new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, numberOfPathsInSingleRoad, true, "");
         //i am using string builder to rename the roads into a correct format just to make it easy reaching them
 
         streetsDirections = ExperementParameters.streetsDirections.Split(' ');
@@ -99,7 +99,7 @@ public class RoadController : MonoBehaviour {
      //here everytime i am taking the gameObject.name of the road and spliting it then taking the index [1] to know which direction this road is    
      string[]  roadType = roadParent.name.Split(' '); 
      
-        for (int i = 0; i < 4; i++) //2 cars each road
+        for (int i = 0; i < 2; i++) //2 cars each road
         {
             //now i am seperating between going cars which is the cars from left to right direction
             //and back cars which is from right to left direction
@@ -113,7 +113,7 @@ public class RoadController : MonoBehaviour {
                 car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
                 car.AddComponent<CarMove>(); //adding the car movement component 
                 
-                if(car.transform.localPosition.x ==8)
+             /*   if(car.transform.localPosition.x ==8)
                 {
                     car.transform.localPosition += new Vector3(-4.0f * i,0,0);
                     car.transform.position += new Vector3(0,0,ExperementParameters.distanceBetweenCars);
@@ -122,7 +122,7 @@ public class RoadController : MonoBehaviour {
                 {
                     car.transform.localPosition += new Vector3(-8.0f,0,0);
                     car.transform.position += new Vector3(0,0,ExperementParameters.distanceBetweenCars);
-                }
+                }*/
                 
             }
             else
@@ -141,7 +141,7 @@ public class RoadController : MonoBehaviour {
                
                 Debug.Log("Local " + car.transform.localPosition);
 
-                  if(car.transform.localPosition.x ==-8)
+                /*  if(car.transform.localPosition.x ==-8)
                 {
                     car.transform.localPosition += new Vector3(4.0f * i,0,0);
                     car.transform.position -= new Vector3(0,0,ExperementParameters.distanceBetweenCars*i);  //distance between two cars section we can benifit from it later on the UI :3 
@@ -152,7 +152,7 @@ public class RoadController : MonoBehaviour {
                     car.transform.localPosition += new Vector3(8.0f,0,0);
                     car.transform.position -= new Vector3(0,0,ExperementParameters.distanceBetweenCars*i);
                     
-                }
+                }*/
 
             }
 
