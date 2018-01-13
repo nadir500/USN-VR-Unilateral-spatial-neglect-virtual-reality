@@ -58,8 +58,12 @@ public class CarMove : MonoBehaviour {
     {
         this.GetComponent<AudioSource>().PlayOneShot(brakeSound);
     }
-    void onRemove()
+   public void onRemove()
     {
         this.GetComponent<AudioSource>().PlayOneShot(enginSound);
+    }
+    public void StopSound()
+    {
+        this.GetComponent<AudioSource>().Stop();
     }
  }
