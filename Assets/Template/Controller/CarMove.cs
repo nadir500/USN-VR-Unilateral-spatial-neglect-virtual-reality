@@ -6,6 +6,7 @@ public class CarMove : MonoBehaviour {
     public float speed ;
     public AudioClip enginSound;
     public AudioClip brakeSound;
+    public AudioClip carHorn;
     private string[] roadType = new string[4];
     private Vector3 _start_car_position;
    
@@ -15,6 +16,7 @@ public class CarMove : MonoBehaviour {
     void Start () {
          enginSound = Resources.Load("Audio/CarEngine") as AudioClip;
         brakeSound = Resources.Load("Audio/tires_squal_loop") as AudioClip;
+        carHorn = Resources.Load("Audio/Horn") as AudioClip;        
         this.GetComponent<AudioSource>().PlayOneShot(enginSound);
          speed = ExperementParameters.carsSpeed; //from UI
 		_start_car_position = this.transform.position; //taking the prev position 
@@ -62,8 +64,15 @@ public class CarMove : MonoBehaviour {
     {
         this.GetComponent<AudioSource>().PlayOneShot(enginSound);
     }
+
     public void StopSound()
     {
         this.GetComponent<AudioSource>().Stop();
+    }
+
+    public void CarHorn()
+    {
+        this.GetComponent<AudioSource>().PlayOneShot(carHorn);
+
     }
  }
