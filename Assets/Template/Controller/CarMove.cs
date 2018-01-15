@@ -7,7 +7,7 @@ public class CarMove : MonoBehaviour {
     public AudioClip enginSound;
     public AudioClip brakeSound;
     public AudioClip carHorn;
-    private string[] roadType = new string[4];
+    public string[] roadType = new string[4];
     private Vector3 _start_car_position;
    
     string[] streetsDirections = ExperementParameters.streetsDirections.Split(' ');
