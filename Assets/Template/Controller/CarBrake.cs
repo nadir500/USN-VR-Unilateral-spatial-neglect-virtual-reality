@@ -46,8 +46,11 @@ public class CarBrake : MonoBehaviour {
     }
 	IEnumerator CarHornSound()
 	{
-		yield return new WaitForSeconds(5f);
+        //parent.GetComponent<AudioSource>().pitch = 0.05f;
+        yield return new WaitForSeconds(5f);
 		parent.GetComponent<CarMove>().CarHorn();
+
+        
 		
 	}
 
