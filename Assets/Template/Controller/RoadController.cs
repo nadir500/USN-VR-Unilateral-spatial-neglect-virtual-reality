@@ -48,7 +48,8 @@ public class RoadController : MonoBehaviour {
         {
             stringBuilder = new StringBuilder();
             RoadMeasure = new Vector3(7.51f + (streetPathWidth * i), -2.0f, 0.0f);
-             GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity) as GameObject;
+            GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity) as GameObject;
+            
             //i'll take each road generated (the cars are from left to right movement) and rename it into a specific name
             //i used string builder for the performance issues
             stringBuilder.Append("Road ");
@@ -67,7 +68,12 @@ public class RoadController : MonoBehaviour {
             lastPosition = 6.25f + (streetPathWidth * numberOfPathsInSingleRoad);
             // add the mid walk
             Instantiate(midWalk, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
-            Instantiate(yellowPoint, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
+            
+            GameObject yellowPointGB = Instantiate(yellowPoint, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
+            BoxCollider yellowBoxCollider= yellowPointGB.AddComponent<BoxCollider>();  //midwalk trigger 
+            yellowBoxCollider.size = new Vector3(1.6f,1,1);
+            yellowBoxCollider.isTrigger=true;
+
             //Road #2
             for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
             {
