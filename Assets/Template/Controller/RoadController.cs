@@ -21,6 +21,12 @@ public class RoadController : MonoBehaviour {
      private GameObjectHandler car_handler1;
     string[] streetsDirections;
 
+    private GameObject midWalkYellowPoint = null;
+    private GameObject sideWalkYellowPoint = null;
+
+    private GameObject yellowArrowsFirstPath = null;
+    private GameObject yellowArrowsSecondPath = null;
+
     public GameObject yellowPoint;
     public GameObject yellowArrows;
 
@@ -37,12 +43,14 @@ public class RoadController : MonoBehaviour {
 
         streetsDirections = ExperementParameters.streetsDirections.Split(' ');
         
-        Debug.Log("streetsDirections");
-        for(int i = 0; i < streetsDirections.Length; i++)
-            Debug.Log("streetsDirections["+i+"] = "+ streetsDirections[i]);
+        //Debug.Log("streetsDirections");
+        //for(int i = 0; i < streetsDirections.Length; i++)
+        //    Debug.Log("streetsDirections["+i+"] = "+ streetsDirections[i]);
 
         float lastPosition = 5f + streetPathWidth * (numberOfPathsInSingleRoad / 2);
-        Instantiate(yellowPoint, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
+        yellowArrowsFirstPath = Instantiate(yellowArrows, new Vector3(4.7f + (streetPathWidth * numberOfPathsInSingleRoad / 4), -1.99f, 0.0f), Quaternion.identity);
+        if (ExperementParameters.streetsDirections.Split()[0].Equals("Right"))
+            yellowArrowsFirstPath.transform.localScale = new Vector3(1, 1, -1);
         //Road #1
         for (int i = 0; i < (numberOfPathsInSingleRoad/2); i++)
         {
@@ -67,7 +75,11 @@ public class RoadController : MonoBehaviour {
             lastPosition = 6.25f + (streetPathWidth * numberOfPathsInSingleRoad);
             // add the mid walk
             Instantiate(midWalk, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
-            Instantiate(yellowPoint, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
+            midWalkYellowPoint = Instantiate(yellowPoint, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -0.5f, 0.0f), Quaternion.identity);
+            yellowArrowsSecondPath = Instantiate(yellowArrows, new Vector3(-3.8f + lastPosition + 0.5f, -1.99f, 0.0f), Quaternion.identity);
+            if (ExperementParameters.streetsDirections.Equals("Left To Right"))
+                yellowArrowsSecondPath.transform.localScale = new Vector3(1, 1, -1);
+            //yellowArrowsSecondPath.transform.localScale = new Vector3(1, 1, -1);
             //Road #2
             for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
             {
@@ -92,8 +104,28 @@ public class RoadController : MonoBehaviour {
 
         }
         Instantiate(sidewalk, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
-        Instantiate(yellowPoint, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
+        sideWalkYellowPoint = Instantiate(yellowPoint, new Vector3(lastPosition+0.5f, -0.5f, 0.0f), Quaternion.identity);
+        
+
+        sideWalkYellowPoint.SetActive(false);
         BuildingsWrapper.transform.position = new Vector3(lastPosition+8f, 0, 0);
+
+        StartCoroutine(TurnOnAndOfYellowArrows());
+    }
+
+    IEnumerator TurnOnAndOfYellowArrows()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            yellowArrowsFirstPath.SetActive(true);
+            if(yellowArrowsSecondPath != null)
+                yellowArrowsSecondPath.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            yellowArrowsFirstPath.SetActive(false);
+            if (yellowArrowsSecondPath != null)
+                yellowArrowsSecondPath.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
 /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
