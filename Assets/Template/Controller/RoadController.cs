@@ -9,7 +9,7 @@ public class RoadController : MonoBehaviour {
     public GameObject sidewalk;
     public GameObject streatPath;
     public GameObject midWalk;
-    const int streetPathWidth = 10;
+    const int streetPathWidth = 5; //feet
     const float sidewalkWidth = 2.5f;
     public GameObject BuildingsWrapper;
 
@@ -42,8 +42,8 @@ public class RoadController : MonoBehaviour {
         for (int i = 0; i < (numberOfPathsInSingleRoad/2); i++)
         {
             stringBuilder = new StringBuilder();
-            RoadMeasure = new Vector3(10f + (streetPathWidth * i), -2.0f, 0.0f);
-            GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity) as GameObject;
+            RoadMeasure = new Vector3(7.51f + (streetPathWidth * i), -2.0f, 0.0f);
+             GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity) as GameObject;
             //i'll take each road generated (the cars are from left to right movement) and rename it into a specific name
             //i used string builder for the performance issues
             stringBuilder.Append("Road ");
@@ -59,16 +59,16 @@ public class RoadController : MonoBehaviour {
         }
         if (streetsDirections.Length > 1)
         {
-            lastPosition = 7.25f + (streetPathWidth * numberOfPathsInSingleRoad);
+            lastPosition = 6.25f + (streetPathWidth * numberOfPathsInSingleRoad);
             // add the mid walk
-            Instantiate(midWalk, new Vector3(6.25f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
+            Instantiate(midWalk, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
             //Road #2
             for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
             {
                 stringBuilder = new StringBuilder();
                 //i'll take each road generated (the cars are from right to left movement) and rename it into a specific name via string builder
 
-                RoadMeasure = new Vector3(12.5f + (streetPathWidth * i) + (streetPathWidth * (numberOfPathsInSingleRoad / 2)), -2.0f, 0.0f);
+                RoadMeasure = new Vector3(8.85f + (streetPathWidth * i) + (streetPathWidth * (numberOfPathsInSingleRoad / 2)), -2.0f, 0.0f);
                 GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity);
 
                 stringBuilder.Append("Road ");
@@ -87,7 +87,7 @@ public class RoadController : MonoBehaviour {
         }
         Instantiate(sidewalk, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
 
-        BuildingsWrapper.transform.position = new Vector3(lastPosition+2.5f, 0, 0);
+        BuildingsWrapper.transform.position = new Vector3(lastPosition+8f, 0, 0);
     }
 
 /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
@@ -107,12 +107,12 @@ public class RoadController : MonoBehaviour {
             {
                 //now instantiate the cars with the positions explained above 
                 GameObject car = carObjectHandler.RetrieveInstance(
-                    new Vector3(beginPoint.x + 4.0f * i, beginPoint.y, beginPoint.z + ExperementParameters.distanceBetweenCars *i), //putting the position with the distance between each car
+                    new Vector3(0.3f/*way from the edge of the corner*/+beginPoint.x + 2.5f * i, beginPoint.y, beginPoint.z + ExperementParameters.distanceBetweenCars *i), //putting the position with the distance between each car
                                                                         Quaternion.Euler(new Vector3(0, -90, 0))); //the rotation of course 
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, -90, 0)); //this is temporary 
                 car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
                 car.AddComponent<CarMove>(); //adding the car movement component 
-                
+                //four cars
              /*   if(car.transform.localPosition.x ==8)
                 {
                     car.transform.localPosition += new Vector3(-4.0f * i,0,0);
@@ -131,7 +131,7 @@ public class RoadController : MonoBehaviour {
                 //now instantiate the cars with the positions explained above 
                 
                 GameObject car = carObjectHandler.RetrieveInstance(
-                    new Vector3(beginPoint.x - 4.0f * i, beginPoint.y, beginPoint.z - ExperementParameters.distanceBetweenCars *i),//putting the position with the distance between each car
+                    new Vector3(0.3f/*adjust the distance from the edge of the corner*/-beginPoint.x - 2.5f * i, beginPoint.y, beginPoint.z - ExperementParameters.distanceBetweenCars *i),//putting the position with the distance between each car
                                                                     Quaternion.Euler(new Vector3(0, 90, 0)));//the rotation of course
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));//this is temporary
                 car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
@@ -139,8 +139,8 @@ public class RoadController : MonoBehaviour {
                 car.transform.position +=new Vector3(0,0,-360); //this is for making a translate to -400 which is far far right 
                 car.AddComponent<CarMove>(); //adding the car moce component 
                
-                Debug.Log("Local " + car.transform.localPosition);
-
+                //four cars 
+                //TODO: make it when collide with a car behind just to stop 
                 /*  if(car.transform.localPosition.x ==-8)
                 {
                     car.transform.localPosition += new Vector3(4.0f * i,0,0);
