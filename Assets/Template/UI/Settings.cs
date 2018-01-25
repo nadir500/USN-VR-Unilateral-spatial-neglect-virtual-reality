@@ -23,6 +23,8 @@ public class Settings : MonoBehaviour {
     public SettingsParameter carsSpeedParameterWrapper;
     public int carsSpeedValue { get { return  int.Parse(carsSpeedParameterWrapper.parameterValue.Split(' ')[0].ToString()); } set { carsSpeedParameterWrapper.parameterValue = value.ToString(); } }
 
+    
+    
     // Use this for initialization
     void Start()
     {

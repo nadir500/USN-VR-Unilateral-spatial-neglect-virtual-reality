@@ -7,7 +7,7 @@ public class CarMove : MonoBehaviour {
     public AudioClip enginSound;
     public AudioClip brakeSound;
     public AudioClip carHorn;
-    private string[] roadType = new string[4];
+    public string[] roadType = new string[4];
     private Vector3 _start_car_position;
    
     string[] streetsDirections = ExperementParameters.streetsDirections.Split(' ');
@@ -59,10 +59,16 @@ public class CarMove : MonoBehaviour {
    public void onBreak()
     {
         this.GetComponent<AudioSource>().PlayOneShot(brakeSound);
+        //this.GetComponent<AudioSource>().clip = brakeSound;
+        //this.GetComponent<AudioSource>().Play();
+      //  this.GetComponents<AudioSource>()[0].enabled = false;
+       // this.GetComponents<AudioSource>()[1].enabled = true;
     }
    public void onRemove()
     {
         this.GetComponent<AudioSource>().PlayOneShot(enginSound);
+        ////this.GetComponent<AudioSource>().clip = enginSound;
+        //this.GetComponent<AudioSource>().Play();
     }
 
     public void StopSound()
