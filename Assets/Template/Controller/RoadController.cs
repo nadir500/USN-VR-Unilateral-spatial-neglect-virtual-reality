@@ -21,6 +21,9 @@ public class RoadController : MonoBehaviour {
      private GameObjectHandler car_handler1;
     string[] streetsDirections;
 
+    public GameObject yellowPoint;
+    public GameObject yellowArrows;
+
     public void generateRoads()
     {
         StringBuilder stringBuilder;
@@ -33,11 +36,13 @@ public class RoadController : MonoBehaviour {
         //i am using string builder to rename the roads into a correct format just to make it easy reaching them
 
         streetsDirections = ExperementParameters.streetsDirections.Split(' ');
+        
         Debug.Log("streetsDirections");
         for(int i = 0; i < streetsDirections.Length; i++)
             Debug.Log("streetsDirections["+i+"] = "+ streetsDirections[i]);
 
         float lastPosition = 5f + streetPathWidth * (numberOfPathsInSingleRoad / 2);
+        Instantiate(yellowPoint, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
         //Road #1
         for (int i = 0; i < (numberOfPathsInSingleRoad/2); i++)
         {
@@ -62,6 +67,7 @@ public class RoadController : MonoBehaviour {
             lastPosition = 6.25f + (streetPathWidth * numberOfPathsInSingleRoad);
             // add the mid walk
             Instantiate(midWalk, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
+            Instantiate(yellowPoint, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
             //Road #2
             for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
             {
@@ -86,7 +92,7 @@ public class RoadController : MonoBehaviour {
 
         }
         Instantiate(sidewalk, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
-
+        Instantiate(yellowPoint, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
         BuildingsWrapper.transform.position = new Vector3(lastPosition+8f, 0, 0);
     }
 
