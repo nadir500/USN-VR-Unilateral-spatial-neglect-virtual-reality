@@ -25,41 +25,23 @@ public class CarBrake : MonoBehaviour {
      	 rb.drag = 40;
 
 		 isHit=true;
-	
-        
-		 //assign new time scale value
+		 //RoadController.fadeout_after_crossing=false;
 
      //after that in like 1 minute after the scale put some text saying you're about to hit a car 
-        float fadeTime = GameObject.Find("FadeGameObject").GetComponent<Fading>().BeginFade(1);
-	   new WaitForSeconds(2);
+         GameObject.Find("FadeGameObject").GetComponent<Fading>().BeginFade(1);
     }
-	/*void OnTriggerStay(Collider playerCollider)
-	{
-		Debug.Log("global position of camera parent " + playerCollider.transform.position + " global position car colldier " + this.transform.position );
-		
-	}*/
 
-	void Update()
+	/*void Update()
 	{
-
-          /*  if (rb != null && isHit)
-            {
-		 playerPos = playerGB.transform.position;
-                carColliderPos = carColliderGB.transform.position;
-		                Debug.Log("Distance between cars " + Vector3.Distance(playerPos, carColliderPos));
-			}*/
- 
         if (Time.frameCount % 30 == 0) //excute every couple frames 
         {
-
-
             if (rb != null && isHit)
             {
-                parent.GetComponent<CarMove>().onBreak();
+               // parent.GetComponent<CarMove>().onBreak();
                 playerPos = playerGB.transform.position;
                 carColliderPos = carColliderGB.transform.position;
                 distance = Vector3.Distance(playerPos, carColliderPos);
-                Debug.Log("Distance between cars " + Vector3.Distance(playerPos, carColliderPos));
+                Debug.Log("Distance between cars " + parent.gameObject.name+" "+ Vector3.Distance(playerPos, carColliderPos));
                 if ( roadType[1].Equals(value: "Left") && distance >= 7.0f || roadType[1].Equals(value: "Right") && distance <=8.9f )
                 {
                     StopCar();
@@ -67,27 +49,6 @@ public class CarBrake : MonoBehaviour {
                 }
             }
         }
-
-
-	}
-    void StopCar()
-    {
-       // yield return new WaitForSeconds(3f);
-		
-		parent.GetComponent<CarMove>().StopSound();
-
-		parent.GetComponent<CarMove>().onRemove();
-		parent.GetComponent<AudioSource>().Play();
-		rb.isKinematic=true;
-
-
-    }
-	void CarHornSound()
-	{
-		new WaitForSeconds(3);
-		parent.GetComponent<CarMove>().CarHorn();
-		
-	}
-
-
+	}*/
+   
 }

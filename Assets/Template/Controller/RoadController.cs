@@ -12,7 +12,7 @@ public class RoadController : MonoBehaviour {
     const int streetPathWidth = 5; //feet
     const float sidewalkWidth = 2.5f;
     public GameObject BuildingsWrapper;
-
+    public static bool fadeout_after_crossing = true;
     private int numberOfPathsInSingleRoad=2;
     private Vector3 RoadMeasure;
     private Vector3 startPosition = new Vector3(10f, -2.0f, 0.0f);
@@ -21,14 +21,15 @@ public class RoadController : MonoBehaviour {
      private GameObjectHandler car_handler1;
     string[] streetsDirections;
 
-    private GameObject midWalkYellowPoint = null;
-    private GameObject sideWalkYellowPoint = null;
+    public GameObject midWalkYellowPoint = null;
+    public GameObject sideWalkYellowPoint = null;
 
     private GameObject yellowArrowsFirstPath = null;
     private GameObject yellowArrowsSecondPath = null;
 
     public GameObject yellowPoint;
     public GameObject yellowArrows;
+    private BoxCollider checkPointBoxCollider;
 
     public void generateRoads()
     {
@@ -75,7 +76,11 @@ public class RoadController : MonoBehaviour {
             lastPosition = 6.25f + (streetPathWidth * numberOfPathsInSingleRoad);
             // add the mid walk
             Instantiate(midWalk, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
+          
+
             midWalkYellowPoint = Instantiate(yellowPoint, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -0.5f, 0.0f), Quaternion.identity);
+            midWalkYellowPoint.name = "midwalkYellowPoint";
+
             yellowArrowsSecondPath = Instantiate(yellowArrows, new Vector3(-3.8f + lastPosition + 0.5f, -1.99f, 0.0f), Quaternion.identity);
             if (ExperementParameters.streetsDirections.Equals("Left To Right"))
                 yellowArrowsSecondPath.transform.localScale = new Vector3(1, 1, -1);
@@ -103,14 +108,18 @@ public class RoadController : MonoBehaviour {
 
 
         }
+        checkPointBoxCollider =  midWalk.AddComponent<BoxCollider>();
+        checkPointBoxCollider.size = new Vector3(14.5f,0.46f,10);
+        checkPointBoxCollider.isTrigger=true;
         Instantiate(sidewalk, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
         sideWalkYellowPoint = Instantiate(yellowPoint, new Vector3(lastPosition+0.5f, -0.5f, 0.0f), Quaternion.identity);
-        
+        sideWalkYellowPoint.name="sidewalkYellowPoint";
 
         sideWalkYellowPoint.SetActive(false);
         BuildingsWrapper.transform.position = new Vector3(lastPosition+8f, 0, 0);
 
         StartCoroutine(TurnOnAndOfYellowArrows());
+
     }
 
     IEnumerator TurnOnAndOfYellowArrows()
@@ -149,18 +158,7 @@ public class RoadController : MonoBehaviour {
                                                                         Quaternion.Euler(new Vector3(0, -90, 0))); //the rotation of course 
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, -90, 0)); //this is temporary 
                 car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
-                car.AddComponent<CarMove>(); //adding the car movement component 
-                //four cars
-             /*   if(car.transform.localPosition.x ==8)
-                {
-                    car.transform.localPosition += new Vector3(-4.0f * i,0,0);
-                    car.transform.position += new Vector3(0,0,ExperementParameters.distanceBetweenCars);
-                }
-                if (car.transform.localPosition.x == 12)
-                {
-                    car.transform.localPosition += new Vector3(-8.0f,0,0);
-                    car.transform.position += new Vector3(0,0,ExperementParameters.distanceBetweenCars);
-                }*/
+                car.AddComponent<CarMove>(); //adding the car movement component              
                 
             }
             else
@@ -169,29 +167,13 @@ public class RoadController : MonoBehaviour {
                 //now instantiate the cars with the positions explained above 
                 
                 GameObject car = carObjectHandler.RetrieveInstance(
-                    new Vector3(0.3f/*adjust the distance from the edge of the corner*/-beginPoint.x - 2.5f * i, beginPoint.y, beginPoint.z - ExperementParameters.distanceBetweenCars *i),//putting the position with the distance between each car
+                    new Vector3(/*adjust the distance from the edge of the corner*/beginPoint.x - 0.3f - 2.5f * i, beginPoint.y, beginPoint.z - ExperementParameters.distanceBetweenCars *i),//putting the position with the distance between each car
                                                                     Quaternion.Euler(new Vector3(0, 90, 0)));//the rotation of course
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));//this is temporary
                 car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
                 
                 car.transform.position +=new Vector3(0,0,-360); //this is for making a translate to -400 which is far far right 
                 car.AddComponent<CarMove>(); //adding the car moce component 
-               
-                //four cars 
-                //TODO: make it when collide with a car behind just to stop 
-                /*  if(car.transform.localPosition.x ==-8)
-                {
-                    car.transform.localPosition += new Vector3(4.0f * i,0,0);
-                    car.transform.position -= new Vector3(0,0,ExperementParameters.distanceBetweenCars*i);  //distance between two cars section we can benifit from it later on the UI :3 
-                    
-                }
-                if (car.transform.localPosition.x == -12)
-                {
-                    car.transform.localPosition += new Vector3(8.0f,0,0);
-                    car.transform.position -= new Vector3(0,0,ExperementParameters.distanceBetweenCars*i);
-                    
-                }*/
-
             }
 
         }
