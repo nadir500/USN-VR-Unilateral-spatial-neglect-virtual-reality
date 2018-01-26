@@ -25,19 +25,19 @@ public class CarBrake : MonoBehaviour {
      	 rb.drag = 40;
 
 		 isHit=true;
-		 RoadController.fadeout_after_crossing=false;
+		 //RoadController.fadeout_after_crossing=false;
 
      //after that in like 1 minute after the scale put some text saying you're about to hit a car 
          GameObject.Find("FadeGameObject").GetComponent<Fading>().BeginFade(1);
     }
 
-	void Update()
+	/*void Update()
 	{
         if (Time.frameCount % 30 == 0) //excute every couple frames 
         {
             if (rb != null && isHit)
             {
-                parent.GetComponent<CarMove>().onBreak();
+               // parent.GetComponent<CarMove>().onBreak();
                 playerPos = playerGB.transform.position;
                 carColliderPos = carColliderGB.transform.position;
                 distance = Vector3.Distance(playerPos, carColliderPos);
@@ -49,16 +49,6 @@ public class CarBrake : MonoBehaviour {
                 }
             }
         }
-	}
-    void StopCar()
-    {
-		parent.GetComponent<CarMove>().StopSound();
-		parent.GetComponent<CarMove>().onRemove();
-		parent.GetComponent<AudioSource>().Play();
-		rb.isKinematic=true;
-    }
-	void CarHornSound()
-	{
-		parent.GetComponent<CarMove>().CarHorn();
-	}
+	}*/
+   
 }

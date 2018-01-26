@@ -40,7 +40,9 @@ public class Fading : MonoBehaviour {
 			if(RoadController.fadeout_after_crossing ==true)
 			{
 				loadingImage.SetActive(false);
-				fadeDirection =-1;
+
+				fadeDirection = -1;
+				//Time.timeScale = 1;
 			}
 		}
 
