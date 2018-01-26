@@ -16,8 +16,8 @@ public class Fading : MonoBehaviour {
 	void Start()
 	{
 			 darkRedColor =new Color32(38,20,20,255);
-			 fadeImage= fadecanvas.transform.FindChild("FadeImage").gameObject;
-			 loadingImage= fadecanvas.transform.FindChild("LoadingImage").gameObject;
+			 fadeImage= GameObject.Find("FadeImage") as GameObject;
+			 loadingImage= GameObject.Find("LoadingImage")as GameObject;
 	}
     void OnGUI()
     {
@@ -37,9 +37,10 @@ public class Fading : MonoBehaviour {
 			alpha += fadeDirection * fadeSpeed * Time.deltaTime;
 			alpha = Mathf.Clamp01(alpha);
        		fadecanvas.alpha = alpha;  //fading entirly 
-			if(fadeDirection==0)
+			if(RoadController.fadeout_after_crossing ==true)
 			{
 				loadingImage.SetActive(false);
+				fadeDirection =-1;
 			}
 		}
 

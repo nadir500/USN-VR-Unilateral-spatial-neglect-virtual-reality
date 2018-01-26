@@ -25,9 +25,10 @@ public class CarBrake : MonoBehaviour {
      	 rb.drag = 40;
 
 		 isHit=true;
+		 RoadController.fadeout_after_crossing=false;
 
      //after that in like 1 minute after the scale put some text saying you're about to hit a car 
-        float fadeTime = GameObject.Find("FadeGameObject").GetComponent<Fading>().BeginFade(1);
+         GameObject.Find("FadeGameObject").GetComponent<Fading>().BeginFade(1);
     }
 
 	void Update()

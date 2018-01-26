@@ -12,7 +12,7 @@ public class RoadController : MonoBehaviour {
     const int streetPathWidth = 5; //feet
     const float sidewalkWidth = 2.5f;
     public GameObject BuildingsWrapper;
-
+    public static bool fadeout_after_crossing = true;
     private int numberOfPathsInSingleRoad=2;
     private Vector3 RoadMeasure;
     private Vector3 startPosition = new Vector3(10f, -2.0f, 0.0f);
@@ -29,6 +29,7 @@ public class RoadController : MonoBehaviour {
 
     public GameObject yellowPoint;
     public GameObject yellowArrows;
+    private BoxCollider checkPointBoxCollider;
 
     public void generateRoads()
     {
@@ -75,7 +76,13 @@ public class RoadController : MonoBehaviour {
             lastPosition = 6.25f + (streetPathWidth * numberOfPathsInSingleRoad);
             // add the mid walk
             Instantiate(midWalk, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
+            checkPointBoxCollider =  midWalk.AddComponent<BoxCollider>();
+            checkPointBoxCollider.size = new Vector3(14.5f,0.46f,10);
+            checkPointBoxCollider.isTrigger=true;
+
             midWalkYellowPoint = Instantiate(yellowPoint, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -0.5f, 0.0f), Quaternion.identity);
+            midWalkYellowPoint.name = "midwalkYellowPoint";
+
             yellowArrowsSecondPath = Instantiate(yellowArrows, new Vector3(-3.8f + lastPosition + 0.5f, -1.99f, 0.0f), Quaternion.identity);
             if (ExperementParameters.streetsDirections.Equals("Left To Right"))
                 yellowArrowsSecondPath.transform.localScale = new Vector3(1, 1, -1);
@@ -105,7 +112,7 @@ public class RoadController : MonoBehaviour {
         }
         Instantiate(sidewalk, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
         sideWalkYellowPoint = Instantiate(yellowPoint, new Vector3(lastPosition+0.5f, -0.5f, 0.0f), Quaternion.identity);
-        
+        sideWalkYellowPoint.name="sidewalkYellowPoint";
 
         sideWalkYellowPoint.SetActive(false);
         BuildingsWrapper.transform.position = new Vector3(lastPosition+8f, 0, 0);
