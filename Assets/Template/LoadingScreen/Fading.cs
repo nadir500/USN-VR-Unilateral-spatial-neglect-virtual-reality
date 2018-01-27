@@ -13,7 +13,9 @@ public class Fading : MonoBehaviour {
 	private Color darkRedColor;
 	GameObject fadeImage;
 	GameObject loadingImage;
-	void Start()
+    LayerMask everythingMask = -1;
+    AudioSource audioSource;
+    void Start()
 	{
 			 darkRedColor =new Color32(38,20,20,255);
 			 fadeImage= GameObject.Find("FadeImage") as GameObject;
@@ -39,14 +41,26 @@ public class Fading : MonoBehaviour {
        		fadecanvas.alpha = alpha;  //fading entirly 
 			if(RoadController.fadeout_after_crossing ==true)
 			{
-				loadingImage.SetActive(false);
+				//loadingImage.SetActive(false); adsfdf
 
 				fadeDirection = -1;
-				//Time.timeScale = 1;
-			}
+                Camera.main.cullingMask = everythingMask;
+
+            }
 		}
 
 	}
+
+   public IEnumerator playSound(string s)
+    {
+        audioSource = this.gameObject.GetComponent<AudioSource>();
+        AudioClip ac = Resources.Load("Audio/" + s) as AudioClip;
+        audioSource.clip = ac;
+        yield return new WaitForSeconds(1);
+
+        audioSource.Play();
+    }
+
     public void BeginFade(int direction)
 	{
 		if(direction ==2 )
@@ -56,4 +70,5 @@ public class Fading : MonoBehaviour {
 		}
 		fadeDirection = direction;
 	}
+    
 }

@@ -48,6 +48,7 @@ public class GameClient : MonoBehaviour, INetEventListener
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader, DeliveryMethod deliveryMethod)
     {
         RoadController.fadeout_after_crossing = reader.GetBool();
+        StartCoroutine(GameObject.Find("FadeGameObject").GetComponent<Fading>().playSound("congratulations"));
     }
 
     public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader,

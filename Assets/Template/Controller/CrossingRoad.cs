@@ -14,6 +14,17 @@ public class CrossingRoad : MonoBehaviour
     bool isHitByCar = false;
     float distance;
     string[] roadType;
+    int isHitYellowball=0;
+    LayerMask uiMask = (1 << 5);
+    
+
+    //public void initilization()
+    //{
+    //    audioSource = this.GetComponent<AudioSource>();
+    //    StartCoroutine(playSound("Go"));
+
+    //}
+
 
     void OnTriggerEnter(Collider hitBox)
     {
@@ -33,35 +44,41 @@ public class CrossingRoad : MonoBehaviour
             //fade in dark red color as the car hits the player 
             GameObject.Find("FadeGameObject").GetComponent<Fading>().BeginFade(1);
         }
-        if (hitBox.gameObject.name.Equals(value: "MidWalk(Clone)"))
+        if (hitBox.tag.Equals(value: "CheckPoint") && isHitYellowball==0)
         {
-            Debug.Log("midwalk ------");
 
             RoadController.fadeout_after_crossing = false;
             midwalkYellowPoint = GameObject.Find("RoadController").GetComponent<RoadController>().midWalkYellowPoint;
             sidewalkYellowPoint = GameObject.Find("RoadController").GetComponent<RoadController>().sideWalkYellowPoint;
             
             //making the character position with the yellow point midwalk position 
-            GameObject.Find("KinectVR").transform.position= midwalkYellowPoint.transform.position;
             
             midwalkYellowPoint.SetActive(false);
 
             sidewalkYellowPoint.SetActive(true);
 
             GameObject.Find("FadeGameObject").GetComponent<Fading>().BeginFade(2);  //fade entirely and wait for re-positioning 
-
+            Transform KVR = GameObject.Find("OnlineBodyView").transform;
+            Camera.main.cullingMask = uiMask;
+            KVR.localPosition =  new Vector3(KVR.localPosition.x - 6.39f, KVR.localPosition.y, KVR.localPosition.z);
+            isHitYellowball = 1;
 
             //putting audio sources congrats you reached the midwalk 
 
         }
         else
-        if (hitBox.gameObject.name == "SideWalk(Clone)")
+        if (hitBox.tag.Equals(value: "CheckPoint") && isHitYellowball==1)
         {
+            RoadController.fadeout_after_crossing = false;
+
             sidewalkYellowPoint.SetActive(false);
             GameObject.Find("FadeGameObject").GetComponent<Fading>().BeginFade(2);
             
             //making the position of the player with the sidewalk position 
 
+            Transform KVR = GameObject.Find("OnlineBodyView").transform;
+            KVR.localPosition = new Vector3(KVR.localPosition.x - 6.39f, KVR.localPosition.y, KVR.localPosition.z);
+            isHitYellowball = 2;
             //putting audio source  you reached the end line 
         }
     }

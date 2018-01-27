@@ -31,6 +31,8 @@ public class RoadController : MonoBehaviour {
     public GameObject yellowArrows;
     private BoxCollider checkPointBoxCollider;
 
+    AudioSource audioSource;
+
     public void generateRoads()
     {
         StringBuilder stringBuilder;
@@ -49,7 +51,7 @@ public class RoadController : MonoBehaviour {
         //    Debug.Log("streetsDirections["+i+"] = "+ streetsDirections[i]);
 
         float lastPosition = 5f + streetPathWidth * (numberOfPathsInSingleRoad / 2);
-        yellowArrowsFirstPath = Instantiate(yellowArrows, new Vector3(4.7f + (streetPathWidth * numberOfPathsInSingleRoad / 4), -1.99f, 0.0f), Quaternion.identity);
+        yellowArrowsFirstPath = Instantiate(yellowArrows, new Vector3(4.7f + (streetPathWidth * numberOfPathsInSingleRoad / 4), -1.99f, -8.98f), Quaternion.identity);
         if (ExperementParameters.streetsDirections.Split()[0].Equals("Right"))
             yellowArrowsFirstPath.transform.localScale = new Vector3(1, 1, -1);
         //Road #1
@@ -78,10 +80,10 @@ public class RoadController : MonoBehaviour {
             Instantiate(midWalk, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
           
 
-            midWalkYellowPoint = Instantiate(yellowPoint, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -0.5f, 0.0f), Quaternion.identity);
+            midWalkYellowPoint = Instantiate(yellowPoint, new Vector3(4.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -0.5f, -8.98f), Quaternion.identity);
             midWalkYellowPoint.name = "midwalkYellowPoint";
 
-            yellowArrowsSecondPath = Instantiate(yellowArrows, new Vector3(-3.8f + lastPosition + 0.5f, -1.99f, 0.0f), Quaternion.identity);
+            yellowArrowsSecondPath = Instantiate(yellowArrows, new Vector3(-3.8f + lastPosition + 0.5f, -1.99f, -8.98f), Quaternion.identity);
             if (ExperementParameters.streetsDirections.Equals("Left To Right"))
                 yellowArrowsSecondPath.transform.localScale = new Vector3(1, 1, -1);
             //yellowArrowsSecondPath.transform.localScale = new Vector3(1, 1, -1);
@@ -112,16 +114,25 @@ public class RoadController : MonoBehaviour {
         checkPointBoxCollider.size = new Vector3(14.5f,0.46f,10);
         checkPointBoxCollider.isTrigger=true;
         Instantiate(sidewalk, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
-        sideWalkYellowPoint = Instantiate(yellowPoint, new Vector3(lastPosition+0.5f, -0.5f, 0.0f), Quaternion.identity);
+        sideWalkYellowPoint = Instantiate(yellowPoint, new Vector3(lastPosition+1, -0.5f, -8.98f), Quaternion.identity);
         sideWalkYellowPoint.name="sidewalkYellowPoint";
 
         sideWalkYellowPoint.SetActive(false);
         BuildingsWrapper.transform.position = new Vector3(lastPosition+8f, 0, 0);
 
         StartCoroutine(TurnOnAndOfYellowArrows());
+        StartCoroutine(playSound("Go"));
 
     }
+    IEnumerator playSound(string s)
+    {
+        audioSource = this.gameObject.GetComponent<AudioSource>();
+        AudioClip ac = Resources.Load("Audio/" + s) as AudioClip;
+        audioSource.clip = ac;
+        yield return new WaitForSeconds(1);
 
+        audioSource.Play();
+    }
     IEnumerator TurnOnAndOfYellowArrows()
     {
         for (int i = 0; i < 4; i++)
