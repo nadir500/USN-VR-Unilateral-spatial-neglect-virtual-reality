@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-public class RoadController : MonoBehaviour {
+public class RoadController : MonoBehaviour
+{
 
 
     public GameObject sidewalk;
@@ -13,12 +14,12 @@ public class RoadController : MonoBehaviour {
     const float sidewalkWidth = 2.5f;
     public GameObject BuildingsWrapper;
     public static bool fadeout_after_crossing = true;
-    private int numberOfPathsInSingleRoad=2;
+    private int numberOfPathsInSingleRoad = 2;
     private Vector3 RoadMeasure;
     private Vector3 startPosition = new Vector3(10f, -2.0f, 0.0f);
     private List<Vector3> beginPoints = new List<Vector3>();
     private List<float> endPoints = new List<float>();
-     private GameObjectHandler car_handler1;
+    private GameObjectHandler car_handler1;
     string[] streetsDirections;
 
     public GameObject midWalkYellowPoint = null;
@@ -45,7 +46,7 @@ public class RoadController : MonoBehaviour {
         //i am using string builder to rename the roads into a correct format just to make it easy reaching them
 
         streetsDirections = ExperementParameters.streetsDirections.Split(' ');
-        
+
         //Debug.Log("streetsDirections");
         //for(int i = 0; i < streetsDirections.Length; i++)
         //    Debug.Log("streetsDirections["+i+"] = "+ streetsDirections[i]);
@@ -55,11 +56,11 @@ public class RoadController : MonoBehaviour {
         if (ExperementParameters.streetsDirections.Split()[0].Equals("Right"))
             yellowArrowsFirstPath.transform.localScale = new Vector3(1, 1, -1);
         //Road #1
-        for (int i = 0; i < (numberOfPathsInSingleRoad/2); i++)
+        for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
         {
             stringBuilder = new StringBuilder();
             RoadMeasure = new Vector3(7.51f + (streetPathWidth * i), -2.0f, 0.0f);
-             GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity) as GameObject;
+            GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity) as GameObject;
             //i'll take each road generated (the cars are from left to right movement) and rename it into a specific name
             //i used string builder for the performance issues
             stringBuilder.Append("Road ");
@@ -78,7 +79,7 @@ public class RoadController : MonoBehaviour {
             lastPosition = 6.25f + (streetPathWidth * numberOfPathsInSingleRoad);
             // add the mid walk
             Instantiate(midWalk, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
-          
+
 
             midWalkYellowPoint = Instantiate(yellowPoint, new Vector3(4.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -0.5f, -8.98f), Quaternion.identity);
             midWalkYellowPoint.name = "midwalkYellowPoint";
@@ -110,15 +111,15 @@ public class RoadController : MonoBehaviour {
 
 
         }
-        checkPointBoxCollider =  midWalk.AddComponent<BoxCollider>();
-        checkPointBoxCollider.size = new Vector3(14.5f,0.46f,10);
-        checkPointBoxCollider.isTrigger=true;
+        checkPointBoxCollider = midWalk.AddComponent<BoxCollider>();
+        checkPointBoxCollider.size = new Vector3(14.5f, 0.46f, 10);
+        checkPointBoxCollider.isTrigger = true;
         Instantiate(sidewalk, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
-        sideWalkYellowPoint = Instantiate(yellowPoint, new Vector3(lastPosition+1, -0.5f, -8.98f), Quaternion.identity);
-        sideWalkYellowPoint.name="sidewalkYellowPoint";
+        sideWalkYellowPoint = Instantiate(yellowPoint, new Vector3(lastPosition + 1, -0.5f, -8.98f), Quaternion.identity);
+        sideWalkYellowPoint.name = "sidewalkYellowPoint";
 
         sideWalkYellowPoint.SetActive(false);
-        BuildingsWrapper.transform.position = new Vector3(lastPosition+8f, 0, 0);
+        BuildingsWrapper.transform.position = new Vector3(lastPosition + 8f, 0, 0);
 
         StartCoroutine(TurnOnAndOfYellowArrows());
         StartCoroutine(playSound("Go"));
@@ -138,7 +139,7 @@ public class RoadController : MonoBehaviour {
         for (int i = 0; i < 4; i++)
         {
             yellowArrowsFirstPath.SetActive(true);
-            if(yellowArrowsSecondPath != null)
+            if (yellowArrowsSecondPath != null)
                 yellowArrowsSecondPath.SetActive(true);
             yield return new WaitForSeconds(0.5f);
             yellowArrowsFirstPath.SetActive(false);
@@ -148,15 +149,15 @@ public class RoadController : MonoBehaviour {
         }
     }
 
-/*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
-    public void Instantiate_Cars_FastRoad( 
-                                Vector3 beginPoint , //the generated road from lines 31 59
-                                               float endPoint,GameObject roadParent  //the road gameObject that is generated
-                                                    ,GameObjectHandler carObjectHandler) //the handler from object pooling class
-	{
-     //here everytime i am taking the gameObject.name of the road and spliting it then taking the index [1] to know which direction this road is    
-     string[]  roadType = roadParent.name.Split(' '); 
-     
+    /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
+    public void Instantiate_Cars_FastRoad(
+                                Vector3 beginPoint, //the generated road from lines 31 59
+                                               float endPoint, GameObject roadParent  //the road gameObject that is generated
+                                                    , GameObjectHandler carObjectHandler) //the handler from object pooling class
+    {
+        //here everytime i am taking the gameObject.name of the road and spliting it then taking the index [1] to know which direction this road is    
+        string[] roadType = roadParent.name.Split(' ');
+
         for (int i = 0; i < 2; i++) //2 cars each road
         {
             //now i am seperating between going cars which is the cars from left to right direction
@@ -165,30 +166,27 @@ public class RoadController : MonoBehaviour {
             {
                 //now instantiate the cars with the positions explained above 
                 GameObject car = carObjectHandler.RetrieveInstance(
-                    new Vector3(0.3f/*way from the edge of the corner*/+beginPoint.x + 2.5f * i, beginPoint.y, beginPoint.z + ExperementParameters.distanceBetweenCars *i), //putting the position with the distance between each car
+                    new Vector3(0.3f/*way from the edge of the corner*/+ beginPoint.x + 2.5f * i, beginPoint.y, beginPoint.z + ExperementParameters.distanceBetweenCars * i), //putting the position with the distance between each car
                                                                         Quaternion.Euler(new Vector3(0, -90, 0))); //the rotation of course 
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, -90, 0)); //this is temporary 
                 car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
                 car.AddComponent<CarMove>(); //adding the car movement component              
-                
+
             }
             else
             if (roadType[1].Equals(value: "Right")) //from right to left 
             {
                 //now instantiate the cars with the positions explained above 
-                
+
                 GameObject car = carObjectHandler.RetrieveInstance(
-                    new Vector3(/*adjust the distance from the edge of the corner*/beginPoint.x - 0.3f - 2.5f * i, beginPoint.y, beginPoint.z - ExperementParameters.distanceBetweenCars *i),//putting the position with the distance between each car
+                    new Vector3(/*adjust the distance from the edge of the corner*/beginPoint.x - 0.3f - 2.5f * i, beginPoint.y, beginPoint.z - ExperementParameters.distanceBetweenCars * i),//putting the position with the distance between each car
                                                                     Quaternion.Euler(new Vector3(0, 90, 0)));//the rotation of course
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));//this is temporary
                 car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
-                
-                car.transform.position +=new Vector3(0,0,-360); //this is for making a translate to -400 which is far far right 
+
+                car.transform.position += new Vector3(0, 0, -360); //this is for making a translate to -400 which is far far right 
                 car.AddComponent<CarMove>(); //adding the car moce component 
             }
-
         }
-
     }
-
- }
+}

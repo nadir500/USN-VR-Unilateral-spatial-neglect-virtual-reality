@@ -14,17 +14,28 @@ public class Settings : MonoBehaviour {
 
     public SettingsParameter mode;
     public string modeValue { get { return mode.parameterValue; } }
+
     public SettingsParameter numberOfPathsPerStreetParameterWrapper;
     public int numberOfPathsPerStreetValue { get { return int.Parse(numberOfPathsPerStreetParameterWrapper.parameterValue); } set { numberOfPathsPerStreetParameterWrapper.parameterValue = value.ToString(); } }
+
     public SettingsParameter streetsDirectionsparameterWrapper;
     public string streetsDirectionsValue { get { return streetsDirectionsparameterWrapper.parameterValue; } set { streetsDirectionsparameterWrapper.parameterValue = value; } }
+
     public SettingsParameter distanceBetweenCarsParameterWrapper;
     public int distanceBetweenCarsValue { get { return int.Parse(distanceBetweenCarsParameterWrapper.parameterValue.Split(' ')[0].ToString()); } set { distanceBetweenCarsParameterWrapper.parameterValue = value.ToString(); } }
+
     public SettingsParameter carsSpeedParameterWrapper;
     public int carsSpeedValue { get { return  int.Parse(carsSpeedParameterWrapper.parameterValue.Split(' ')[0].ToString()); } set { carsSpeedParameterWrapper.parameterValue = value.ToString(); } }
 
-    
-    
+    public SettingsParameter lengthOfPatientParameterWrapper;
+    public float lengthOfPatientValue { get { return float.Parse(lengthOfPatientParameterWrapper.parameterValue); } set { lengthOfPatientParameterWrapper.parameterValue = value.ToString(); } }
+
+    public SettingsParameter widthOfTableParameterWrapper;
+    public float widthOfTableValue { get { return float.Parse(widthOfTableParameterWrapper.parameterValue); } set { widthOfTableParameterWrapper.parameterValue = value.ToString(); } }
+
+    public SettingsParameter soundDirectionsParameterWrapper;
+    public string soundDirectionsValue { get { return soundDirectionsParameterWrapper.parameterValue; } set { soundDirectionsParameterWrapper.parameterValue = value; } }
+
     // Use this for initialization
     void Start()
     {
@@ -48,6 +59,9 @@ public class Settings : MonoBehaviour {
         numberOfPathsPerStreetParameterWrapper.OnVariableChange += enableSaveChanges;
         carsSpeedParameterWrapper.OnVariableChange += enableSaveChanges;
         distanceBetweenCarsParameterWrapper.OnVariableChange += enableSaveChanges;
+        lengthOfPatientParameterWrapper.OnVariableChange += enableSaveChanges;
+        widthOfTableParameterWrapper.OnVariableChange += enableSaveChanges;
+        soundDirectionsParameterWrapper.OnVariableChange += enableSaveChanges;
     }
     public void saveParameters()
     {
@@ -131,15 +145,21 @@ public class Settings : MonoBehaviour {
     }
     private void setExperementParameters()
     {
-        Debug.Log("numberOfPathsPerStreet"+ numberOfPathsPerStreetValue);
-        PlayerPrefs.SetString("numberOfPathsPerStreet", numberOfPathsPerStreetValue.ToString());
-        PlayerPrefs.SetString("streetsDirections", streetsDirectionsValue.ToString());
-        PlayerPrefs.SetString("carsSpeed", carsSpeedValue.ToString());
-        PlayerPrefs.SetString("distanceBetweenCars", distanceBetweenCarsValue.ToString());
+        Debug.Log("numberOfPathsPerStreet"+ this.numberOfPathsPerStreetValue);
+        PlayerPrefs.SetString("numberOfPathsPerStreet", this.numberOfPathsPerStreetValue.ToString());
+        PlayerPrefs.SetString("streetsDirections", this.streetsDirectionsValue.ToString());
+        PlayerPrefs.SetString("carsSpeed", this.carsSpeedValue.ToString());
+        PlayerPrefs.SetString("distanceBetweenCars", this.distanceBetweenCarsValue.ToString());
+        PlayerPrefs.SetString("lenthOfPaitnet", this.lengthOfPatientValue.ToString());
+        PlayerPrefs.SetString("widthOfTable", this.widthOfTableValue.ToString());
+        PlayerPrefs.SetString("soundDirections", this.soundDirectionsValue);
         PlayerPrefs.Save();
-        ExperementParameters.numberOfPathsPerStreet = numberOfPathsPerStreetValue;
-        ExperementParameters.streetsDirections = streetsDirectionsValue;
-        ExperementParameters.carsSpeed = carsSpeedValue;
-        ExperementParameters.distanceBetweenCars = distanceBetweenCarsValue;
+        ExperementParameters.numberOfPathsPerStreet = this.numberOfPathsPerStreetValue;
+        ExperementParameters.streetsDirections = this.streetsDirectionsValue;
+        ExperementParameters.carsSpeed = this.carsSpeedValue;
+        ExperementParameters.distanceBetweenCars = this.distanceBetweenCarsValue;
+        ExperementParameters.lengthOfPatient = this.lengthOfPatientValue;
+        ExperementParameters.widthOfTable = this.widthOfTableValue;
+        ExperementParameters.soundDirections = this.soundDirectionsValue;
     }
 }

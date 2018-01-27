@@ -8,7 +8,9 @@ public class ExperementParameters  {
     public static string streetsDirections = "Left";
     public static int distanceBetweenCars = 10;
     public static int carsSpeed = 20;
-
+    public static float lengthOfPatient;
+    public static float widthOfTable;
+    public static string soundDirections;
 
     
 }
