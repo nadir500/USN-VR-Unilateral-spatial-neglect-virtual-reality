@@ -20,6 +20,7 @@ public class Fading : MonoBehaviour {
 			 darkRedColor =new Color32(38,20,20,255);
 			 fadeImage= GameObject.Find("FadeImage") as GameObject;
 			 loadingImage= GameObject.Find("LoadingImage")as GameObject;
+			 loadingImage.SetActive(false);
 	}
     void OnGUI()
     {
@@ -41,7 +42,7 @@ public class Fading : MonoBehaviour {
        		fadecanvas.alpha = alpha;  //fading entirly 
 			if(RoadController.fadeout_after_crossing ==true)
 			{
-				//loadingImage.SetActive(false); adsfdf
+				loadingImage.SetActive(false); 
 
 				fadeDirection = -1;
                 Camera.main.cullingMask = everythingMask;
