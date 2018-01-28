@@ -112,6 +112,10 @@ GameObject:
   - component: {fileID: 65113409208635294}
   - component: {fileID: 65938675634465808}
   - component: {fileID: 65453857788009996}
+  - component: {fileID: 65965731514995958}
+  - component: {fileID: 65918473727064962}
+  - component: {fileID: 65468818531550042}
+  - component: {fileID: 65233411766515950}
   m_Layer: 0
   m_Name: MidWalk
   m_TagString: Untagged
@@ -461,6 +465,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 14.5, y: 0.46, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65233411766515950
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1075470026652728}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 14.5, y: 0.46, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65234546149299816
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -702,6 +718,18 @@ BoxCollider:
   m_Size: {x: 14.5, y: 0.46, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65462605584760084
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1075470026652728}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 14.5, y: 0.46, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65468818531550042
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1181,6 +1209,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 14.5, y: 0.46, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65918473727064962
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1075470026652728}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 14.5, y: 0.46, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65927042283725230
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1230,6 +1270,18 @@ BoxCollider:
   m_Size: {x: 14.5, y: 0.46, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65958779866754054
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1075470026652728}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 14.5, y: 0.46, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65965731514995958
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

@@ -122,7 +122,7 @@ public class RoadController : MonoBehaviour
         BuildingsWrapper.transform.position = new Vector3(lastPosition + 8f, 0, 0);
 
         StartCoroutine(TurnOnAndOfYellowArrows());
-        StartCoroutine(playSound("Go"));
+        
 
     }
     IEnumerator playSound(string s)
@@ -147,6 +147,7 @@ public class RoadController : MonoBehaviour
                 yellowArrowsSecondPath.SetActive(false);
             yield return new WaitForSeconds(0.5f);
         }
+        StartCoroutine(playSound("Go"));
     }
 
     /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
