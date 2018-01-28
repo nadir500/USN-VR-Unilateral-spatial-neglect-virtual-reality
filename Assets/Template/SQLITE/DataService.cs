@@ -65,8 +65,8 @@ public class DataService  {
 	}
 
 	public void CreateDB(){
-		_connection.DropTable<> ();
-		_connection.CreateTable<> ();
+		//_connection.DropTable<> ();
+	//	_connection.CreateTable<> ();
 
 		/* _connection.InsertAll (new[]{
 			new Person{
@@ -96,7 +96,7 @@ public class DataService  {
 		});*/
 	}
  
-	public IEnumerable<Person> GetPersons(){
+/*	public IEnumerable<Person> GetPersons(){
 		//return _connection.Table<Person>();
 	}
 
@@ -106,9 +106,9 @@ public class DataService  {
 
 	public Person GetJohnny(){
 		//return _connection.Table<Person>().Where(x => x.Name == "Johnny").FirstOrDefault();
-	}
+	}*/
 
-	public Person CreatePerson(){
+//	public Person CreatePerson(){
 	/*	var p = new Person{
 				Name = "Johnny",
 				Surname = "Mnemonic",
@@ -116,6 +116,6 @@ public class DataService  {
 		};
 		_connection.Insert (p);
 		return p;*/
-}
+//}
 	
 }

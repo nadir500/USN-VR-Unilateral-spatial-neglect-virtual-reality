@@ -7,26 +7,41 @@ public class CarMove : MonoBehaviour
     public float speed;
     public AudioClip enginSound;
     public AudioClip brakeSound;
+    public string currentClip = "";
     public AudioClip carHorn;
+    public AudioClip crash;
     public string[] roadType = new string[4];
     private Vector3 _start_car_position;
 
+
+
     string[] streetsDirections = ExperementParameters.streetsDirections.Split(' ');
-    AudioSource carAudio;
+    AudioSource carEngineAudio;
+    AudioSource carCrashSound;
+    AudioSource carBrakeSound;
 
     void Start()
     {
         enginSound = Resources.Load("Audio/CarEngine") as AudioClip;
         brakeSound = Resources.Load("Audio/tires_squal_loop") as AudioClip;
         carHorn = Resources.Load("Audio/Horn") as AudioClip;
-        this.GetComponent<AudioSource>().PlayOneShot(enginSound);
+        crash = Resources.Load("Audio/Impact") as AudioClip;
+
+
+
+
+
+        //this.GetComponent<AudioSource>().PlayOneShot(enginSound);
         speed = ExperementParameters.carsSpeed; //from UI
         _start_car_position = this.transform.position; //taking the prev position 
 
-        // slowMoTimeScale = Time.timeScale/factor;    //calculate the new timescale
-
         roadType = this.transform.parent.gameObject.name.Split(' ');
-        carAudio = this.GetComponent<AudioSource>();
+
+        carEngineAudio = this.GetComponent<AudioSource>();
+
+        carCrashSound = this.transform.GetChild(2).GetComponent<AudioSource>();
+
+        carBrakeSound = this.transform.GetChild(1).GetComponent<AudioSource>();
 
         // here
 
@@ -53,7 +68,7 @@ public class CarMove : MonoBehaviour
         if (!RoadController.fadeout_after_crossing)
         {
             FadeSound();
-            if (carAudio.volume == 0)
+            if (carEngineAudio.volume == 0)
             {
                 this.transform.position = _start_car_position;
                 rb.velocity = Vector3.zero;
@@ -73,27 +88,31 @@ public class CarMove : MonoBehaviour
 
 
     }
-
+    public void CrashSound()
+    {
+        carCrashSound.PlayOneShot(crash);
+    }
     public void onBrake()
     {
-        this.GetComponent<AudioSource>().PlayOneShot(brakeSound);
+        carBrakeSound.Play();
     }
-    public void onRemove()
+    public void RemoveBrakeSound()
     {
-        this.GetComponent<AudioSource>().PlayOneShot(enginSound);
+        carBrakeSound.Stop();
     }
-
     public void FadeSound()
     {
-        if (carAudio.volume != 0)   //audio threshold 
-            carAudio.volume -= 0.6f * Time.deltaTime;
+        if (carEngineAudio.volume != 0)   //audio threshold 
+            carEngineAudio.volume -= 0.6f * Time.deltaTime;
         //this.GetComponent<AudioSource>().Stop();
 
     }
 
+
     public void CarHorn()
     {
-        this.GetComponent<AudioSource>().PlayOneShot(carHorn);
+        carEngineAudio.PlayOneShot(carHorn); //playing beep beep with it besides engine 
 
     }
+
 }

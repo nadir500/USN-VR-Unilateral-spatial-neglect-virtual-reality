@@ -128,7 +128,8 @@ public class RoadController : MonoBehaviour
     IEnumerator playSound(string s)
     {
         audioSource = this.gameObject.GetComponent<AudioSource>();
-        AudioClip ac = Resources.Load("Audio/" + s) as AudioClip;
+        AudioClip ac = Resources.Load("Audio/DRSounds/" + s) as AudioClip;
+        Debug.Log("Clip" + ac.name);
         audioSource.clip = ac;
         yield return new WaitForSeconds(1);
 
