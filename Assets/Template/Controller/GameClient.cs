@@ -5,7 +5,7 @@ using LiteNetLib.Utils;
 public class GameClient : MonoBehaviour, INetEventListener
 {
     private NetManager _netClient;
-
+    private int isCross = 0;
     void Start()
     {
         _netClient = new NetManager(this);
@@ -20,11 +20,11 @@ public class GameClient : MonoBehaviour, INetEventListener
         var peer = _netClient.GetFirstPeer();
         if (peer != null && peer.ConnectionState == ConnectionState.Connected)
         {
-           
+
         }
         else
         {
-            _netClient.SendDiscoveryRequest(new byte[] {1}, 5000);
+            _netClient.SendDiscoveryRequest(new byte[] { 1 }, 5000);
         }
     }
 
@@ -48,7 +48,16 @@ public class GameClient : MonoBehaviour, INetEventListener
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader, DeliveryMethod deliveryMethod)
     {
         RoadController.fadeout_after_crossing = reader.GetBool();
-        StartCoroutine(GameObject.Find("FadeGameObject").GetComponent<Fading>().playSound("congratulations"));
+        if (isCross == 0)
+        {
+            StartCoroutine(GameObject.Find("FadeGameObject").GetComponent<Fading>().playSound("Congrats_Midwalk"));
+            isCross=1;
+        }
+        else
+        {
+            StartCoroutine(GameObject.Find("FadeGameObject").GetComponent<Fading>().playSound("ThankYou"));            
+        }
+
     }
 
     public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader,
@@ -68,7 +77,7 @@ public class GameClient : MonoBehaviour, INetEventListener
 
     public void OnConnectionRequest(ConnectionRequest request)
     {
-        
+
     }
 
     public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
