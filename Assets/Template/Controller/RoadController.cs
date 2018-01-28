@@ -115,14 +115,14 @@ public class RoadController : MonoBehaviour
         checkPointBoxCollider.size = new Vector3(14.5f, 0.46f, 10);
         checkPointBoxCollider.isTrigger = true;
         Instantiate(sidewalk, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
-        sideWalkYellowPoint = Instantiate(yellowPoint, new Vector3(lastPosition + 1, -0.5f, -8.98f), Quaternion.identity);
+        sideWalkYellowPoint = Instantiate(yellowPoint, new Vector3(lastPosition + 0.25f, -0.5f, -8.98f), Quaternion.identity);
         sideWalkYellowPoint.name = "sidewalkYellowPoint";
 
         sideWalkYellowPoint.SetActive(false);
         BuildingsWrapper.transform.position = new Vector3(lastPosition + 8f, 0, 0);
 
         StartCoroutine(TurnOnAndOfYellowArrows());
-        StartCoroutine(playSound("Go"));
+        
 
     }
     IEnumerator playSound(string s)
@@ -148,6 +148,7 @@ public class RoadController : MonoBehaviour
                 yellowArrowsSecondPath.SetActive(false);
             yield return new WaitForSeconds(0.5f);
         }
+        StartCoroutine(playSound("Go"));
     }
 
     /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */

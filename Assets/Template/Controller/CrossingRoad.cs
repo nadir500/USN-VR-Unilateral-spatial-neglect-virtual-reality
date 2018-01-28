@@ -59,9 +59,8 @@ public class CrossingRoad : MonoBehaviour
 
             //making the character position with the yellow point midwalk position 
 
-            midwalkYellowPoint.SetActive(false);
+            StartCoroutine(UpdateCheckPoint());
 
-            sidewalkYellowPoint.SetActive(true);
 
             GameObject.Find("FadeGameObject").GetComponent<Fading>().BeginFade(2);  //fade entirely and wait for re-positioning 
             Transform KVR = GameObject.Find("OnlineBodyView").transform;
@@ -89,6 +88,14 @@ public class CrossingRoad : MonoBehaviour
             isHitYellowball = 2;
             //putting audio source  you reached the end line 
         }
+    }
+
+    IEnumerator UpdateCheckPoint()
+    {
+        midwalkYellowPoint.SetActive(false);
+        yield return new WaitForSeconds(3);
+        sidewalkYellowPoint.SetActive(true);
+        
     }
     void Update()
     {

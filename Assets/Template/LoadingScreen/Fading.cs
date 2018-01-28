@@ -16,12 +16,13 @@ public class Fading : MonoBehaviour {
     LayerMask everythingMask = -1;
     AudioSource audioSource;
     void Start()
-	{
-			 darkRedColor =new Color32(38,20,20,255);
-			 fadeImage= GameObject.Find("FadeImage") as GameObject;
-			 loadingImage= GameObject.Find("LoadingImage")as GameObject;
-			 loadingImage.SetActive(false);
-	}
+    {
+        darkRedColor = new Color32(38, 20, 20, 255);
+        fadeImage = GameObject.Find("FadeImage") as GameObject;
+        loadingImage = GameObject.Find("LoadingImage") as GameObject;
+        loadingImage.SetActive(false);
+
+    }
     void OnGUI()
     {
 		if(fadeDirection ==1) //fading continously 
