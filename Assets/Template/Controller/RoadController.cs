@@ -115,7 +115,7 @@ public class RoadController : MonoBehaviour
         checkPointBoxCollider.size = new Vector3(14.5f, 0.46f, 10);
         checkPointBoxCollider.isTrigger = true;
         Instantiate(sidewalk, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
-        sideWalkYellowPoint = Instantiate(yellowPoint, new Vector3(lastPosition + 1, -0.5f, -8.98f), Quaternion.identity);
+        sideWalkYellowPoint = Instantiate(yellowPoint, new Vector3(lastPosition + 0.25f, -0.5f, -8.98f), Quaternion.identity);
         sideWalkYellowPoint.name = "sidewalkYellowPoint";
 
         sideWalkYellowPoint.SetActive(false);
