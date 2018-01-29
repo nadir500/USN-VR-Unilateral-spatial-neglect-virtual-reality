@@ -103,7 +103,12 @@ public class CarMove : MonoBehaviour
     public void FadeSound()
     {
         if (carEngineAudio.volume != 0)   //audio threshold 
+        {
             carEngineAudio.volume -= 0.6f * Time.deltaTime;
+            carBrakeSound.Stop();
+            carCrashSound.Stop();
+        }
+        
         //this.GetComponent<AudioSource>().Stop();
 
     }
