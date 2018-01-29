@@ -17,7 +17,7 @@ TagManager:
   - 
   - PlayerPoints
   - PlayerHeight
-  - 
+  - Cars
   - 
   - 
   - 
@@ -40,6 +40,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: UI
+    uniqueID: 3226888623
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

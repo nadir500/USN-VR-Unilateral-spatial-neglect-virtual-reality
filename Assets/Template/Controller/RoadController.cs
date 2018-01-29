@@ -81,7 +81,7 @@ public class RoadController : MonoBehaviour
             Instantiate(midWalk, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
 
 
-            midWalkYellowPoint = Instantiate(yellowPoint, new Vector3(4.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -0.5f, -8.98f), Quaternion.identity);
+            midWalkYellowPoint = Instantiate(yellowPoint, new Vector3(5.6f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -0.5f, -8.98f), Quaternion.identity);
             midWalkYellowPoint.name = "midwalkYellowPoint";
 
             yellowArrowsSecondPath = Instantiate(yellowArrows, new Vector3(-3.8f + lastPosition + 0.5f, -1.99f, -8.98f), Quaternion.identity);
