@@ -108,8 +108,6 @@ public class CarMove : MonoBehaviour
             carBrakeSound.Stop();
             carCrashSound.Stop();
         }
-        
-        //this.GetComponent<AudioSource>().Stop();
 
     }
 

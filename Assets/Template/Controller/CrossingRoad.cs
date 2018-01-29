@@ -93,7 +93,7 @@ public class CrossingRoad : MonoBehaviour
     IEnumerator UpdateCheckPoint()
     {
         midwalkYellowPoint.SetActive(false);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(6);
         sidewalkYellowPoint.SetActive(true);
         
     }
@@ -130,8 +130,8 @@ public class CrossingRoad : MonoBehaviour
 
                 Debug.Log("Distance between cars " + parent.gameObject.name + " " + Vector3.Distance(playerPos, carColliderPos));
 
-                //calculating the distance between the collided car and the player 
-                if (roadType[1].Equals(value: "Left") && distance <= 2.2f || roadType[1].Equals(value: "Right") && distance <= 2.2f)
+                //calculating the distance between the collided car and 2the player 
+                if (roadType[1].Equals(value: "Left") && distance <= 2.3f || roadType[1].Equals(value: "Right") && distance <= 2.3f)
                 {
                     StopCar();
 
