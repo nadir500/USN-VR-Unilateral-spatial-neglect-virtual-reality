@@ -64,9 +64,38 @@ public class DataService  {
 
 	}
 
-	public void CreateDB(){
-		//_connection.DropTable<> ();
-	//	_connection.CreateTable<> ();
+	public void CreatePlayer()
+	{
+
+	
+	Gameplay gamep=	new Gameplay{
+			street_direction="gg",
+			pathes_per_direction=2,
+			car_speed_km=2,
+			car_span_km=1,
+			sound_mode="sasd",
+			player_name="asdaw",
+			player_height = 1.5d
+		};
+		_connection.Insert (gamep);
+		/*_connection.DropTable<Gameplays> ();
+		_connection.CreateTable<Gameplays> ();
+		_connection.Insert(new Gameplays{
+			gameplay_id=1,
+			street_direction="gg",
+			pathes_per_street=2,
+			car_speed_km=2,
+			car_span_km=1,
+			sound_mode="sasd",
+			player_name="asdaw",
+			player_height = 1.5d
+
+			
+
+
+		}
+		
+		);*/
 
 		/* _connection.InsertAll (new[]{
 			new Person{

@@ -34,7 +34,7 @@ public class RoadController : MonoBehaviour
 
     AudioSource audioSource;
 
-    public void generateRoads()
+    public void generateRoads(bool hasID)
     {
         StringBuilder stringBuilder;
         //Assigning number of paths from the UI
@@ -67,7 +67,7 @@ public class RoadController : MonoBehaviour
             stringBuilder.Append(streetsDirections[0] + " ");
             stringBuilder.Append(i + 1);
             generatedRoad.name = stringBuilder.ToString();
-
+            if(hasID)  //has a player_id 
             //now i am instantiating the cars after preparing them in the line '31'
             Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x, RoadMeasure.y, RoadMeasure.z + 150), //here i'll take the road position from line 37 as the position of the generated  cars and the parent  is of course the road 
             RoadMeasure.z = 500 //do not be alerted by this parameter i'll remove it later 
@@ -101,7 +101,7 @@ public class RoadController : MonoBehaviour
                 stringBuilder.Append(streetsDirections[2] + " ");
                 stringBuilder.Append(i + 1);
                 generatedRoad.name = stringBuilder.ToString();
-
+                if(hasID)
                 //now i am instantiating the cars after preparing them in the line '59'
                 Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x, RoadMeasure.y, RoadMeasure.z + 150),//here i'll take the road position from line 37 as the position of the generated  cars and the parent  is of course the road 
                 RoadMeasure.z = 200.0f //i'll delete it later :/ 
