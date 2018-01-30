@@ -6,14 +6,16 @@ using System.IO;
 #endif
 using System.Collections.Generic;
 
-public class DataService  {
+public class DataService
+{
 
-	private SQLiteConnection _connection;
+    private SQLiteConnection _connection;
 
-	public DataService(string DatabaseName){
+    public DataService(string DatabaseName)
+    {
 
 #if UNITY_EDITOR
-            var dbPath = string.Format(@"Assets/StreamingAssets/{0}", DatabaseName);
+        var dbPath = string.Format(@"Assets/StreamingAssets/{0}", DatabaseName);
 #else
         // check if file exists in Application.persistentDataPath
         var filepath = string.Format("{0}/{1}", Application.persistentDataPath, DatabaseName);
@@ -24,7 +26,7 @@ public class DataService  {
             // if it doesn't ->
             // open StreamingAssets directory and load the db ->
 
-#if UNITY_ANDROID 
+#if UNITY_ANDROID
             var loadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseName);  // this is the path to your StreamingAssets in android
             while (!loadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
             // then save to Application.persistentDataPath
@@ -59,26 +61,27 @@ public class DataService  {
 
         var dbPath = filepath;
 #endif
-            _connection = new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-        Debug.Log("Final PATH: " + dbPath);     
+        _connection = new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+        Debug.Log("Final PATH: " + dbPath);
 
-	}
+    }
 
-	public void CreatePlayer()
-	{
+    public void CreateGameplay()
+    {
 
-	
-	Gameplay gamep=	new Gameplay{
-			street_direction="gg",
-			pathes_per_direction=2,
-			car_speed_km=2,
-			car_span_km=1,
-			sound_mode="sasd",
-			player_name="asdaw",
-			player_height = 1.5d
-		};
-		_connection.Insert (gamep);
-		/*_connection.DropTable<Gameplays> ();
+        //TODO: Linking it do the expermental parameters we have 
+        Gameplay gamep = new Gameplay
+        {
+            street_direction = "gg",
+            pathes_per_direction = 2,
+            car_speed_km = 2,
+            car_span_km = 1,
+            sound_mode = "sasd",
+            player_name = "asdaw",
+            player_height = 1.5d
+        };
+        _connection.Insert(gamep);
+        /*_connection.DropTable<Gameplays> ();
 		_connection.CreateTable<Gameplays> ();
 		_connection.Insert(new Gameplays{
 			gameplay_id=1,
@@ -97,7 +100,7 @@ public class DataService  {
 		
 		);*/
 
-		/* _connection.InsertAll (new[]{
+        /* _connection.InsertAll (new[]{
 			new Person{
 				Id = 1,
 				Name = "Tom",
@@ -123,28 +126,57 @@ public class DataService  {
 				Age = 37
 			}
 		});*/
+    }
+	public void CreateRoadCrossingData()
+	{
+		   StreetCrossingData gamep = new StreetCrossingData
+        {
+            
+        };
+        _connection.Insert(gamep);
 	}
- 
-/*	public IEnumerable<Person> GetPersons(){
-		//return _connection.Table<Person>();
-	}
+    //return tables data 
+    public IEnumerable<Gameplay> GetGameplayTable()
+    {
+        return _connection.Table<Gameplay>();
+    }
+    public IEnumerable<StreetCrossingData> GetRoadCrossingDataTable()
+    {
+        return _connection.Table<StreetCrossingData>();
+    }
+    public IEnumerable<GrabbedObjects> GetGrabbedObjectDataTable()
+    {
+        return _connection.Table<GrabbedObjects>();
+    }
 
-	public IEnumerable<Person> GetPersonsNamedRoberto(){
-	//	return _connection.Table<Person>().Where(x => x.Name == "Roberto");
-	}
+    public Gameplay GetGameplay() //getting the first row for gameplay data 
+    {
+        return _connection.Table<Gameplay>().Where(x => x.gameplay_id == 1).FirstOrDefault();
+    }
 
-	public Person GetJohnny(){
-		//return _connection.Table<Person>().Where(x => x.Name == "Johnny").FirstOrDefault();
-	}*/
 
-//	public Person CreatePerson(){
-	/*	var p = new Person{
+
+
+    /*	public IEnumerable<Person> GetPersons(){
+            //return _connection.Table<Person>();
+        }
+
+        public IEnumerable<Person> GetPersonsNamedRoberto(){
+        //	return _connection.Table<Person>().Where(x => x.Name == "Roberto");
+        }
+
+        public Person GetJohnny(){
+            //return _connection.Table<Person>().Where(x => x.Name == "Johnny").FirstOrDefault();
+        }*/
+
+    //	public Person CreatePerson(){
+    /*	var p = new Person{
 				Name = "Johnny",
 				Surname = "Mnemonic",
 				Age = 21
 		};
 		_connection.Insert (p);
 		return p;*/
-//}
-	
+    //}
+
 }

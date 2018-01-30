@@ -1,6 +1,6 @@
 ﻿using SQLite4Unity3d;
 
-public class Street_Crossing_Data   {
+public class StreetCrossingData   {
 
 		[PrimaryKey,AutoIncrement]
 	    public int street_crossing_data_id {get;set;}

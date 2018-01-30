@@ -9,6 +9,6 @@ DataService sqliteDS;
 	void Start()
     {
         sqliteDS=new DataService("USN_Simulation.db");
-        sqliteDS.CreatePlayer();
+       // sqliteDS.CreateGameplay();
     }
 }
