@@ -32,7 +32,7 @@ public class CrossingRoad : MonoBehaviour
     }
     void OnTriggerEnter(Collider hitBox)
     {
-        Debug.Log("Player Collided--->" + hitBox.name);
+        //Debug.Log("Player Collided--->" + hitBox.name);
         //ifffff caaaaaaaaar 
         if (hitBox.tag.Equals(value: "Car"))
         {
@@ -128,7 +128,7 @@ public class CrossingRoad : MonoBehaviour
 
                 distance = Vector3.Distance(playerPos, carColliderPos);
 
-                Debug.Log("Distance between cars " + parent.gameObject.name + " " + Vector3.Distance(playerPos, carColliderPos));
+                //Debug.Log("Distance between cars " + parent.gameObject.name + " " + Vector3.Distance(playerPos, carColliderPos));
 
                 //calculating the distance between the collided car and 2the player 
                 if (roadType[1].Equals(value: "Left") && distance <= 2.3f || roadType[1].Equals(value: "Right") && distance <= 2.3f)

@@ -34,6 +34,10 @@ public class RoadController : MonoBehaviour
 
     AudioSource audioSource;
 
+    public ExperimentObserves experimentObserves;
+
+
+
     public void generateRoads()
     {
         StringBuilder stringBuilder;
@@ -122,7 +126,8 @@ public class RoadController : MonoBehaviour
         BuildingsWrapper.transform.position = new Vector3(lastPosition + 8f, 0, 0);
 
         StartCoroutine(TurnOnAndOfYellowArrows());
-        
+
+        experimentObserves.Initilize();
 
     }
     IEnumerator playSound(string s)

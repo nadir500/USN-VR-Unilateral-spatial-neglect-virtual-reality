@@ -10,6 +10,7 @@ public class MyConsol : MonoBehaviour {
 	void Start () {
         consolText = this.gameObject.GetComponent<Text>();
         scroll = this.transform.parent.GetChild(1).GetComponent<Scrollbar>();
+        InvokeRepeating("clearConsol", 1f, 1f);
 	}
 	
     public static void log(string s)
@@ -19,5 +20,9 @@ public class MyConsol : MonoBehaviour {
             consolText.text += s + "\t"+"\n";
         scroll.value = 0;
 
+    }
+    void clearConsol()
+    {
+        consolText.text = "";
     }
 }
