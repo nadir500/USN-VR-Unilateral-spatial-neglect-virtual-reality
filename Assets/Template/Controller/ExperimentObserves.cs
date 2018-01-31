@@ -10,7 +10,9 @@ public class ExperimentObserves : MonoBehaviour {
     public GameObject mainCamera;
     public GameObject onlineBodyView;
     private Transform SpineMid = null;
-
+    public RoadController roadController;
+    public List<GameObject> carsReferences;
+    string[] roadtype;
     //public GameObject car;
 
     bool onFrameWorking;
@@ -43,8 +45,11 @@ public class ExperimentObserves : MonoBehaviour {
         }
         
         playerPositions.Add(SpineMid.position);
-        Debug.Log("pos = "+ SpineMid.position);
+      //  Debug.Log("pos = "+ SpineMid.position);
+      
+       // CheckDistanceBetweenPlayerAndNearestCar();
 
+        Debug.Log("CheckDistanceBetweenPlayerAndNearestCar " + CheckDistanceBetweenPlayerAndNearestCar());
         //Vector3 screenPoint = mainCamera.GetComponent<Camera>().WorldToViewportPoint(car.transform.position);
         //bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
         //Debug.Log("x = "+ screenPoint.x+","+ "y = " + screenPoint.y + "," + "z = " + screenPoint.z);
@@ -92,4 +97,23 @@ public class ExperimentObserves : MonoBehaviour {
             //MyConsol.log(e.Message.ToString());
         }
     }
+
+
+    public float  CheckDistanceBetweenPlayerAndNearestCar()
+    {
+        roadtype = carsReferences[PlayerOnPlath.currentPath].gameObject.name.Split(' ');
+
+        if ((PlayerOnPlath.currentPath != -1)
+            && (carsReferences[PlayerOnPlath.currentPath] != null)
+            &&( 
+                ((carsReferences[PlayerOnPlath.currentPath].transform.position.z < SpineMid.transform.position.z) && (roadtype[1].Equals(value:"Left")))
+                ||((carsReferences[PlayerOnPlath.currentPath].transform.position.z > SpineMid.transform.position.z) && (roadtype[1].Equals(value: "Right"))))
+              )
+            return Vector3.Distance(SpineMid.transform.position, carsReferences[PlayerOnPlath.currentPath].transform.position);
+        else
+            return -1.0f;
+
+    }
+
+
 }

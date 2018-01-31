@@ -35,8 +35,8 @@ public class RoadController : MonoBehaviour
     AudioSource audioSource;
 
     public ExperimentObserves experimentObserves;
-
-
+    public List<GameObject> carsReferences;
+    private int pathGenerateIndex = 0;
 
     public void generateRoads()
     {
@@ -44,6 +44,8 @@ public class RoadController : MonoBehaviour
         //Assigning number of paths from the UI
 
         numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
+        carsReferences = new List<GameObject>();
+       // Debug.Log("Car Refernces "+carsReferences.Length); 
 
         //making a prefab copy with a number enough to coer a whole one path 
         car_handler1 = new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, numberOfPathsInSingleRoad, true, "");
@@ -65,6 +67,11 @@ public class RoadController : MonoBehaviour
             stringBuilder = new StringBuilder();
             RoadMeasure = new Vector3(7.51f + (streetPathWidth * i), -2.0f, 0.0f);
             GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity) as GameObject;
+            foreach(Transform child in generatedRoad.transform)
+            {
+                child.gameObject.name = pathGenerateIndex.ToString();
+                pathGenerateIndex++;
+            }
             //i'll take each road generated (the cars are from left to right movement) and rename it into a specific name
             //i used string builder for the performance issues
             stringBuilder.Append("Road ");
@@ -100,7 +107,13 @@ public class RoadController : MonoBehaviour
 
                 RoadMeasure = new Vector3(8.85f + (streetPathWidth * i) + (streetPathWidth * (numberOfPathsInSingleRoad / 2)), -2.0f, 0.0f);
                 GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity);
+                foreach (Transform child in generatedRoad.transform)
+                {
+                    child.gameObject.name = pathGenerateIndex.ToString();
+                    pathGenerateIndex++;
 
+
+                }
                 stringBuilder.Append("Road ");
                 stringBuilder.Append(streetsDirections[2] + " ");
                 stringBuilder.Append(i + 1);
@@ -127,6 +140,9 @@ public class RoadController : MonoBehaviour
 
         StartCoroutine(TurnOnAndOfYellowArrows());
 
+
+        experimentObserves.roadController = this;
+        experimentObserves.carsReferences = this.carsReferences;
         experimentObserves.Initilize();
 
     }
@@ -177,10 +193,12 @@ public class RoadController : MonoBehaviour
                                                                         Quaternion.Euler(new Vector3(0, -90, 0))); //the rotation of course 
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, -90, 0)); //this is temporary 
                 car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
-                car.AddComponent<CarMove>(); //adding the car movement component              
+                car.AddComponent<CarMove>(); //adding the car movement component  
+                carsReferences.Add(car);
+                Debug.Log("Car Left References " + carsReferences[i].name);
 
             }
-            else
+            
             if (roadType[1].Equals(value: "Right")) //from right to left 
             {
                 //now instantiate the cars with the positions explained above 
@@ -193,6 +211,11 @@ public class RoadController : MonoBehaviour
 
                 car.transform.position += new Vector3(0, 0, -360); //this is for making a translate to -400 which is far far right 
                 car.AddComponent<CarMove>(); //adding the car moce component 
+                carsReferences.Add(car);
+
+                Debug.Log("Car Left References " + carsReferences[i].name);
+
+
             }
         }
     }

@@ -52,19 +52,18 @@ public class MainMenu : MonoBehaviour {
     }
     public void newGame()
     {
-       /* Debug.Log("newGame()");
+        Debug.Log("newGame()");
         uiMainCanvas.enabled = false;
         roadController.generateRoads();
-        VRSettings.enabled = true;*/
+        VRSettings.enabled = true;
 
 
     }
     public void loadGame()
     {
-        hasID=false;
         Debug.Log("PLAY GAME ()");
         uiMainCanvas.enabled = false;
-        roadController.generateRoads(hasID);
+        roadController.generateRoads();
         VRSettings.enabled = true;
     }
     public void settings()

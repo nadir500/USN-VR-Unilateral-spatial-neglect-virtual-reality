@@ -29,8 +29,8 @@ public class HandModel : MonoBehaviour {
 	}
 
 	public void Open (){
-		anim.clip = anim.GetClip ("open");
-		anim.Play ();
+		//anim.clip = anim.GetClip ("open");
+		//anim.Play ();
 	//	Debug.Log ("Open");
 		//anim.CrossFade ("open",0.5f);
 	}
