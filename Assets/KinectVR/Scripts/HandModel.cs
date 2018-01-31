@@ -38,7 +38,7 @@ public class HandModel : MonoBehaviour {
 	public void Close(){
 		//anim.clip = anim.GetClip ("closed");
 		//anim.Play ();
-		Debug.Log ("Close");
+		//Debug.Log ("Close");
 		//anim.CrossFade ("closed",0.5f);
 	}
 
