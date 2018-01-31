@@ -81,61 +81,17 @@ public class DataService
             player_height = 1.5d
         };
         _connection.Insert(gamep);
-        /*_connection.DropTable<Gameplays> ();
-		_connection.CreateTable<Gameplays> ();
-		_connection.Insert(new Gameplays{
-			gameplay_id=1,
-			street_direction="gg",
-			pathes_per_street=2,
-			car_speed_km=2,
-			car_span_km=1,
-			sound_mode="sasd",
-			player_name="asdaw",
-			player_height = 1.5d
-
-			
-
-
-		}
-		
-		);*/
-
-        /* _connection.InsertAll (new[]{
-			new Person{
-				Id = 1,
-				Name = "Tom",
-				Surname = "Perez",
-				Age = 56
-			},
-			new Person{
-				Id = 2,
-				Name = "Fred",
-				Surname = "Arthurson",
-				Age = 16
-			},
-			new Person{
-				Id = 3,
-				Name = "John",
-				Surname = "Doe",
-				Age = 25
-			},
-			new Person{
-				Id = 4,
-				Name = "Roberto",
-				Surname = "Huertas",
-				Age = 37
-			}
-		});*/
+      
     }
 	public void CreateRoadCrossingData()
 	{
-		   StreetCrossingData gamep = new StreetCrossingData
+		   StreetCrossingData gameplayObject = new StreetCrossingData
         {
             
         };
-        _connection.Insert(gamep);
+        _connection.Insert(gameplayObject);
 	}
-    //return tables data 
+    /*******************************************return table in array form so we can extract it using foreach************************************/
     public IEnumerable<Gameplay> GetGameplayTable()
     {
         return _connection.Table<Gameplay>();
@@ -149,34 +105,9 @@ public class DataService
         return _connection.Table<GrabbedObjects>();
     }
 
+	/***********************************************GET DATA FROM DB******************************************** */
     public Gameplay GetGameplay() //getting the first row for gameplay data 
     {
         return _connection.Table<Gameplay>().Where(x => x.gameplay_id == 1).FirstOrDefault();
     }
-
-
-
-
-    /*	public IEnumerable<Person> GetPersons(){
-            //return _connection.Table<Person>();
-        }
-
-        public IEnumerable<Person> GetPersonsNamedRoberto(){
-        //	return _connection.Table<Person>().Where(x => x.Name == "Roberto");
-        }
-
-        public Person GetJohnny(){
-            //return _connection.Table<Person>().Where(x => x.Name == "Johnny").FirstOrDefault();
-        }*/
-
-    //	public Person CreatePerson(){
-    /*	var p = new Person{
-				Name = "Johnny",
-				Surname = "Mnemonic",
-				Age = 21
-		};
-		_connection.Insert (p);
-		return p;*/
-    //}
-
 }
