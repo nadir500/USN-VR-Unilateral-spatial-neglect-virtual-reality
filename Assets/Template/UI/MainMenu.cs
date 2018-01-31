@@ -13,6 +13,8 @@ public class MainMenu : MonoBehaviour {
     public RoadController roadController;
     public Canvas uiMainCanvas;
 
+    private bool hasID;
+
     // Use this for initialization
     void Start () {
         active = true;
@@ -22,6 +24,9 @@ public class MainMenu : MonoBehaviour {
         uiMainCanvas.enabled = true;
         setExperementParametersToLastSavedOnes();
         VRSettings.enabled = false;
+
+        //connect to db sqlite to see if it has ID 
+
     }
 
     public void setExperementParametersToLastSavedOnes()
@@ -47,15 +52,20 @@ public class MainMenu : MonoBehaviour {
     }
     public void newGame()
     {
-        Debug.Log("newGame()");
+       /* Debug.Log("newGame()");
         uiMainCanvas.enabled = false;
         roadController.generateRoads();
-        VRSettings.enabled = true;
+        VRSettings.enabled = true;*/
+
+
     }
     public void loadGame()
     {
-        Debug.Log("loadGame()");
+        hasID=false;
+        Debug.Log("PLAY GAME ()");
         uiMainCanvas.enabled = false;
+        roadController.generateRoads(hasID);
+        VRSettings.enabled = true;
     }
     public void settings()
     {
