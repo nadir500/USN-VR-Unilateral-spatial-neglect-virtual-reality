@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour {
     public RoadController roadController;
     public Canvas uiMainCanvas;
 
-    private bool hasID;
+    private bool hasChangedSettings;
 
     // Use this for initialization
     void Start () {
@@ -52,19 +52,18 @@ public class MainMenu : MonoBehaviour {
     }
     public void newGame()
     {
-       /* Debug.Log("newGame()");
+        Debug.Log("newGame()");
         uiMainCanvas.enabled = false;
-        roadController.generateRoads();
-        VRSettings.enabled = true;*/
+        roadController.generateRoads(hasChangedSettings);
+        VRSettings.enabled = true;
 
 
     }
     public void loadGame()
     {
-        hasID=false;
         Debug.Log("PLAY GAME ()");
         uiMainCanvas.enabled = false;
-        roadController.generateRoads(hasID);
+        roadController.generateRoads(hasChangedSettings);
         VRSettings.enabled = true;
     }
     public void settings()
