@@ -16,6 +16,7 @@ public class RoadController : MonoBehaviour
 
 
     public GameObject yellowArrows;         // reference to the prafab of yellowArrows point of   |   assigned in the inspector to the resources/prafabs/yellowArrows gameObject
+    public CarController carController;
 
 
     public const float streetPathWidth = 5;        //  the width of pair of paths
@@ -26,14 +27,8 @@ public class RoadController : MonoBehaviour
     private BoxCollider checkPointBoxCollider;              // ?? (to nadir)
 
     string[] streetsDirections;                             // ?? (to nadir)
-
-
-
     private GameObject yellowArrowsFirstPath = null;
     private GameObject yellowArrowsSecondPath = null;
-    private CarController carController;
-
-
 
     AudioSource audioSource;
 
@@ -43,8 +38,6 @@ public class RoadController : MonoBehaviour
     void Start()
     {
         checkPointsController.startTheGameCheckPointReachedEvent += TurnOnAndOfYellowArrowsThenSayGo;
-        carController = GameObject.Find("CarController").GetComponent<CarController>();
-
     }
     public void generateRoads()
     {
@@ -117,11 +110,6 @@ public class RoadController : MonoBehaviour
 
 
             carController.InstantiateCarsFastRoad(generatedRoad.transform,car_handler);
-            //now i am instantiating the cars after preparing them in the line '31'
-           // Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x, RoadMeasure.y, RoadMeasure.z + 150), //here i'll take the road position from line 37 as the position of the generated  cars and the parent  is of course the road 
-
-          //   generatedRoad //the road game object
-           // , car_handler1); //passing the handler to summon a function that make a new gameobject to the scene (cars)
         }
     }
 
@@ -144,49 +132,5 @@ public class RoadController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         audioController.playAudioClip("Go");
-    }
-
-    /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
-    public void Instantiate_Cars_FastRoad(
-                                Vector3 beginPoint, //the generated road from lines 31 59
-                                                GameObject roadParent  //the road gameObject that is generated
-                                                    , GameObjectHandler carObjectHandler) //the handler from object pooling class
-    {
-        //here everytime i am taking the gameObject.name of the road and spliting it then taking the index [1] to know which direction this road is    
-        string[] roadType = roadParent.name.Split(' ');
-
-        for (int i = 0; i < 2; i++) //2 cars each road
-        {
-            //now i am seperating between going cars which is the cars from left to right direction
-            //and back cars which is from right to left direction
-            if (roadType[1].Equals(value: "Left"))  //from left to right 
-            {
-                //now instantiate the cars with the positions explained above 
-                GameObject car = carObjectHandler.RetrieveInstance(
-                    new Vector3(0.3f/*way from the edge of the corner*/+ beginPoint.x + 2.5f * i, beginPoint.y, beginPoint.z + ExperementParameters.distanceBetweenCars * i), //putting the position with the distance between each car
-                                                                        Quaternion.Euler(new Vector3(0, -90, 0))); //the rotation of course 
-                car.transform.localRotation = Quaternion.Euler(new Vector3(0, -90, 0)); //this is temporary 
-                car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
-                car.AddComponent<CarMove>(); //adding the car movement component  
-                carsReferences.Add(car);
-                Debug.Log("Car Left References " + carsReferences[i].name);
-
-            }
-
-            if (roadType[1].Equals(value: "Right")) //from right to left 
-            {
-                //now instantiate the cars with the positions explained above 
-
-                GameObject car = carObjectHandler.RetrieveInstance(
-                    new Vector3(/*adjust the distance from the edge of the corner*/beginPoint.x - 0.3f - 2.5f * i, beginPoint.y, beginPoint.z - ExperementParameters.distanceBetweenCars * i),//putting the position with the distance between each car
-                                                                    Quaternion.Euler(new Vector3(0, 90, 0)));//the rotation of course
-                car.transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));//this is temporary
-                car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
-                car.transform.position += new Vector3(0, 0, -360); //this is for making a translate to -400 which is far far right 
-                car.AddComponent<CarMove>(); //adding the car moce component 
-                carsReferences.Add(car);
-                Debug.Log("Car Left References " + carsReferences[i].name);
-            }
-        }
     }
 }

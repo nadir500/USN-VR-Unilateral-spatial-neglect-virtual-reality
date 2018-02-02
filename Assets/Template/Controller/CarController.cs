@@ -39,7 +39,7 @@ public class CarController : MonoBehaviour {
                 
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, -90, 0)); //this is temporary 
 			    car.AddComponent<CarMove>();  //adding the car movement component  
-				car.GetComponent<CarMove>().carDirection = "Left";      //descripe which direction 
+				car.GetComponent<CarMove>().carDirection = "Left";      //describe which direction 
                 carRefernces.Add(car);        //referncing it to a list 
             }
 
