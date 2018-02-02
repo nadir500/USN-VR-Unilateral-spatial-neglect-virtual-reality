@@ -14,20 +14,12 @@ public class CrossingRoad : MonoBehaviour
     bool carHorn = false;
     bool isHitByCar = true;
     float distance;
-    string[] roadType;
+    string carDirection;
     int isHitYellowball = 0;
     LayerMask uiMask = (1 << 5);
-
-
-    //public void initilization()
-    //{
-    //    audioSource = this.GetComponent<AudioSource>();
-    //    StartCoroutine(playSound("Go"));
-
-    //}
     void Start()
     {
-        fadeObject = GameObject.Find("FadeGameObject").GetComponent<Fading>();
+        fadeObject = GameObject.Find("FadeController").GetComponent<Fading>();
 
     }
     void OnTriggerEnter(Collider hitBox)
@@ -36,13 +28,11 @@ public class CrossingRoad : MonoBehaviour
         //ifffff caaaaaaaaar 
         if (hitBox.tag.Equals(value: "Car"))
         {
-            roadType = new string[4];
             parent = hitBox.transform.parent.gameObject; //bringing car game object collided with the player 
             rb = parent.GetComponent<Rigidbody>();
-
+            carDirection  = hitBox.gameObject.GetComponent<CarMove>().carDirection;
             playerGB = this.gameObject; //we'll put it in an apropriate place in the hierarchy 
             carColliderGB = hitBox.gameObject;
-            roadType = parent.GetComponent<CarMove>().roadType;
             rb.drag = 40;
 
             //fade in dark red color as the car hits the player 
@@ -131,7 +121,7 @@ public class CrossingRoad : MonoBehaviour
                 //Debug.Log("Distance between cars " + parent.gameObject.name + " " + Vector3.Distance(playerPos, carColliderPos));
 
                 //calculating the distance between the collided car and 2the player 
-                if (roadType[1].Equals(value: "Left") && distance <= 2.3f || roadType[1].Equals(value: "Right") && distance <= 2.3f)
+                if (carDirection.Equals(value: "Left") && distance <= 2.3f || carDirection.Equals(value: "Right") && distance <= 2.3f)
                 {
                     StopCar();
 

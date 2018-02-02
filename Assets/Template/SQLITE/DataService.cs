@@ -70,6 +70,7 @@ public class DataService
     {
 
         //TODO: Linking it do the expermental parameters we have 
+
         Gameplay gamePlay = new Gameplay
         {
             street_direction = ExperementParameters.streetsDirections,
@@ -77,30 +78,44 @@ public class DataService
             car_speed_km = ExperementParameters.carsSpeed,
             car_span_km = ExperementParameters.distanceBetweenCars,
             sound_mode = ExperementParameters.soundDirections,
-            player_name = "test",
+            player_name = "Omar",
             player_height = (double)ExperementParameters.lengthOfPatient
         };
+
         _connection.Insert(gamePlay);
+        Debug.Log("CREATED GAMEPLAY TO SQLITE DB");
     }
-	public void CreateRoadCrossingData(int gameplay_id,
-                                                string traffic_flow_towards,int current_time_span,
+    public void CreateRoadCrossingData(
+                                                string traffic_flow_towards, int current_time_span,
                                                                  double current_distance_nearest_car, bool gazing_car,
                                                                                            bool gazing_nearest_car, bool after_collision_frame)
-	{
-		   StreetCrossingData gameplayObject = new StreetCrossingData
+    {
+        StreetCrossingData streetCrossingData = new StreetCrossingData
         {
-           gameplay_id= gameplay_id,
-         traffic_flow_towards=   traffic_flow_towards,
-        current_time_span =    current_time_span,
-        current_distance_nearest_car =  current_distance_nearest_car,
-          gaze_car= gazing_car,
-           gaze_nearest_car= gazing_nearest_car,
-         after_collision_frame =   after_collision_frame
+            gameplay_id = ExperementParameters.gameplay_id,  //storing from the static variable in the class
+            traffic_flow_towards = traffic_flow_towards,
+            current_time_span = current_time_span,
+            current_distance_nearest_car = current_distance_nearest_car,
+            gaze_car = gazing_car,
+            gaze_nearest_car = gazing_nearest_car,
+            after_collision_frame = after_collision_frame
         };
-        _connection.Insert(gameplayObject);
-	}
+        _connection.Insert(streetCrossingData);
+    }
 
+    public Gameplay GetGameplayByID(int gameplay_id)  //stored in playerPref 
+    {
 
+        return _connection.Table<Gameplay>().Where(x => x.gameplay_id == gameplay_id).First();
+
+    }
+    public int GetGameplayIDFromDatabase()  //stored in playerPref 
+    {
+        Debug.Log("GET  GAMEPLAY ID FROM SQLITE DB");
+        return _connection.Table<Gameplay>().Select(x => x.gameplay_id).Count();
+        //return  _connection.Table<Gameplay>().Where(x => x.gameplay_id == gameplay_id_last).First();
+
+    }
 
     /*******************************************return table in array form so we can extract it using foreach************************************/
     public IEnumerable<Gameplay> GetGameplayTable()
@@ -116,9 +131,6 @@ public class DataService
         return _connection.Table<GrabbedObjects>();
     }
 
-	/***********************************************GET DATA FROM DB******************************************** */
-    public Gameplay GetGameplay() //getting the first row for gameplay data 
-    {
-        return _connection.Table<Gameplay>().Where(x => x.gameplay_id == 1).FirstOrDefault();
-    }
+    /***********************************************GET DATA FROM DB******************************************** */
+
 }

@@ -2,7 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Settings : MonoBehaviour {
+public class Settings : MonoBehaviour
+{
 
     private Animator settingsAnimator;
     private bool active;
@@ -25,7 +26,7 @@ public class Settings : MonoBehaviour {
     public int distanceBetweenCarsValue { get { return int.Parse(distanceBetweenCarsParameterWrapper.parameterValue.Split(' ')[0].ToString()); } set { distanceBetweenCarsParameterWrapper.parameterValue = value.ToString(); } }
 
     public SettingsParameter carsSpeedParameterWrapper;
-    public int carsSpeedValue { get { return  int.Parse(carsSpeedParameterWrapper.parameterValue.Split(' ')[0].ToString()); } set { carsSpeedParameterWrapper.parameterValue = value.ToString(); } }
+    public int carsSpeedValue { get { return int.Parse(carsSpeedParameterWrapper.parameterValue.Split(' ')[0].ToString()); } set { carsSpeedParameterWrapper.parameterValue = value.ToString(); } }
 
     public SettingsParameter lengthOfPatientParameterWrapper;
     public float lengthOfPatientValue { get { return float.Parse(lengthOfPatientParameterWrapper.parameterValue); } set { lengthOfPatientParameterWrapper.parameterValue = value.ToString(); } }
@@ -39,7 +40,6 @@ public class Settings : MonoBehaviour {
     public SettingsParameter observeFrameRateParameterWrapper;
     public float observeFrameRateValue { get { return float.Parse(observeFrameRateParameterWrapper.parameterValue); } set { observeFrameRateParameterWrapper.parameterValue = value.ToString(); } }
     // Use this for initialization
-
     void Start()
     {
         active = false;
@@ -49,21 +49,21 @@ public class Settings : MonoBehaviour {
         saveButton.onClick.AddListener(saveParameters);
         saveButton.interactable = false;
         myCanvas.enabled = false;
-        
         linkEvents();
-        
+
 
     }
     public void linkEvents()
     {
         mode.OnVariableChange += changeModeHandler;
         mode.OnVariableChange += enableSaveChanges;
+
         streetsDirectionsparameterWrapper.OnVariableChange += enableSaveChanges;
         numberOfPathsPerStreetParameterWrapper.OnVariableChange += enableSaveChanges;
         carsSpeedParameterWrapper.OnVariableChange += enableSaveChanges;
         distanceBetweenCarsParameterWrapper.OnVariableChange += enableSaveChanges;
         lengthOfPatientParameterWrapper.OnVariableChange += enableSaveChanges;
-        widthOfTableParameterWrapper.OnVariableChange += enableSaveChanges;
+       // widthOfTableParameterWrapper.OnVariableChange += enableSaveChanges;
         soundDirectionsParameterWrapper.OnVariableChange += enableSaveChanges;
     }
     public void saveParameters()
@@ -73,14 +73,14 @@ public class Settings : MonoBehaviour {
     }
     public void hide()
     {
-        if(saveButton.interactable)
+        if (saveButton.interactable)
         {
             saveWindow.GetComponent<Canvas>().enabled = true;
             return;
         }
         active = false;
         settingsAnimator.SetBool("Active", active);
-        mainMenuWrapper.GetComponent<MainMenu>().show();  
+        mainMenuWrapper.GetComponent<MainMenu>().show();
     }
     public void saveButtonInSaveWindow()
     {
@@ -103,7 +103,7 @@ public class Settings : MonoBehaviour {
         yield return new WaitForSeconds(0.3f);
         myCanvas.enabled = false;
     }
-	private void changeModeHandler()
+    private void changeModeHandler()
     {
         Debug.Log("changeModeHandler");
         switch (modeValue)
@@ -148,7 +148,8 @@ public class Settings : MonoBehaviour {
     }
     private void setExperementParameters()
     {
-        Debug.Log("numberOfPathsPerStreet"+ this.numberOfPathsPerStreetValue);
+        DataService _sqlite_dataServices = new DataService("USN_Simulation.db");
+
         PlayerPrefs.SetString("numberOfPathsPerStreet", this.numberOfPathsPerStreetValue.ToString());
         PlayerPrefs.SetString("streetsDirections", this.streetsDirectionsValue.ToString());
         PlayerPrefs.SetString("carsSpeed", this.carsSpeedValue.ToString());
@@ -156,7 +157,7 @@ public class Settings : MonoBehaviour {
         PlayerPrefs.SetString("lenthOfPaitnet", this.lengthOfPatientValue.ToString());
         PlayerPrefs.SetString("widthOfTable", this.widthOfTableValue.ToString());
         PlayerPrefs.SetString("soundDirections", this.soundDirectionsValue);
-        PlayerPrefs.Save();
+
         ExperementParameters.numberOfPathsPerStreet = this.numberOfPathsPerStreetValue;
         ExperementParameters.streetsDirections = this.streetsDirectionsValue;
         ExperementParameters.carsSpeed = this.carsSpeedValue;
@@ -164,5 +165,12 @@ public class Settings : MonoBehaviour {
         ExperementParameters.lengthOfPatient = this.lengthOfPatientValue;
         ExperementParameters.widthOfTable = this.widthOfTableValue;
         ExperementParameters.soundDirections = this.soundDirectionsValue;
+
+        _sqlite_dataServices.CreateGameplay();
+        
+        ExperementParameters.gameplay_id  =  _sqlite_dataServices.GetGameplayIDFromDatabase(); //last item in my SQLITE DB
+        
+        PlayerPrefs.SetFloat("gameplay_id", ExperementParameters.gameplay_id);  //storing gameplay_id for SQL SERVER Later :D
+        PlayerPrefs.Save();
     }
 }
