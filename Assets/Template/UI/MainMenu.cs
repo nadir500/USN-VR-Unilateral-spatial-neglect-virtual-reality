@@ -17,13 +17,14 @@ public class MainMenu : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        VRSettings.enabled = false;
         active = true;
         myCanvas = this.gameObject.GetComponent<Canvas>();
         mainMenuAnimator = this.gameObject.GetComponent<Animator>();
         myCanvas.enabled = true;
         uiMainCanvas.enabled = true;
         setExperementParametersToLastSavedOnes();
-        VRSettings.enabled = false;
+        
 
         //connect to db sqlite to see if it has ID 
 

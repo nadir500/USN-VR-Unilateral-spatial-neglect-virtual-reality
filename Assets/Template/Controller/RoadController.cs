@@ -7,159 +7,126 @@ public class RoadController : MonoBehaviour
 {
 
 
-    public GameObject sidewalk;
-    public GameObject streatPath;
-    public GameObject midWalk;
-    const int streetPathWidth = 5; //feet
-    const float sidewalkWidth = 2.5f;
-    public GameObject BuildingsWrapper;
-    public static bool fadeout_after_crossing = true;
-    private int numberOfPathsInSingleRoad = 2;
+    public GameObject sidewalk;             // reference to the prafab of side walk         |   assigned in the inspector to the resources/prafabs/Sidewalk gameObject
+    public GameObject streatPath;           // reference to the prefab of the street path   |   assigned in the inspector to the resources/prafabs/Path gameObject
+    public GameObject midWalk;              // reference to the prefab of the mid-walk      |   assigned in the inspector to the resources/prafabs/MidWalk gameObject
+    public GameObject BuildingsWrapper;     // reference to the gameobject of BuildingWrapper in the hierarchy
+    public CheckPointsController checkPointsController;
+    public AudioController audioController;
+
+
+    public GameObject yellowArrows;         // reference to the prafab of yellowArrows point of   |   assigned in the inspector to the resources/prafabs/yellowArrows gameObject
+
+
+    public const float streetPathWidth = 5;        //  the width of pair of paths
+    public const float sidewalkWidth = 5f;         //  the width of sidewalk
+    public const float midwalkWidth = 1.36f;       //  the width of midwalk
     private Vector3 RoadMeasure;
-    private Vector3 startPosition = new Vector3(10f, -2.0f, 0.0f);
-    private List<Vector3> beginPoints = new List<Vector3>();
-    private List<float> endPoints = new List<float>();
-    private GameObjectHandler car_handler1;
-    string[] streetsDirections;
 
-    public GameObject midWalkYellowPoint = null;
-    public GameObject sideWalkYellowPoint = null;
+    public static bool fadeout_after_crossing = true;       // ?? (to nadir)
+    private BoxCollider checkPointBoxCollider;              // ?? (to nadir)
 
-    private GameObject yellowArrowsFirstPath = null;
+    private GameObjectHandler car_handler1;                 // ?? (to nadir)
+    string[] streetsDirections;                             // ?? (to nadir)
+
+
+
+    private GameObject yellowArrowsFirstPath = null;    
     private GameObject yellowArrowsSecondPath = null;
 
-    public GameObject yellowPoint;
-    public GameObject yellowArrows;
-    private BoxCollider checkPointBoxCollider;
+
+
 
     AudioSource audioSource;
 
-    public ExperimentObserves experimentObserves;
+
     public List<GameObject> carsReferences;
-    private int pathGenerateIndex = 0;
 
-    public void generateRoads(bool hasChangedSettings)
+    void Start()
     {
-        StringBuilder stringBuilder;
+        checkPointsController.startTheGameCheckPointReachedEvent += TurnOnAndOfYellowArrowsThenSayGo;
+    }
+    public void generateRoads()
+    {
         //Assigning number of paths from the UI
-
-        numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
+        int pathGenerateIndex = 0;
+        int numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
         carsReferences = new List<GameObject>();
-       // Debug.Log("Car Refernces "+carsReferences.Length); 
+        car_handler1 = new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, numberOfPathsInSingleRoad, true, "");//making a prefab copy with a number enough to coer a whole one path 
+                                                                                                                               //i am using string builder to rename the roads into a correct format just to make it easy reaching them
 
-        //making a prefab copy with a number enough to coer a whole one path 
-        car_handler1 = new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, numberOfPathsInSingleRoad, true, "");
-        //i am using string builder to rename the roads into a correct format just to make it easy reaching them
+        float lastPosition = sidewalkWidth + midwalkWidth + (streetPathWidth/4) +streetPathWidth * (numberOfPathsInSingleRoad / 2);
 
-        streetsDirections = ExperementParameters.streetsDirections.Split(' ');
-
-        //Debug.Log("streetsDirections");
-        //for(int i = 0; i < streetsDirections.Length; i++)
-        //    Debug.Log("streetsDirections["+i+"] = "+ streetsDirections[i]);
-
-        float lastPosition = 5f + streetPathWidth * (numberOfPathsInSingleRoad / 2);
         yellowArrowsFirstPath = Instantiate(yellowArrows, new Vector3(4.7f + (streetPathWidth * numberOfPathsInSingleRoad / 4), -1.99f, -8.98f), Quaternion.identity);
         if (ExperementParameters.streetsDirections.Split()[0].Equals("Right"))
             yellowArrowsFirstPath.transform.localScale = new Vector3(1, 1, -1);
+
         //Road #1
+        createDirection(sidewalkWidth + (streetPathWidth / 2), ref pathGenerateIndex, 0);
+
+        if (ExperementParameters.streetsDirections.Length > 1)
+        {
+
+            Instantiate(midWalk, new Vector3(sidewalkWidth + (midwalkWidth / 2) + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
+
+            yellowArrowsSecondPath = Instantiate(yellowArrows, new Vector3(lastPosition, -1.99f, -8.98f), Quaternion.identity);
+            if (ExperementParameters.streetsDirections.Equals("Left To Right"))
+                yellowArrowsSecondPath.transform.localScale = new Vector3(1, 1, -1);
+
+            //Road #2
+            createDirection(sidewalkWidth + (streetPathWidth / 2) + midwalkWidth + (streetPathWidth * (numberOfPathsInSingleRoad / 2)), ref pathGenerateIndex, 2);
+
+        }
+        Instantiate(sidewalk, new Vector3((sidewalkWidth) + (midwalkWidth) + streetPathWidth * (numberOfPathsInSingleRoad), -0.0012f, 0.0f), Quaternion.identity);
+
+        BuildingsWrapper.transform.position = new Vector3((sidewalkWidth * 2) + (midwalkWidth) + streetPathWidth * (numberOfPathsInSingleRoad), 0, 0);
+
+        checkPointBoxCollider = midWalk.AddComponent<BoxCollider>();
+        checkPointBoxCollider.size = new Vector3(14.5f, 0.46f, 10);
+        checkPointBoxCollider.isTrigger = true;
+
+
+    }
+
+    public void createDirection(float startPositionAtX, ref int pathGenerateIndex, int indexOfDirection)
+    {
+        int numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
+        streetsDirections = ExperementParameters.streetsDirections.Split(' ');
+
         for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
         {
-            stringBuilder = new StringBuilder();
-            RoadMeasure = new Vector3(7.51f + (streetPathWidth * i), -2.0f, 0.0f);
+            RoadMeasure = new Vector3(startPositionAtX + (streetPathWidth * i), -2.0f, 0.0f);
             GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity) as GameObject;
-            foreach(Transform child in generatedRoad.transform)
+            foreach (Transform child in generatedRoad.transform)
             {
                 child.gameObject.name = pathGenerateIndex.ToString();
                 pathGenerateIndex++;
             }
             //i'll take each road generated (the cars are from left to right movement) and rename it into a specific name
             //i used string builder for the performance issues
+            StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("Road ");
-            stringBuilder.Append(streetsDirections[0] + " ");
+
+            stringBuilder.Append(streetsDirections[indexOfDirection] + " ");
             stringBuilder.Append(i + 1);
             generatedRoad.name = stringBuilder.ToString();
-            //if (!hasChangedSettings)
-                //now i am instantiating the cars after preparing them in the line '31'
-                Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x, RoadMeasure.y, RoadMeasure.z + 150), //here i'll take the road position from line 37 as the position of the generated  cars and the parent  is of course the road 
-                RoadMeasure.z = 500 //do not be alerted by this parameter i'll remove it later 
-                , generatedRoad //the road game object
-                , car_handler1); //passing the handler to summon a function that make a new gameobject to the scene (cars)
+
+            //now i am instantiating the cars after preparing them in the line '31'
+            Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x, RoadMeasure.y, RoadMeasure.z + 150), //here i'll take the road position from line 37 as the position of the generated  cars and the parent  is of course the road 
+            RoadMeasure.z = 500 //do not be alerted by this parameter i'll remove it later 
+            , generatedRoad //the road game object
+            , car_handler1); //passing the handler to summon a function that make a new gameobject to the scene (cars)
         }
-        if (streetsDirections.Length > 1)
-        {
-            lastPosition = 6.25f + (streetPathWidth * numberOfPathsInSingleRoad);
-            // add the mid walk
-            Instantiate(midWalk, new Vector3(5.68f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
-
-
-            midWalkYellowPoint = Instantiate(yellowPoint, new Vector3(5.6f + streetPathWidth * (numberOfPathsInSingleRoad / 2), -0.5f, -8.98f), Quaternion.identity);
-            midWalkYellowPoint.name = "midwalkYellowPoint";
-
-            yellowArrowsSecondPath = Instantiate(yellowArrows, new Vector3(-3.8f + lastPosition + 0.5f, -1.99f, -8.98f), Quaternion.identity);
-            if (ExperementParameters.streetsDirections.Equals("Left To Right"))
-                yellowArrowsSecondPath.transform.localScale = new Vector3(1, 1, -1);
-            //yellowArrowsSecondPath.transform.localScale = new Vector3(1, 1, -1);
-            //Road #2
-            for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
-            {
-                stringBuilder = new StringBuilder();
-                //i'll take each road generated (the cars are from right to left movement) and rename it into a specific name via string builder
-
-                RoadMeasure = new Vector3(8.85f + (streetPathWidth * i) + (streetPathWidth * (numberOfPathsInSingleRoad / 2)), -2.0f, 0.0f);
-                GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity);
-                foreach (Transform child in generatedRoad.transform)
-                {
-                    child.gameObject.name = pathGenerateIndex.ToString();
-                    pathGenerateIndex++;
-
-
-                }
-                stringBuilder.Append("Road ");
-                stringBuilder.Append(streetsDirections[2] + " ");
-                stringBuilder.Append(i + 1);
-                generatedRoad.name = stringBuilder.ToString();
-              //  if (!hasChangedSettings)
-
-                    //now i am instantiating the cars after preparing them in the line '59'
-                    Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x, RoadMeasure.y, RoadMeasure.z + 150),//here i'll take the road position from line 37 as the position of the generated  cars and the parent  is of course the road 
-                    RoadMeasure.z = 200.0f //i'll delete it later :/ 
-                    , generatedRoad //the road game object 
-                    , car_handler1);  //passing the handler to summon a function that make a new gameobject to the scene (cars)
-            }
-
-
-        }
-        checkPointBoxCollider = midWalk.AddComponent<BoxCollider>();
-        checkPointBoxCollider.size = new Vector3(14.5f, 0.46f, 10);
-        checkPointBoxCollider.isTrigger = true;
-        Instantiate(sidewalk, new Vector3(lastPosition, -0.0012f, 0.0f), Quaternion.identity);
-        sideWalkYellowPoint = Instantiate(yellowPoint, new Vector3(lastPosition + 0.25f, -0.5f, -8.98f), Quaternion.identity);
-        sideWalkYellowPoint.name = "sidewalkYellowPoint";
-
-        sideWalkYellowPoint.SetActive(false);
-        BuildingsWrapper.transform.position = new Vector3(lastPosition + 8f, 0, 0);
-
-        StartCoroutine(TurnOnAndOfYellowArrows());
-
-
-        experimentObserves.roadController = this;
-        experimentObserves.carsReferences = this.carsReferences;
-        experimentObserves.Initilize();
-
     }
-    IEnumerator playSound(string s)
-    {
-        audioSource = this.gameObject.GetComponent<AudioSource>();
-        AudioClip ac = Resources.Load("Audio/DRSounds/" + s) as AudioClip;
-        Debug.Log("Clip" + ac.name);
-        audioSource.clip = ac;
-        yield return new WaitForSeconds(1);
 
-        audioSource.Play();
-    }
-    IEnumerator TurnOnAndOfYellowArrows()
+
+    void TurnOnAndOfYellowArrowsThenSayGo()
     {
-        for (int i = 0; i < 4; i++)
+        StartCoroutine(TurnOnAndOfYellowArrowsThenSayGoWithTimePeriods());
+    }
+    IEnumerator TurnOnAndOfYellowArrowsThenSayGoWithTimePeriods()
+    {
+        for (int i = 0; i < 3; i++)
         {
             yellowArrowsFirstPath.SetActive(true);
             if (yellowArrowsSecondPath != null)
@@ -170,7 +137,7 @@ public class RoadController : MonoBehaviour
                 yellowArrowsSecondPath.SetActive(false);
             yield return new WaitForSeconds(0.5f);
         }
-        StartCoroutine(playSound("Go"));
+        audioController.playAudioClip("Go");
     }
 
     /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
@@ -199,7 +166,7 @@ public class RoadController : MonoBehaviour
                 Debug.Log("Car Left References " + carsReferences[i].name);
 
             }
-            
+
             if (roadType[1].Equals(value: "Right")) //from right to left 
             {
                 //now instantiate the cars with the positions explained above 
@@ -209,14 +176,10 @@ public class RoadController : MonoBehaviour
                                                                     Quaternion.Euler(new Vector3(0, 90, 0)));//the rotation of course
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));//this is temporary
                 car.transform.parent = roadParent.transform; //and then putting it as a child to the "Side_Go + i" generated road
-
                 car.transform.position += new Vector3(0, 0, -360); //this is for making a translate to -400 which is far far right 
                 car.AddComponent<CarMove>(); //adding the car moce component 
                 carsReferences.Add(car);
-
                 Debug.Log("Car Left References " + carsReferences[i].name);
-
-
             }
         }
     }

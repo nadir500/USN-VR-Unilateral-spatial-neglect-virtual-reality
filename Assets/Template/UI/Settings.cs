@@ -1,9 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Settings : MonoBehaviour {
+
     private Animator settingsAnimator;
     private bool active;
     private Canvas myCanvas;
@@ -36,7 +36,10 @@ public class Settings : MonoBehaviour {
     public SettingsParameter soundDirectionsParameterWrapper;
     public string soundDirectionsValue { get { return soundDirectionsParameterWrapper.parameterValue; } set { soundDirectionsParameterWrapper.parameterValue = value; } }
 
+    public SettingsParameter observeFrameRateParameterWrapper;
+    public float observeFrameRateValue { get { return float.Parse(observeFrameRateParameterWrapper.parameterValue); } set { observeFrameRateParameterWrapper.parameterValue = value.ToString(); } }
     // Use this for initialization
+
     void Start()
     {
         active = false;

@@ -7,9 +7,9 @@ public class CarMove : MonoBehaviour
     public float speed;
     public AudioClip enginSound;
     public AudioClip brakeSound;
-    public string currentClip = "";
     public AudioClip carHorn;
     public AudioClip crash;
+    public string currentClip = "";
     public string[] roadType = new string[4];
     private Vector3 _start_car_position;
 
@@ -26,11 +26,6 @@ public class CarMove : MonoBehaviour
         brakeSound = Resources.Load("Audio/tires_squal_loop") as AudioClip;
         carHorn = Resources.Load("Audio/Horn") as AudioClip;
         crash = Resources.Load("Audio/Impact") as AudioClip;
-
-
-
-
-
         //this.GetComponent<AudioSource>().PlayOneShot(enginSound);
         speed = ExperementParameters.carsSpeed; //from UI
         _start_car_position = this.transform.position; //taking the prev position 
@@ -43,7 +38,43 @@ public class CarMove : MonoBehaviour
 
         carBrakeSound = this.transform.GetChild(1).GetComponent<AudioSource>();
 
-        // here
+        switch (ExperementParameters.soundDirections)
+        {
+            case "Off":
+                {
+                    carEngineAudio.volume = 0;
+                    carCrashSound.volume = 0;
+                    carBrakeSound.volume = 0;
+
+                    break;
+                }
+            case "Left":
+                {
+                    carEngineAudio.panStereo = -1;
+                    carCrashSound.panStereo = -1;
+                    carBrakeSound.panStereo = -1;
+                    break;
+                }
+            case "Right":
+                {
+                    carEngineAudio.panStereo = 1;
+                    carCrashSound.panStereo = 1;
+                    carBrakeSound.panStereo = 1;
+                    break;
+                }
+            case "Both":
+                {
+                    carEngineAudio.volume = 1;
+                    carCrashSound.volume = 1;
+                    carBrakeSound.volume = 1;
+                    carEngineAudio.panStereo = 0;
+                    carCrashSound.panStereo = 0;
+                    carBrakeSound.panStereo = 0;
+                    break;
+                }
+           
+        }
+     
 
     }
 
