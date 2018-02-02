@@ -11,17 +11,13 @@ public class CarBrake : MonoBehaviour {
 		bool carHorn=false;
 		bool isHit=false;
 		float distance ; 
-		string [] roadType;
     void OnTriggerEnter(Collider playerCollider)
     {
-		 roadType = new string [4];
 		 parent = this.transform.parent.gameObject;
 		 rb = parent.GetComponent<Rigidbody>();
 
 	     playerGB = playerCollider.gameObject;
 		 carColliderGB = this.gameObject;
-		 roadType = parent.GetComponent<CarMove>().roadType;
-
      	 rb.drag = 40;
 
 		 isHit=true;

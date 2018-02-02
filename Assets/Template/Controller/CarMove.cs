@@ -10,8 +10,9 @@ public class CarMove : MonoBehaviour
     public AudioClip carHorn;
     public AudioClip crash;
     public string currentClip = "";
-    public string[] roadType = new string[4];
+    public string carDirection;
     private Vector3 _start_car_position;
+
 
 
 
@@ -29,8 +30,6 @@ public class CarMove : MonoBehaviour
         //this.GetComponent<AudioSource>().PlayOneShot(enginSound);
         speed = ExperementParameters.carsSpeed; //from UI
         _start_car_position = this.transform.position; //taking the prev position 
-
-        roadType = this.transform.parent.gameObject.name.Split(' ');
 
         carEngineAudio = this.GetComponent<AudioSource>();
 
@@ -82,7 +81,7 @@ public class CarMove : MonoBehaviour
     {
         var rb = this.GetComponent<Rigidbody>();
         //i need to know which road is this is it from left to right road? and vice versa 
-        if (roadType[1].Equals(value: "Left"))// && RoadController.fadeout_after_crossing == true)
+        if (carDirection.Equals(value: "Left"))// && RoadController.fadeout_after_crossing == true)
         {
 
             rb.velocity = -Vector3.forward * speed;
@@ -90,7 +89,7 @@ public class CarMove : MonoBehaviour
         }
         else
         {
-            if (roadType[1].Equals(value: "Right"))// && RoadController.fadeout_after_crossing == true)
+            if (carDirection.Equals(value: "Right"))// && RoadController.fadeout_after_crossing == true)
             {
                 rb.velocity = Vector3.forward * speed;
                 //rb.isKinematic=false;

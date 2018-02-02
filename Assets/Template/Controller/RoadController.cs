@@ -21,19 +21,17 @@ public class RoadController : MonoBehaviour
     public const float streetPathWidth = 5;        //  the width of pair of paths
     public const float sidewalkWidth = 5f;         //  the width of sidewalk
     public const float midwalkWidth = 1.36f;       //  the width of midwalk
-    private Vector3 RoadMeasure;
 
     public static bool fadeout_after_crossing = true;       // ?? (to nadir)
     private BoxCollider checkPointBoxCollider;              // ?? (to nadir)
 
-    private GameObjectHandler car_handler1;                 // ?? (to nadir)
     string[] streetsDirections;                             // ?? (to nadir)
 
 
 
-    private GameObject yellowArrowsFirstPath = null;    
+    private GameObject yellowArrowsFirstPath = null;
     private GameObject yellowArrowsSecondPath = null;
-
+    private CarController carController;
 
 
 
@@ -45,6 +43,8 @@ public class RoadController : MonoBehaviour
     void Start()
     {
         checkPointsController.startTheGameCheckPointReachedEvent += TurnOnAndOfYellowArrowsThenSayGo;
+        carController = GameObject.Find("CarController").GetComponent<CarController>();
+
     }
     public void generateRoads()
     {
@@ -52,10 +52,9 @@ public class RoadController : MonoBehaviour
         int pathGenerateIndex = 0;
         int numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
         carsReferences = new List<GameObject>();
-        car_handler1 = new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, numberOfPathsInSingleRoad, true, "");//making a prefab copy with a number enough to coer a whole one path 
-                                                                                                                               //i am using string builder to rename the roads into a correct format just to make it easy reaching them
+        //i am using string builder to rename the roads into a correct format just to make it easy reaching them
 
-        float lastPosition = sidewalkWidth + midwalkWidth + (streetPathWidth/4) +streetPathWidth * (numberOfPathsInSingleRoad / 2);
+        float lastPosition = sidewalkWidth + midwalkWidth + (streetPathWidth / 4) + streetPathWidth * (numberOfPathsInSingleRoad / 2);
 
         yellowArrowsFirstPath = Instantiate(yellowArrows, new Vector3(4.7f + (streetPathWidth * numberOfPathsInSingleRoad / 4), -1.99f, -8.98f), Quaternion.identity);
         if (ExperementParameters.streetsDirections.Split()[0].Equals("Right"))
@@ -91,31 +90,38 @@ public class RoadController : MonoBehaviour
     public void createDirection(float startPositionAtX, ref int pathGenerateIndex, int indexOfDirection)
     {
         int numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
-        streetsDirections = ExperementParameters.streetsDirections.Split(' ');
-
+        GameObjectHandler car_handler =
+                  new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, //pooling from the prefab with copies that is like the number of paths in each street
+                                              numberOfPathsInSingleRoad,
+                                                                      true, "");//making a prefab copy with a number enough to coer a whole one path 
+       
+        streetsDirections = ExperementParameters.streetsDirections.Split(' '); //to be able to name the streets
         for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
         {
-            RoadMeasure = new Vector3(startPositionAtX + (streetPathWidth * i), -2.0f, 0.0f);
+            Vector3 RoadMeasure = new Vector3(startPositionAtX + (streetPathWidth * i), -2.0f, 0.0f);
             GameObject generatedRoad = Instantiate(streatPath, RoadMeasure, Quaternion.identity) as GameObject;
+
             foreach (Transform child in generatedRoad.transform)
             {
                 child.gameObject.name = pathGenerateIndex.ToString();
                 pathGenerateIndex++;
             }
+
             //i'll take each road generated (the cars are from left to right movement) and rename it into a specific name
             //i used string builder for the performance issues
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("Road ");
-
             stringBuilder.Append(streetsDirections[indexOfDirection] + " ");
             stringBuilder.Append(i + 1);
             generatedRoad.name = stringBuilder.ToString();
 
+
+            carController.InstantiateCarsFastRoad(generatedRoad.transform,car_handler);
             //now i am instantiating the cars after preparing them in the line '31'
-            Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x, RoadMeasure.y, RoadMeasure.z + 150), //here i'll take the road position from line 37 as the position of the generated  cars and the parent  is of course the road 
-            RoadMeasure.z = 500 //do not be alerted by this parameter i'll remove it later 
-            , generatedRoad //the road game object
-            , car_handler1); //passing the handler to summon a function that make a new gameobject to the scene (cars)
+           // Instantiate_Cars_FastRoad(new Vector3(RoadMeasure.x, RoadMeasure.y, RoadMeasure.z + 150), //here i'll take the road position from line 37 as the position of the generated  cars and the parent  is of course the road 
+
+          //   generatedRoad //the road game object
+           // , car_handler1); //passing the handler to summon a function that make a new gameobject to the scene (cars)
         }
     }
 
@@ -143,7 +149,7 @@ public class RoadController : MonoBehaviour
     /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
     public void Instantiate_Cars_FastRoad(
                                 Vector3 beginPoint, //the generated road from lines 31 59
-                                               float endPoint, GameObject roadParent  //the road gameObject that is generated
+                                                GameObject roadParent  //the road gameObject that is generated
                                                     , GameObjectHandler carObjectHandler) //the handler from object pooling class
     {
         //here everytime i am taking the gameObject.name of the road and spliting it then taking the index [1] to know which direction this road is    

@@ -21,7 +21,7 @@ public class CheckPointsController : MonoBehaviour {
     public checkPointsReached backToMidWalkCheckPointReachedEvent;
     public checkPointsReached otherSideCheckPointReachedEvent;
 
-    /********************This should be removed my Mr nadir prevez*****************/
+    /********************This should be removed by(it was "my" --Edited by nadir pervez :p --) Mr nadir prevez*****************/
     Fading fadeObject;
     LayerMask uiMask = (1 << 5);
     /******************************************************************************/

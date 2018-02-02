@@ -13,8 +13,6 @@ public class MainMenu : MonoBehaviour {
     public RoadController roadController;
     public Canvas uiMainCanvas;
 
-    private bool hasID;
-
     // Use this for initialization
     void Start () {
         VRSettings.enabled = false;
@@ -40,7 +38,11 @@ public class MainMenu : MonoBehaviour {
             ExperementParameters.carsSpeed = int.Parse(PlayerPrefs.GetString("carsSpeed"));
         if (PlayerPrefs.HasKey("distanceBetweenCars") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("distanceBetweenCars"))))
             ExperementParameters.distanceBetweenCars = int.Parse(PlayerPrefs.GetString("distanceBetweenCars"));
+        if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
+            ExperementParameters.gameplay_id = int.Parse(PlayerPrefs.GetString("gameplay_id"));
+        
     }
+    
     public void hide()
     {
         active = false;

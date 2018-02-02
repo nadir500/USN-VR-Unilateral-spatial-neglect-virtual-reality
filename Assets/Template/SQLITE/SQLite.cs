@@ -2892,7 +2892,7 @@ namespace SQLite4Unity3d
 		{
 			return GenerateCommand("count(*)").ExecuteScalar<int> ();			
 		}
-
+		
 		public int Count (Expression<Func<T, bool>> predExpr)
 		{
 			return Where (predExpr).Count ();
