@@ -70,27 +70,38 @@ public class DataService
     {
 
         //TODO: Linking it do the expermental parameters we have 
-        Gameplay gamep = new Gameplay
+        Gameplay gamePlay = new Gameplay
         {
-            street_direction = "gg",
-            pathes_per_direction = 2,
-            car_speed_km = 2,
-            car_span_km = 1,
-            sound_mode = "sasd",
-            player_name = "asdaw",
-            player_height = 1.5d
+            street_direction = ExperementParameters.streetsDirections,
+            pathes_per_direction = ExperementParameters.numberOfPathsPerStreet,
+            car_speed_km = ExperementParameters.carsSpeed,
+            car_span_km = ExperementParameters.distanceBetweenCars,
+            sound_mode = ExperementParameters.soundDirections,
+            player_name = "test",
+            player_height = (double)ExperementParameters.lengthOfPatient
         };
-        _connection.Insert(gamep);
-      
+        _connection.Insert(gamePlay);
     }
-	public void CreateRoadCrossingData()
+	public void CreateRoadCrossingData(int gameplay_id,
+                                                string traffic_flow_towards,int current_time_span,
+                                                                 double current_distance_nearest_car, bool gazing_car,
+                                                                                           bool gazing_nearest_car, bool after_collision_frame)
 	{
 		   StreetCrossingData gameplayObject = new StreetCrossingData
         {
-            
+           gameplay_id= gameplay_id,
+         traffic_flow_towards=   traffic_flow_towards,
+        current_time_span =    current_time_span,
+        current_distance_nearest_car =  current_distance_nearest_car,
+          gaze_car= gazing_car,
+           gaze_nearest_car= gazing_nearest_car,
+         after_collision_frame =   after_collision_frame
         };
         _connection.Insert(gameplayObject);
 	}
+
+
+
     /*******************************************return table in array form so we can extract it using foreach************************************/
     public IEnumerable<Gameplay> GetGameplayTable()
     {

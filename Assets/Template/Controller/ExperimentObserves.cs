@@ -4,24 +4,33 @@ using UnityEngine;
 
 public class ExperimentObserves : MonoBehaviour {
 
+    CheckPointsController checkPointsController;
+
     private List<Vector3> playerPositions;
     private List<Vector2> playerHeadRotations;
+    private List<bool> isLookingAtCar;
 
     public GameObject mainCamera;
     public GameObject onlineBodyView;
     private Transform SpineMid = null;
-    public RoadController roadController;
+
+
+    /***************this sould be removed by nadir prevez****************/
     public List<GameObject> carsReferences;
     string[] roadtype;
     //public GameObject car;
-
+    /********************************************************************/
     bool onFrameWorking;
     // Use this for initialization
+    void Start()
+    {
+        checkPointsController.startTheGameCheckPointReachedEvent += Initilize;
+    }
     public void Initilize () {
         onFrameWorking = false;
         playerPositions = new List<Vector3>();
         playerHeadRotations = new List<Vector2>();
-
+        
 
         InvokeRepeating("searchOnPlayer", 1f, 1f);
     }
@@ -101,15 +110,21 @@ public class ExperimentObserves : MonoBehaviour {
 
     public float  CheckDistanceBetweenPlayerAndNearestCar()
     {
-        roadtype = carsReferences[PlayerOnPlath.currentPath].gameObject.name.Split(' ');
-
+        Debug.Log("player on path current path variable " + PlayerOnPlath.currentPath + "and index " + carsReferences.Count);
         if ((PlayerOnPlath.currentPath != -1)
-            && (carsReferences[PlayerOnPlath.currentPath] != null)
-            &&( 
-                ((carsReferences[PlayerOnPlath.currentPath].transform.position.z < SpineMid.transform.position.z) && (roadtype[1].Equals(value:"Left")))
-                ||((carsReferences[PlayerOnPlath.currentPath].transform.position.z > SpineMid.transform.position.z) && (roadtype[1].Equals(value: "Right"))))
-              )
-            return Vector3.Distance(SpineMid.transform.position, carsReferences[PlayerOnPlath.currentPath].transform.position);
+            && (carsReferences[PlayerOnPlath.currentPath] != null))
+        {
+            
+            roadtype = carsReferences[PlayerOnPlath.currentPath].transform.parent.gameObject.name.Split(' ');
+            Debug.Log("ROAD TYPE " + roadtype[1]);
+            Debug.Log("CARRRRRRRR " + carsReferences[PlayerOnPlath.currentPath].name);
+            if ((carsReferences[PlayerOnPlath.currentPath].transform.position.z < SpineMid.transform.position.z) && (roadtype[1].Equals(value: "Left"))
+            || ((carsReferences[PlayerOnPlath.currentPath].transform.position.z > SpineMid.transform.position.z) && (roadtype[1].Equals(value: "Right"))))
+
+                return Vector3.Distance(SpineMid.transform.position, carsReferences[PlayerOnPlath.currentPath].transform.position);
+            else
+                return -1.0f;
+        }
         else
             return -1.0f;
 
