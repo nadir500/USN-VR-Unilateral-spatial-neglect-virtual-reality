@@ -11,6 +11,8 @@ public class CarController : MonoBehaviour
     public const float sidewalkWidth = 5f;         //  the width of sidewalk
     public const float midwalkWidth = 1.36f;       //  the width of midwalk
 
+    public static int numberOfRenderdCars;
+
     public CheckPointsController checkPointsController;
 
     void Start()
@@ -32,7 +34,6 @@ public class CarController : MonoBehaviour
     {
         string[] carDirection = ExperementParameters.streetsDirections.Split(); //knowing which rotation and direction to instatiate the car
         int numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
-        float lastPosition = sidewalkWidth + midwalkWidth + (streetPathWidth / 4) + streetPathWidth * (numberOfPathsInSingleRoad / 2);
         GameObjectHandler carObjectHandler =
                           new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, //pooling from the prefab with copies that is like the number of paths in each street
                                                       numberOfPathsInSingleRoad*2,
@@ -44,13 +45,7 @@ public class CarController : MonoBehaviour
             //and back cars which is from right to left direction
             if (carDirection[0].Equals(value: "Left") || carDirection[2].Equals(value: "Left"))  //from left to right 
             {
-                GameObject car = carObjectHandler.RetrieveInstance(new Vector3(4.7f + (streetPathWidth * numberOfPathsInSingleRoad / 4), -2.0f, 0.0f), Quaternion.Euler(new Vector3(0, -90, 0)));
-                Debug.Log("Instantiaed");
-                //now instantiate the cars with the positions explained above 
-                //  GameObject car = carObjectHandler.RetrieveInstance(
-                //  new Vector3(0.3f/*way from the edge of the corner*/+ roadParent.position.x + 2.5f * i, roadParent.position.y, roadParent.position.z + ExperementParameters.distanceBetweenCars * i + 195.0f), //putting the position with the distance between each car
-                //                Quaternion.Euler(new Vector3(0, -90, 0))); //the rotation of course 
-                //
+                GameObject car = carObjectHandler.RetrieveInstance(new Vector3(sidewalkWidth + (streetPathWidth * numberOfPathsInSingleRoad / 4), -2.0f, 0.0f), Quaternion.Euler(new Vector3(0, -90, 0)));
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, -90, 0)); //this is temporary 
                 car.AddComponent<CarMove>();  //adding the car movement component  
                 car.GetComponent<CarMove>().carDirection = "Left";      //describe which direction 
@@ -60,11 +55,6 @@ public class CarController : MonoBehaviour
             if (carDirection[0].Equals(value: "Right") || carDirection[2].Equals(value: "Right"))  //from right to left 
             {
                 GameObject car = carObjectHandler.RetrieveInstance(new Vector3(4.7f + (streetPathWidth * numberOfPathsInSingleRoad / 4), -2.0f, 0.0f), Quaternion.identity);
-
-                //now instantiate the cars with the positions explained above 
-                // GameObject car = carObjectHandler.RetrieveInstance(
-                //    new Vector3(roadParent.position.x - 0.3f - 2.5f * i, roadParent.position.y, roadParent.position.z - 195.0f - ExperementParameters.distanceBetweenCars * i),//putting the position with the distance between each car
-                //                 Quaternion.Euler(new Vector3(0, 90, 0)));   //the rotation of course
 
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));//this is temporary
                 car.AddComponent<CarMove>(); //adding the car moce component 

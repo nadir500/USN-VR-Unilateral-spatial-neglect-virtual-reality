@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CarMove : MonoBehaviour
 {
+
+
     public float speed;
     public AudioClip enginSound;
     public AudioClip brakeSound;
@@ -15,14 +17,27 @@ public class CarMove : MonoBehaviour
 
 
 
-
-    string[] streetsDirections = ExperementParameters.streetsDirections.Split(' ');
     AudioSource carEngineAudio;
     AudioSource carCrashSound;
     AudioSource carBrakeSound;
 
+    bool isRendered = false;
+    bool lastIsRenderdState = false;
+
+    private Renderer renderer;
+    void Update()
+    {
+        isRendered = renderer.isVisible;
+        if (isRendered != lastIsRenderdState)
+        {
+            CarController.numberOfRenderdCars = (isRendered) ? CarController.numberOfRenderdCars + 1 : CarController.numberOfRenderdCars - 1;
+            lastIsRenderdState = isRendered;
+        }
+    }
+
     void Start()
     {
+        renderer = GetComponent<Renderer>();
         enginSound = Resources.Load("Audio/CarEngine") as AudioClip;
         brakeSound = Resources.Load("Audio/tires_squal_loop") as AudioClip;
         carHorn = Resources.Load("Audio/Horn") as AudioClip;

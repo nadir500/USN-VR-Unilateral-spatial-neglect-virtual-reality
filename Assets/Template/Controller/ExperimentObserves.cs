@@ -5,10 +5,8 @@ using UnityEngine;
 public class ExperimentObserves : MonoBehaviour {
 
     CheckPointsController checkPointsController;
-
-    private List<Vector3> playerPositions;      // took from spineMid GameObject
-    private List<Vector2> playerHeadRotations;  // took from the camira
-    private List<bool> isLookingAtCar;          // took from each car
+    List<ObservedData> observedDataList;
+    bool isLookingAtCar;
 
     public GameObject mainCamera;               // reference to the camira in the hierarachy
     public GameObject onlineBodyView;           // reference to onlineBodyVew (just used to find the spineMid at his grandsons
@@ -24,11 +22,11 @@ public class ExperimentObserves : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        observedDataList = new List<ObservedData>();
         checkPointsController.startTheGameCheckPointReachedEvent += Initilize;
     }
     public void Initilize () {
         onFrameWorking = false;
-        playerPositions = new List<Vector3>();
         
         InvokeRepeating("searchOnPlayer", 1f, 1f);
     }
@@ -49,14 +47,14 @@ public class ExperimentObserves : MonoBehaviour {
         //    //MyConsol.log(currentAngle.ToString());
         //    lastAngla = currentAngle;
         //}
-        
-        playerPositions.Add(SpineMid.position);
+        isLookingAtCar = (CarController.numberOfRenderdCars > 0) ? true : false;
+        observedDataList.Add(new ObservedData(SpineMid.position, angle, isLookingAtCar));
       
        // CheckDistanceBetweenPlayerAndNearestCar();
 
         Debug.Log("CheckDistanceBetweenPlayerAndNearestCar " + CheckDistanceBetweenPlayerAndNearestCar());
 
-
+        isLookingAtCar = false;
         frameIndex++;
     }
 
@@ -125,14 +123,14 @@ public class ExperimentObserves : MonoBehaviour {
 
     class ObservedData
     {
-        List<Vector3> position;
-        float angle;
-        bool isLookingAtCar;
+        private Vector3 playerPositions;      // took from spineMid GameObject
+        private float playerHeadRotations;  // took from the camira
+        bool isLookingAtCar;          // took from each car
 
-        public ObservedData(List<Vector3> position, float angle, bool isLookingAtCar)
+        public ObservedData(Vector3 playerPositions, float playerHeadRotations, bool isLookingAtCar)
         {
-            this.position = position;
-            this.angle = angle;
+            this.playerPositions = playerPositions;
+            this.playerHeadRotations = playerHeadRotations;
             this.isLookingAtCar = isLookingAtCar;
         }
 
