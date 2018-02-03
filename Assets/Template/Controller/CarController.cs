@@ -28,7 +28,7 @@ public class CarController : MonoBehaviour
     /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
     public void InstantiateCarsFastRoad()
     {
-        string[] carDirection = ExperementParameters.streetsDirections.Split(); //knowing which rotation and direction to instatiate the car
+        string[] carDirection = ExperementParameters.streetsDirections.Split(' '); //knowing which rotation and direction to instatiate the car
         int numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
         float lastPosition = sidewalkWidth + midwalkWidth + (streetPathWidth / 4) + streetPathWidth * (numberOfPathsInSingleRoad / 2);
         GameObjectHandler carObjectHandler =
@@ -42,7 +42,7 @@ public class CarController : MonoBehaviour
             //and back cars which is from right to left direction
             if (carDirection[0].Equals(value: "Left") || carDirection[2].Equals(value: "Left"))  //from left to right 
             {
-                GameObject car = carObjectHandler.RetrieveInstance(new Vector3(4.7f + (streetPathWidth * numberOfPathsInSingleRoad / 4), -2.0f, 0.0f), Quaternion.Euler(new Vector3(0, -90, 0)));
+                GameObject car = carObjectHandler.RetrieveInstance(new Vector3(6.0f + (streetPathWidth * numberOfPathsInSingleRoad / 4) *i, -2.0f, 200.0f+ExperementParameters.distanceBetweenCars*i), Quaternion.Euler(new Vector3(0, -90, 0)));
                 Debug.Log("Instantiaed");
                 //now instantiate the cars with the positions explained above 
                 //  GameObject car = carObjectHandler.RetrieveInstance(
@@ -54,10 +54,10 @@ public class CarController : MonoBehaviour
                 car.GetComponent<CarMove>().carDirection = "Left";      //describe which direction 
                 carRefernces.Add(car);        //referncing it to a list 
             }
-
+            
             if (carDirection[0].Equals(value: "Right") || carDirection[2].Equals(value: "Right"))  //from right to left 
             {
-                GameObject car = carObjectHandler.RetrieveInstance(new Vector3(4.7f + (streetPathWidth * numberOfPathsInSingleRoad / 4), -2.0f, 0.0f), Quaternion.identity);
+                GameObject car = carObjectHandler.RetrieveInstance(new Vector3(6.0f + (streetPathWidth * numberOfPathsInSingleRoad / 4) *i, -2.0f, -200.0f-ExperementParameters.distanceBetweenCars*i), Quaternion.identity);
 
                 //now instantiate the cars with the positions explained above 
                 // GameObject car = carObjectHandler.RetrieveInstance(

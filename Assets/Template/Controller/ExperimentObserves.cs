@@ -32,8 +32,6 @@ public class ExperimentObserves : MonoBehaviour
         _crossing_road_connection = new DataService("USN_Simulation.db");
         checkPointsController.startTheGameCheckPointReachedEvent += Initilize;
         checkPointsController.backToMidWalkCheckPointReachedEvent += observedData.OnChangeTrafficTowardsFlow;
-
-
     }
     public void Initilize()
     {

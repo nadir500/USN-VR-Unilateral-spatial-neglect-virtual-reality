@@ -8,15 +8,13 @@ public class CrossingRoad : MonoBehaviour
     Rigidbody rb;
     GameObject parentCar;
     GameObject playerGB, carColliderGB;
-    //Fading fadeObject;
-    GameObject midwalkYellowPoint, sidewalkYellowPoint;
     Vector3 playerPos, carColliderPos;
     string carDirection;
-    int isHitYellowball = 0;
-
+    bool stopCar;
     LayerMask uiMask = (1 << 5);
     public delegate void HitByCar();
     public HitByCar WhenHitByCar;
+
 
     void Start()
     {
@@ -29,26 +27,20 @@ public class CrossingRoad : MonoBehaviour
     {
         if (hitBox.tag.Equals(value: "Car"))
         {
-          //  parentCar = hitBox.transform.parent.gameObject; //bringing car game object collided with the player 
-          //  rb = parentCar.GetComponent<Rigidbody>();
-           // carDirection = hitBox.gameObject.GetComponent<CarMove>().carDirection;
-         // //  playerGB = this.gameObject; //we'll put it in an apropriate place in the hierarchy 
-         //   carColliderGB = hitBox.gameObject;
-         //   rb.drag = 40;
+          /*  parentCar = hitBox.transform.parent.gameObject; //bringing car game object collided with the player 
+            rb = parentCar.GetComponent<Rigidbody>();
+            carDirection = hitBox.gameObject.GetComponent<CarMove>().carDirection;
+            stopCar=hitBox.gameObject.GetComponent<carm>
+            playerGB = this.gameObject; //we'll put it in an apropriate place in the hierarchy 
+            carColliderGB = hitBox.gameObject;
+            rb.drag = 40;*/
             WhenHitByCar();
         }
     }
 
-    IEnumerator UpdateCheckPoint()
-    {
-        midwalkYellowPoint.SetActive(false);
-        yield return new WaitForSeconds(6);
-        sidewalkYellowPoint.SetActive(true);
-
-    }
     void Update()
     {
-
+        
         /* if (Time.frameCount % 7 == 0) //excute every couple frames 
          {
              if (rb != null && RoadController.fadeout_after_crossing == true)

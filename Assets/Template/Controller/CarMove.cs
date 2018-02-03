@@ -11,6 +11,7 @@ public class CarMove : MonoBehaviour
     public AudioClip crash;
     public string currentClip = "";
     public string carDirection;
+    public bool hasToStop = false;
     private Vector3 _start_car_position;
 
 
