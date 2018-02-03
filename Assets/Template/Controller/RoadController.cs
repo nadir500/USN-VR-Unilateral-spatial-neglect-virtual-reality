@@ -16,7 +16,7 @@ public class RoadController : MonoBehaviour
 
 
     public GameObject yellowArrows;         // reference to the prafab of yellowArrows point of   |   assigned in the inspector to the resources/prafabs/yellowArrows gameObject
-    public CarController carController;
+    //public CarController carController;
 
 
     public const float streetPathWidth = 5;        //  the width of pair of paths
@@ -83,11 +83,7 @@ public class RoadController : MonoBehaviour
     public void createDirection(float startPositionAtX, ref int pathGenerateIndex, int indexOfDirection)
     {
         int numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
-        GameObjectHandler car_handler =
-                  new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, //pooling from the prefab with copies that is like the number of paths in each street
-                                              numberOfPathsInSingleRoad,
-                                                                      true, "");//making a prefab copy with a number enough to coer a whole one path 
-       
+        
         streetsDirections = ExperementParameters.streetsDirections.Split(' '); //to be able to name the streets
         for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
         {
@@ -109,7 +105,7 @@ public class RoadController : MonoBehaviour
             generatedRoad.name = stringBuilder.ToString();
 
 
-            carController.InstantiateCarsFastRoad(generatedRoad.transform,car_handler);
+            //carController.InstantiateCarsFastRoad(generatedRoad.transform,car_handler);
         }
     }
 
