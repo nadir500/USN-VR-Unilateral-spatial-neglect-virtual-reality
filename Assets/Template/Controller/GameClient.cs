@@ -5,10 +5,13 @@ using LiteNetLib.Utils;
 public class GameClient : MonoBehaviour, INetEventListener
 {
     private NetManager _netClient;
+    private NetPeer _serverPeer;
+    private NetDataWriter _dataWriter;
     private int isCross = 0;
     void Start()
     {
         _netClient = new NetManager(this);
+        _dataWriter= new NetDataWriter();
         _netClient.Start();
         _netClient.UpdateTime = 50;
     }
@@ -17,10 +20,9 @@ public class GameClient : MonoBehaviour, INetEventListener
     {
         //method
         _netClient.PollEvents();
-        var peer = _netClient.GetFirstPeer();
-        if (peer != null && peer.ConnectionState == ConnectionState.Connected)
+        _serverPeer = _netClient.GetFirstPeer();
+        if (_serverPeer != null && _serverPeer.ConnectionState == ConnectionState.Connected)
         {
-
         }
         else
         {
@@ -28,6 +30,14 @@ public class GameClient : MonoBehaviour, INetEventListener
         }
     }
 
+    public void SendDataToServer(bool fadeCondition)
+    {
+        if(_serverPeer!=null)
+        {
+        _dataWriter.Put(fadeCondition);
+        _serverPeer.Send(_dataWriter,DeliveryMethod.Sequenced);
+        }
+    }
 
     void OnDestroy()
     {
@@ -48,7 +58,7 @@ public class GameClient : MonoBehaviour, INetEventListener
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader, DeliveryMethod deliveryMethod)
     {
         RoadController.fadeout_after_crossing = reader.GetBool();
-        if (isCross == 0)
+      /*  if (isCross == 0)
         {
             StartCoroutine(GameObject.Find("FadeGameObject").GetComponent<Fading>().playSound("Congrats_Midwalk"));
             isCross=1;
@@ -56,7 +66,7 @@ public class GameClient : MonoBehaviour, INetEventListener
         else
         {
             StartCoroutine(GameObject.Find("FadeGameObject").GetComponent<Fading>().playSound("ThankYou"));            
-        }
+        }*/
 
     }
 

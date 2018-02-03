@@ -17,16 +17,14 @@ public class CarController : MonoBehaviour
 
     void Start()
     {
-
         IntializeCars();
     }
 
-
     void IntializeCars()
     {
+        //intialze the cars references 
         carRefernces = new List<GameObject>();
         checkPointsController.startTheGameCheckPointReachedEvent += InstantiateCarsFastRoad;
-      //  InstantiateCarsFastRoad();
     }
 
     /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */

@@ -88,8 +88,6 @@ public class CarMove : MonoBehaviour
                 }
            
         }
-     
-
     }
 
     void Update()
@@ -155,12 +153,9 @@ public class CarMove : MonoBehaviour
         }
 
     }
-
-
     public void CarHorn()
     {
         carEngineAudio.PlayOneShot(carHorn); //playing beep beep with it besides engine 
 
     }
-
 }

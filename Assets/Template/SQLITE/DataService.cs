@@ -96,8 +96,8 @@ public class DataService
             traffic_flow_towards = traffic_flow_towards,
             current_time_span = current_time_span,
             current_distance_nearest_car = current_distance_nearest_car,
-            gaze_car = gazing_car,
-            gaze_nearest_car = gazing_nearest_car,
+            gazing_car = gazing_car,
+            gazing_nearest_car = gazing_nearest_car,
             after_collision_frame = after_collision_frame
         };
         _connection.Insert(streetCrossingData);

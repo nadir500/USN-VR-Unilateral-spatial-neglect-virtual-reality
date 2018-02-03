@@ -6,37 +6,36 @@ public class CrossingRoad : MonoBehaviour
 {
 
     Rigidbody rb;
-    GameObject parent;
+    GameObject parentCar;
     GameObject playerGB, carColliderGB;
-    Fading fadeObject;
+    //Fading fadeObject;
     GameObject midwalkYellowPoint, sidewalkYellowPoint;
     Vector3 playerPos, carColliderPos;
-    bool carHorn = false;
-    bool isHitByCar = true;
-    float distance;
     string carDirection;
     int isHitYellowball = 0;
+
     LayerMask uiMask = (1 << 5);
+    public delegate void HitByCar();
+    public HitByCar WhenHitByCar;
+
     void Start()
     {
-        fadeObject = GameObject.Find("FadeController").GetComponent<Fading>();
-
+        Intialize();
+    }
+    void Intialize()
+    {
     }
     void OnTriggerEnter(Collider hitBox)
     {
-        //Debug.Log("Player Collided--->" + hitBox.name);
-        //ifffff caaaaaaaaar 
         if (hitBox.tag.Equals(value: "Car"))
         {
-            parent = hitBox.transform.parent.gameObject; //bringing car game object collided with the player 
-            rb = parent.GetComponent<Rigidbody>();
-            carDirection  = hitBox.gameObject.GetComponent<CarMove>().carDirection;
-            playerGB = this.gameObject; //we'll put it in an apropriate place in the hierarchy 
-            carColliderGB = hitBox.gameObject;
-            rb.drag = 40;
-
-            //fade in dark red color as the car hits the player 
-            fadeObject.BeginFade(1);
+          //  parentCar = hitBox.transform.parent.gameObject; //bringing car game object collided with the player 
+          //  rb = parentCar.GetComponent<Rigidbody>();
+           // carDirection = hitBox.gameObject.GetComponent<CarMove>().carDirection;
+         // //  playerGB = this.gameObject; //we'll put it in an apropriate place in the hierarchy 
+         //   carColliderGB = hitBox.gameObject;
+         //   rb.drag = 40;
+            WhenHitByCar();
         }
     }
 
@@ -45,54 +44,54 @@ public class CrossingRoad : MonoBehaviour
         midwalkYellowPoint.SetActive(false);
         yield return new WaitForSeconds(6);
         sidewalkYellowPoint.SetActive(true);
-        
+
     }
     void Update()
     {
 
-       /* if (Time.frameCount % 7 == 0) //excute every couple frames 
-        {
-            if (rb != null && RoadController.fadeout_after_crossing == true)
-            {
-                if (!rb.isKinematic)
-                {
-                    parent.GetComponent<CarMove>().onBrake();
-                }
-                else
-                {
-                    
-                    parent.GetComponent<CarMove>().RemoveBrakeSound();
-                    if(isHitByCar)
+        /* if (Time.frameCount % 7 == 0) //excute every couple frames 
+         {
+             if (rb != null && RoadController.fadeout_after_crossing == true)
+             {
+                 if (!rb.isKinematic)
+                 {
+                     parent.GetComponent<CarMove>().onBrake();
+                 }
+                 else
+                 {
+
+                     parent.GetComponent<CarMove>().RemoveBrakeSound();
+                     if(isHitByCar)
+                      {
+                     parent.GetComponent<CarMove>().CrashSound();
+                     //shake camera 
+                     Camera.main.gameObject.GetComponent<CameraShake>().shakeDuration = 1;
+                     isHitByCar=false;
+
+                      }
+
+                 }
+
+                 playerPos = playerGB.transform.position;
+                 carColliderPos = carColliderGB.transform.position;
+
+                 distance = Vector3.Distance(playerPos, carColliderPos);
+
+                 //Debug.Log("Distance between cars " + parent.gameObject.name + " " + Vector3.Distance(playerPos, carColliderPos));
+
+                 //calculating the distance between the collided car and 2the player 
+                 if (carDirection.Equals(value: "Left") && distance <= 2.3f || carDirection.Equals(value: "Right") && distance <= 2.3f)
+                 {
+                     StopCar();
+
+                     if (Time.frameCount % 45 == 0)
                      {
-                    parent.GetComponent<CarMove>().CrashSound();
-                    //shake camera 
-                    Camera.main.gameObject.GetComponent<CameraShake>().shakeDuration = 1;
-                    isHitByCar=false;
-                         
+                         CarHornSound();
                      }
-                    
-                }
 
-                playerPos = playerGB.transform.position;
-                carColliderPos = carColliderGB.transform.position;
-
-                distance = Vector3.Distance(playerPos, carColliderPos);
-
-                //Debug.Log("Distance between cars " + parent.gameObject.name + " " + Vector3.Distance(playerPos, carColliderPos));
-
-                //calculating the distance between the collided car and 2the player 
-                if (carDirection.Equals(value: "Left") && distance <= 2.3f || carDirection.Equals(value: "Right") && distance <= 2.3f)
-                {
-                    StopCar();
-
-                    if (Time.frameCount % 45 == 0)
-                    {
-                        CarHornSound();
-                    }
-
-                }
-            }
-        }*/
+                 }
+             }
+         }*/
     }
     void StopCar()
     {
@@ -100,6 +99,6 @@ public class CrossingRoad : MonoBehaviour
     }
     void CarHornSound()
     {
-        parent.GetComponent<CarMove>().CarHorn();
+        parentCar.GetComponent<CarMove>().CarHorn();
     }
 }

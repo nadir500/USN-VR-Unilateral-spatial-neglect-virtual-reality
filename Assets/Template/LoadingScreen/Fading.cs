@@ -28,7 +28,7 @@ public class Fading : MonoBehaviour {
 		if(fadeDirection ==1) //fading continously 
 		{
  		 fadeImage.GetComponent<Image>().color = darkRedColor;
-	  	 double dd = (Mathf.Sin(Time.time * 5) + 1.0)/2.0;
+	  	 double dd = (Mathf.Sin(Time.time * 5) + 1.0)/2.0; 
 			if(dd <=0.6)
 			{
       		  alpha = Mathf.Clamp01(float.Parse(dd.ToString()));
@@ -36,16 +36,17 @@ public class Fading : MonoBehaviour {
  			}
 		}
 		else 
-		  //phase 2 fading if he successfully crossed the road 
+		  //phase 2 fading if he successfully crossed a section  
 		{
 			alpha += fadeDirection * fadeSpeed * Time.deltaTime;
 			alpha = Mathf.Clamp01(alpha);
        		fadecanvas.alpha = alpha;  //fading entirly 
-			if(RoadController.fadeout_after_crossing ==true)
+			if(!RoadController.fadeout_after_crossing) //if the server sent the false value to the client 
 			{
 				loadingImage.SetActive(false); 
-
+				//reverse fading
 				fadeDirection = -1;
+				//see everything with UIs and all the World's Objects
                 Camera.main.cullingMask = everythingMask;
 
             }
@@ -53,7 +54,7 @@ public class Fading : MonoBehaviour {
 
 	}
 
-   public IEnumerator playSound(string s)
+   public IEnumerator playSound(string s) //playing sound from resources 
     {
         audioSource = this.gameObject.GetComponent<AudioSource>();
         AudioClip ac = Resources.Load("Audio/DRSounds/" + s) as AudioClip;
@@ -67,9 +68,12 @@ public class Fading : MonoBehaviour {
 	{
 		if(direction ==2 )
 		{
+			//changing the UI Color for phase 2 Fade
 			fadeImage.GetComponent<Image>().color=Color.black;
+			//making the loading Icon Appear
 			loadingImage.SetActive(true); 
 		}
+		//the effect of this assignment will result in OnGUI method above 
 		fadeDirection = direction;
 	}
     

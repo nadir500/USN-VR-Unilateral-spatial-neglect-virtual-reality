@@ -20,22 +20,24 @@ public class ExperimentObserves : MonoBehaviour
     /***************this sould be removed by nadir prevez****************/
     public List<GameObject> carsReferences;
     string[] roadtype;
-    string traffic_towards_flow;
 
     DataService _crossing_road_connection;
+    ObservedData observedData;
     //public GameObject car;
     /********************************************************************/
     // Use this for initialization
     void Start()
     {
+        observedData = new ObservedData();
+        _crossing_road_connection = new DataService("USN_Simulation.db");
         checkPointsController.startTheGameCheckPointReachedEvent += Initilize;
-        checkPointsController.backToMidWalkCheckPointReachedEvent += OnChangeTrafficTowardsFlow;
+        checkPointsController.backToMidWalkCheckPointReachedEvent += observedData.OnChangeTrafficTowardsFlow;
+
 
     }
     public void Initilize()
     {
-        _crossing_road_connection = new DataService("USN_Simulation.db");
-        traffic_towards_flow = ExperementParameters.streetsDirections.Split(' ')[0];
+        observedData.traffic_towards_flow = ExperementParameters.streetsDirections.Split(' ')[0];
         onFrameWorking = false;
         playerPositions = new List<Vector3>();
         InvokeRepeating("searchOnPlayer", 1f, 1f);
@@ -47,10 +49,17 @@ public class ExperimentObserves : MonoBehaviour
     int currentAngle = 90;
     long frameIndex = 0;
     /***********************/
+
+
+
+
     void onFrame()
     {
         Debug.Log("frame");
         angle = mainCamera.transform.localRotation.eulerAngles.y;
+       float distanceCar= CheckDistanceBetweenPlayerAndNearestCar();
+        _crossing_road_connection.CreateRoadCrossingData(observedData.traffic_towards_flow, Mathf.RoundToInt(Time.deltaTime * 1000),distanceCar,observedData.isLookingAtCar,false, checkPointsController.isHitByCar);
+
         //currentAngle = (int)angle;
         //if (currentAngle != lastAngla)
         //{
@@ -65,7 +74,6 @@ public class ExperimentObserves : MonoBehaviour
         Debug.Log("CheckDistanceBetweenPlayerAndNearestCar " + CheckDistanceBetweenPlayerAndNearestCar());
 
         //data dabse connection
-       // _crossing_road_connection.CreateRoadCrossingData(traffic_towards_flow,Mathf.RoundToInt(Time.deltaTime*1000),0,false,false,false);
         frameIndex++;
     }
 
@@ -75,7 +83,6 @@ public class ExperimentObserves : MonoBehaviour
         Debug.Log("searchOnPlayer");
         try
         {
-            _crossing_road_connection.CreateRoadCrossingData(traffic_towards_flow,Mathf.RoundToInt(Time.deltaTime*1000),0,false,false,false);
             if (SpineMid == null)
             {
                 if (onFrameWorking)
@@ -100,9 +107,8 @@ public class ExperimentObserves : MonoBehaviour
             else if (!onFrameWorking)
             {
                 InvokeRepeating("onFrame", 1f, 0.0333f);
-                onFrameWorking = true;
+                //onFrameWorking = true;
             }
-
         }
         catch (System.Exception e)
         {
@@ -132,24 +138,21 @@ public class ExperimentObserves : MonoBehaviour
             return -1.0f;
 
     }
-    public void OnChangeTrafficTowardsFlow()
-    {
-        if (traffic_towards_flow.Equals(value: "Left"))
-        {
-            traffic_towards_flow = "Right";
-        }
-        else
-        {
-            traffic_towards_flow = "Left";
 
-        }
-    }
 
     class ObservedData
     {
-        List<Vector3> position;
-        float angle;
-        bool isLookingAtCar;
+       public List<Vector3> position;
+       public float angle;
+      public  bool isLookingAtCar;
+       public string traffic_towards_flow;
+        public ObservedData()
+        {
+            this.position = new List<Vector3>();
+            this.angle=0;
+            this.isLookingAtCar=false;
+            this.traffic_towards_flow="";
+        }
         public ObservedData(List<Vector3> position, float angle, bool isLookingAtCar, string traffic_towards_flow)
         {
             this.position = position;
@@ -157,7 +160,17 @@ public class ExperimentObserves : MonoBehaviour
             this.isLookingAtCar = isLookingAtCar;
             //this.traffic_towards_flow = traffic_towards_flow;
         }
-
+        public void OnChangeTrafficTowardsFlow()
+        {
+            if (this.traffic_towards_flow.Equals(value: "Left"))
+            {
+                this.traffic_towards_flow = "Right";
+            }
+            else
+            {
+                this.traffic_towards_flow = "Left";
+            }
+        }
 
     }
 }
