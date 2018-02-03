@@ -32,7 +32,7 @@ public class Settings : MonoBehaviour
     public float lengthOfPatientValue { get { return float.Parse(lengthOfPatientParameterWrapper.parameterValue); } set { lengthOfPatientParameterWrapper.parameterValue = value.ToString(); } }
 
     public SettingsParameter widthOfTableParameterWrapper;
-    public float widthOfTableValue { get { return float.Parse(widthOfTableParameterWrapper.parameterValue); } set { widthOfTableParameterWrapper.parameterValue = value.ToString(); } }
+//    public float widthOfTableValue { get { return float.Parse(widthOfTableParameterWrapper.parameterValue); } set { widthOfTableParameterWrapper.parameterValue = value.ToString(); } }
 
     public SettingsParameter soundDirectionsParameterWrapper;
     public string soundDirectionsValue { get { return soundDirectionsParameterWrapper.parameterValue; } set { soundDirectionsParameterWrapper.parameterValue = value; } }
@@ -155,7 +155,7 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetString("carsSpeed", this.carsSpeedValue.ToString());
         PlayerPrefs.SetString("distanceBetweenCars", this.distanceBetweenCarsValue.ToString());
         PlayerPrefs.SetString("lenthOfPaitnet", this.lengthOfPatientValue.ToString());
-        PlayerPrefs.SetString("widthOfTable", this.widthOfTableValue.ToString());
+//        PlayerPrefs.SetString("widthOfTable", this.widthOfTableValue.ToString());
         PlayerPrefs.SetString("soundDirections", this.soundDirectionsValue);
 
         ExperementParameters.numberOfPathsPerStreet = this.numberOfPathsPerStreetValue;
@@ -163,14 +163,12 @@ public class Settings : MonoBehaviour
         ExperementParameters.carsSpeed = this.carsSpeedValue;
         ExperementParameters.distanceBetweenCars = this.distanceBetweenCarsValue;
         ExperementParameters.lengthOfPatient = this.lengthOfPatientValue;
-        ExperementParameters.widthOfTable = this.widthOfTableValue;
+//        ExperementParameters.widthOfTable = this.widthOfTableValue;
         ExperementParameters.soundDirections = this.soundDirectionsValue;
 
-        _sqlite_dataServices.CreateGameplay();
-        
-        ExperementParameters.gameplay_id  =  _sqlite_dataServices.GetGameplayIDFromDatabase(); //last item in my SQLITE DB
-        
-        PlayerPrefs.SetFloat("gameplay_id", ExperementParameters.gameplay_id);  //storing gameplay_id for SQL SERVER Later :D
+        ExperementParameters.gameplay_id = _sqlite_dataServices.CreateGameplay();
+                
+        PlayerPrefs.SetString("gameplay_id", ExperementParameters.gameplay_id.ToString());  //storing gameplay_id for SQL SERVER Later :D
         PlayerPrefs.Save();
     }
 }

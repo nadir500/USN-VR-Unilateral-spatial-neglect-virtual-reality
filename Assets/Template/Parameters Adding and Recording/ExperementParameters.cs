@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ExperementParameters  {
 
-    public static int gameplay_id=1;
+    public static int gameplay_id;
     public static int numberOfPathsPerStreet = 2;
     public static string streetsDirections = "Left";
     public static int distanceBetweenCars = 10;

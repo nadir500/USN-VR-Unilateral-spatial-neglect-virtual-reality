@@ -22,10 +22,6 @@ public class MainMenu : MonoBehaviour {
         myCanvas.enabled = true;
         uiMainCanvas.enabled = true;
         setExperementParametersToLastSavedOnes();
-        
-
-        //connect to db sqlite to see if it has ID 
-
     }
 
     public void setExperementParametersToLastSavedOnes()
@@ -39,10 +35,19 @@ public class MainMenu : MonoBehaviour {
         if (PlayerPrefs.HasKey("distanceBetweenCars") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("distanceBetweenCars"))))
             ExperementParameters.distanceBetweenCars = int.Parse(PlayerPrefs.GetString("distanceBetweenCars"));
         if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
+        {
             ExperementParameters.gameplay_id = int.Parse(PlayerPrefs.GetString("gameplay_id"));
+            Debug.Log("Latest Gameplay_id " + ExperementParameters.gameplay_id);
+        }
         
     }
     
+    public bool CheckGamplayID() //check if PlayerPrefs gameplay_id is the same as the latest row in the table 
+    {
+        DataService _connect_db = new DataService("USN_Simulation");
+
+        return _connect_db.GetGameplayIDFromDatabase()==ExperementParameters.gameplay_id;
+    }
     public void hide()
     {
         active = false;
