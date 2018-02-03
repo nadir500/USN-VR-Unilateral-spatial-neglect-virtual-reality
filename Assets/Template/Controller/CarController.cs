@@ -11,6 +11,7 @@ public class CarController : MonoBehaviour
     public const float sidewalkWidth = 5f;         //  the width of sidewalk
     public const float midwalkWidth = 1.36f;       //  the width of midwalk
 
+    public CheckPointsController checkPointsController;
 
     void Start()
     {
@@ -22,7 +23,8 @@ public class CarController : MonoBehaviour
     void IntializeCars()
     {
         carRefernces = new List<GameObject>();
-        InstantiateCarsFastRoad();
+        checkPointsController.startTheGameCheckPointReachedEvent += InstantiateCarsFastRoad;
+      //  InstantiateCarsFastRoad();
     }
 
     /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */

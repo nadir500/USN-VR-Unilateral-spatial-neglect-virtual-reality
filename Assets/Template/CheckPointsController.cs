@@ -3,7 +3,7 @@ using UnityEngine;
 
 
     // This class is tha manager of the check points their events
-    //  it create the checkpoints in checkPoints with the positions calculated in Start()->generateCheckPoints() method by the variables in RoadController
+    //  it creates the checkpoints in checkPoints with the positions calculated in Start()->generateCheckPoints() method by the variables in RoadController
     //  then manualy assign the currect method to the behavior event at each checkpoint
     //  each metho is liked to a "global" event and trigger it to aware each class lined to that event
 
