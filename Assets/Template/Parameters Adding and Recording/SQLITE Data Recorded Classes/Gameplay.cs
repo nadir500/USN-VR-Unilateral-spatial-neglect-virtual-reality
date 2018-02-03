@@ -1,7 +1,7 @@
 ﻿using SQLite4Unity3d;
 public class Gameplay {
 
-		[PrimaryKey]
+		[PrimaryKey,AutoIncrement]
 		public int gameplay_id{get;set;}
 		[NotNull]
 		public string street_direction{get;set;}

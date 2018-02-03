@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExperimentObserves : MonoBehaviour {
+public class ExperimentObserves : MonoBehaviour
+{
 
-    CheckPointsController checkPointsController;
-    List<ObservedData> observedDataList;
-    bool isLookingAtCar;
+    public CheckPointsController checkPointsController;
+
+    private List<Vector3> playerPositions;      // took from spineMid GameObject
+    private List<Vector2> playerHeadRotations;  // took from the camira
+    private List<bool> isLookingAtCar;          // took from each car
 
     public GameObject mainCamera;               // reference to the camira in the hierarachy
     public GameObject onlineBodyView;           // reference to onlineBodyVew (just used to find the spineMid at his grandsons
@@ -17,17 +20,24 @@ public class ExperimentObserves : MonoBehaviour {
     /***************this sould be removed by nadir prevez****************/
     public List<GameObject> carsReferences;
     string[] roadtype;
+    string traffic_towards_flow;
+
+    DataService _crossing_road_connection;
     //public GameObject car;
     /********************************************************************/
     // Use this for initialization
     void Start()
     {
-        observedDataList = new List<ObservedData>();
         checkPointsController.startTheGameCheckPointReachedEvent += Initilize;
+        checkPointsController.backToMidWalkCheckPointReachedEvent += OnChangeTrafficTowardsFlow;
+
     }
-    public void Initilize () {
+    public void Initilize()
+    {
+        _crossing_road_connection = new DataService("USN_Simulation.db");
+        traffic_towards_flow = ExperementParameters.streetsDirections.Split(' ')[0];
         onFrameWorking = false;
-        
+        playerPositions = new List<Vector3>();
         InvokeRepeating("searchOnPlayer", 1f, 1f);
     }
 
@@ -47,14 +57,15 @@ public class ExperimentObserves : MonoBehaviour {
         //    //MyConsol.log(currentAngle.ToString());
         //    lastAngla = currentAngle;
         //}
-        isLookingAtCar = (CarController.numberOfRenderdCars > 0) ? true : false;
-        observedDataList.Add(new ObservedData(SpineMid.position, angle, isLookingAtCar));
-      
-       // CheckDistanceBetweenPlayerAndNearestCar();
+
+        playerPositions.Add(SpineMid.position);
+
+        // CheckDistanceBetweenPlayerAndNearestCar();
 
         Debug.Log("CheckDistanceBetweenPlayerAndNearestCar " + CheckDistanceBetweenPlayerAndNearestCar());
 
-        isLookingAtCar = false;
+        //data dabse connection
+       // _crossing_road_connection.CreateRoadCrossingData(traffic_towards_flow,Mathf.RoundToInt(Time.deltaTime*1000),0,false,false,false);
         frameIndex++;
     }
 
@@ -64,12 +75,13 @@ public class ExperimentObserves : MonoBehaviour {
         Debug.Log("searchOnPlayer");
         try
         {
+            _crossing_road_connection.CreateRoadCrossingData(traffic_towards_flow,Mathf.RoundToInt(Time.deltaTime*1000),0,false,false,false);
             if (SpineMid == null)
             {
                 if (onFrameWorking)
                 {
                     onFrameWorking = false;
-                    
+
                     CancelInvoke("onFrameWorking");
                 }
                 if (onlineBodyView.transform.GetChild(0) != null)
@@ -99,13 +111,13 @@ public class ExperimentObserves : MonoBehaviour {
     }
 
 
-    public float  CheckDistanceBetweenPlayerAndNearestCar()
+    public float CheckDistanceBetweenPlayerAndNearestCar()
     {
         Debug.Log("player on path current path variable " + PlayerOnPlath.currentPath + "and index " + carsReferences.Count);
         if ((PlayerOnPlath.currentPath != -1)
             && (carsReferences[PlayerOnPlath.currentPath] != null))
         {
-            
+
             roadtype = carsReferences[PlayerOnPlath.currentPath].transform.parent.gameObject.name.Split(' ');
             Debug.Log("ROAD TYPE " + roadtype[1]);
             Debug.Log("CARRRRRRRR " + carsReferences[PlayerOnPlath.currentPath].name);
@@ -120,19 +132,32 @@ public class ExperimentObserves : MonoBehaviour {
             return -1.0f;
 
     }
+    public void OnChangeTrafficTowardsFlow()
+    {
+        if (traffic_towards_flow.Equals(value: "Left"))
+        {
+            traffic_towards_flow = "Right";
+        }
+        else
+        {
+            traffic_towards_flow = "Left";
+
+        }
+    }
 
     class ObservedData
     {
-        private Vector3 playerPositions;      // took from spineMid GameObject
-        private float playerHeadRotations;  // took from the camira
-        bool isLookingAtCar;          // took from each car
-
-        public ObservedData(Vector3 playerPositions, float playerHeadRotations, bool isLookingAtCar)
+        List<Vector3> position;
+        float angle;
+        bool isLookingAtCar;
+        public ObservedData(List<Vector3> position, float angle, bool isLookingAtCar, string traffic_towards_flow)
         {
-            this.playerPositions = playerPositions;
-            this.playerHeadRotations = playerHeadRotations;
+            this.position = position;
+            this.angle = angle;
             this.isLookingAtCar = isLookingAtCar;
+            //this.traffic_towards_flow = traffic_towards_flow;
         }
+
 
     }
 }

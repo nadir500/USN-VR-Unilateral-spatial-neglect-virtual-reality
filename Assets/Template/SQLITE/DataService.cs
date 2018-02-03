@@ -66,7 +66,7 @@ public class DataService
 
     }
 
-    public void CreateGameplay()
+    public int  CreateGameplay()
     {
 
         //TODO: Linking it do the expermental parameters we have 
@@ -82,8 +82,8 @@ public class DataService
             player_height = (double)ExperementParameters.lengthOfPatient
         };
 
-        _connection.Insert(gamePlay);
         Debug.Log("CREATED GAMEPLAY TO SQLITE DB");
+       return _connection.Insert(gamePlay);
     }
     public void CreateRoadCrossingData(
                                                 string traffic_flow_towards, int current_time_span,
@@ -101,6 +101,8 @@ public class DataService
             after_collision_frame = after_collision_frame
         };
         _connection.Insert(streetCrossingData);
+        Debug.Log("CREATED SCD TO SQLITE DB");
+
     }
 
     public Gameplay GetGameplayByID(int gameplay_id)  //stored in playerPref 
