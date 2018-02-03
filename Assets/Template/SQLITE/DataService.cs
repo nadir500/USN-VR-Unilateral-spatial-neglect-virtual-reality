@@ -101,6 +101,8 @@ public class DataService
             after_collision_frame = after_collision_frame
         };
         _connection.Insert(streetCrossingData);
+        Debug.Log("CREATED SCD TO SQLITE DB");
+
     }
 
     public Gameplay GetGameplayByID(int gameplay_id)  //stored in playerPref 
