@@ -2,12 +2,13 @@
 using UnityEngine;
 
 
-    // This class is tha manager of the check points their events
-    //  it creates the checkpoints in checkPoints with the positions calculated in Start()->generateCheckPoints() method by the variables in RoadController
-    //  then manualy assign the currect method to the behavior event at each checkpoint
-    //  each metho is liked to a "global" event and trigger it to aware each class lined to that event
+// This class is tha manager of the check points their events
+//  it creates the checkpoints in checkPoints with the positions calculated in Start()->generateCheckPoints() method by the variables in RoadController
+//  then manualy assign the currect method to the behavior event at each checkpoint
+//  each metho is liked to a "global" event and trigger it to aware each class lined to that event
 
-public class CheckPointsController : MonoBehaviour {
+public class CheckPointsController : MonoBehaviour
+{
     public GameObject yellowPoint;          // reference to the prafab of yellow point of   |   assigned in the inspector to the resources/prafabs/yellowPoint gameObject
     private GameObject[] checkPoints;       // array of referenses to each checkpoint instantiated
                                             // 0=> checkpoint at first sidewalk to be sure that player is ready to crossing the roads
@@ -21,19 +22,31 @@ public class CheckPointsController : MonoBehaviour {
     public checkPointsReached backToMidWalkCheckPointReachedEvent;
     public checkPointsReached otherSideCheckPointReachedEvent;
 
+    public bool isHitByCar = false;
+
     /********************This should be removed by(it was "my" --Edited by nadir pervez :p --) Mr nadir prevez*****************/
-    Fading fadeObject;
+    Fading fadeController;
+    CrossingRoad crossingRoad;
     LayerMask uiMask = (1 << 5);
     /******************************************************************************/
     Transform KVR;
+    GameClient gameClientController;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         checkPoints = new GameObject[4];
+        ObjectsIntializer();
         initilizeCheckPoints();
-        KVR = GameObject.Find("OnlineBodyView").transform;
+        IntializeCar();
     }
-
+    private void ObjectsIntializer()
+    {
+        KVR = GameObject.Find("OnlineBodyView").transform;
+        gameClientController = GameObject.Find("GameClient").GetComponent<GameClient>();  //for sending Data to server
+        crossingRoad = GameObject.Find("PlayerTrigger").GetComponent<CrossingRoad>();  //for making an event to it with its trigger
+        fadeController = GameObject.Find("FadeController").GetComponent<Fading>();
+    }
     private void initilizeCheckPoints()
     {
         checkPoints[0] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
@@ -49,7 +62,12 @@ public class CheckPointsController : MonoBehaviour {
         checkPoints[3].GetComponent<CheckPoints>().behaviorEvent += reachedToOtherSide;
         checkPoints[3].SetActive(false);
     }
-
+    //Intialize the same way with checkpoints array 
+    private void IntializeCar()
+    {
+        //Intialize the event from CrossingRoad Class 
+        crossingRoad.WhenHitByCar += Accedint;
+    }
     // turn of the first sidewalk checkpoint
     // turn on the second side checkpoint
     // TODO(0): start generating the cars after calling this event
@@ -59,6 +77,10 @@ public class CheckPointsController : MonoBehaviour {
         Debug.Log("startTheGame");
         checkPoints[0].SetActive(false);
         checkPoints[1].SetActive(true);
+        //do not fade By default
+        RoadController.fadeout_after_crossing = false;
+        gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);  //Intialize the bool Value To the Button Server
+
         if (startTheGameCheckPointReachedEvent != null)
         {
             startTheGameCheckPointReachedEvent();
@@ -71,21 +93,22 @@ public class CheckPointsController : MonoBehaviour {
     public void reachedToTheMidWalk()
     {
         Debug.Log("reachedToTheMidWalk");
-        StartCoroutine(fadeObject.playSound("Stop"));
+        StartCoroutine(fadeController.playSound("Stop"));
         checkPoints[1].SetActive(false);
+        //Begin the Phase 2 fade 
+        //now fade and show the loading screen
+        RoadController.fadeout_after_crossing = true;
+        //sending the current value to the server
+        gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);
 
-        RoadController.fadeout_after_crossing = false;
-
-        fadeObject.BeginFade(2);  //fade entirely and wait for re-positioning 
+        fadeController.BeginFade(2);  //fade entirely and wait for re-positioning 
+        //seeing the JUST the UI From Camera 
         Camera.main.cullingMask = uiMask;
         KVR.localPosition = new Vector3(KVR.localPosition.x - 6.39f, KVR.localPosition.y, KVR.localPosition.z);
-
         checkPoints[2].SetActive(true);
-
         // Trigger The Event for each on who linked ot it
-
         if (startTheGameCheckPointReachedEvent != null)
-            midWalkCheckPointReachedEvent();
+            startTheGameCheckPointReachedEvent();
     }
     // turn of the midwalk far side checkpoint
     // turn on other sidewalk checkpoint
@@ -96,8 +119,11 @@ public class CheckPointsController : MonoBehaviour {
         checkPoints[2].SetActive(false);
         //سلوك
         checkPoints[3].SetActive(true);
+        // RoadController.fadeout_after_crossing = true;
+        if (RoadController.fadeout_after_crossing == false)  //if reached to the third ball and the sending value from server is to fade out the screen 
+            StartCoroutine(fadeController.playSound("Congrats_Midwalk"));  //Sound of accomplish
 
-        if(backToMidWalkCheckPointReachedEvent != null)
+        if (backToMidWalkCheckPointReachedEvent != null)
             backToMidWalkCheckPointReachedEvent();
     }
 
@@ -106,8 +132,22 @@ public class CheckPointsController : MonoBehaviour {
     {
         Debug.Log("reachedToOtherSide");
         checkPoints[3].SetActive(false);
+        //do not make any fade (not until our phase 3)
+        RoadController.fadeout_after_crossing = false;
+        //sending the actual value to the server
+        gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);
 
-        if(otherSideCheckPointReachedEvent != null)
+        if (otherSideCheckPointReachedEvent != null)
             otherSideCheckPointReachedEvent();
     }
+    //On Trigger Enter With any car 
+    public void Accedint()
+    {
+        Debug.Log("ACCIDENT WAAAAAAAA");
+        //continouse fade after passing 1 to the method 
+        fadeController.BeginFade(1);
+        //it will be useful for entering the data from Experment Observe Class
+        isHitByCar = true;
+    }
+
 }

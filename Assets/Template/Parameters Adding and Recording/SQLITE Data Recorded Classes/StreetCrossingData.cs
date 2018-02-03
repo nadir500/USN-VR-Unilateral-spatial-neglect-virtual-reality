@@ -13,8 +13,8 @@ public class StreetCrossingData   {
 		
 	    public double current_distance_nearest_car {get;set;}
 
-	    public bool gaze_car {get;set;}
-	    public bool gaze_nearest_car {get;set;}
+	    public bool gazing_car {get;set;}
+	    public bool gazing_nearest_car {get;set;}
 
 	    public bool after_collision_frame {get;set;}
 

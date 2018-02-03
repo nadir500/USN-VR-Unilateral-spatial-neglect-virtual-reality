@@ -23,10 +23,8 @@ public class RoadController : MonoBehaviour
     public const float sidewalkWidth = 5f;         //  the width of sidewalk
     public const float midwalkWidth = 1.36f;       //  the width of midwalk
 
-    public static bool fadeout_after_crossing = true;       // ?? (to nadir)
-    private BoxCollider checkPointBoxCollider;              // ?? (to nadir)
-
-    string[] streetsDirections;                             // ?? (to nadir)
+    public static bool fadeout_after_crossing;       // if it's true then fade entire screen | if it's false don't do that  (to nadir)
+    string[] streetsDirections;                             // defining the street directions | manage to generate a road and Arrows (to nadir)
     private GameObject yellowArrowsFirstPath = null;
     private GameObject yellowArrowsSecondPath = null;
 
@@ -46,7 +44,6 @@ public class RoadController : MonoBehaviour
         int numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
         carsReferences = new List<GameObject>();
         //i am using string builder to rename the roads into a correct format just to make it easy reaching them
-
         float lastPosition = sidewalkWidth + midwalkWidth + (streetPathWidth / 4) + streetPathWidth * (numberOfPathsInSingleRoad / 2);
 
         yellowArrowsFirstPath = Instantiate(yellowArrows, new Vector3(4.7f + (streetPathWidth * numberOfPathsInSingleRoad / 4), -1.99f, -8.98f), Quaternion.identity);
@@ -58,24 +55,17 @@ public class RoadController : MonoBehaviour
 
         if (ExperementParameters.streetsDirections.Length > 1)
         {
-
             Instantiate(midWalk, new Vector3(sidewalkWidth + (midwalkWidth / 2) + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
-
             yellowArrowsSecondPath = Instantiate(yellowArrows, new Vector3(lastPosition, -1.99f, -8.98f), Quaternion.identity);
             if (ExperementParameters.streetsDirections.Equals("Left To Right"))
                 yellowArrowsSecondPath.transform.localScale = new Vector3(1, 1, -1);
-
             //Road #2
             createDirection(sidewalkWidth + (streetPathWidth / 2) + midwalkWidth + (streetPathWidth * (numberOfPathsInSingleRoad / 2)), ref pathGenerateIndex, 2);
-
         }
         Instantiate(sidewalk, new Vector3((sidewalkWidth) + (midwalkWidth) + streetPathWidth * (numberOfPathsInSingleRoad), -0.0012f, 0.0f), Quaternion.identity);
 
         BuildingsWrapper.transform.position = new Vector3((sidewalkWidth * 2) + (midwalkWidth) + streetPathWidth * (numberOfPathsInSingleRoad), 0, 0);
 
-        checkPointBoxCollider = midWalk.AddComponent<BoxCollider>();
-        checkPointBoxCollider.size = new Vector3(14.5f, 0.46f, 10);
-        checkPointBoxCollider.isTrigger = true;
 
 
     }
