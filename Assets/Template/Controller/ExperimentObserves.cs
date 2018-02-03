@@ -6,13 +6,14 @@ public class ExperimentObserves : MonoBehaviour {
 
     CheckPointsController checkPointsController;
 
-    private List<Vector3> playerPositions;
-    private List<Vector2> playerHeadRotations;
-    private List<bool> isLookingAtCar;
+    private List<Vector3> playerPositions;      // took from spineMid GameObject
+    private List<Vector2> playerHeadRotations;  // took from the camira
+    private List<bool> isLookingAtCar;          // took from each car
 
-    public GameObject mainCamera;
-    public GameObject onlineBodyView;
-    private Transform SpineMid = null;
+    public GameObject mainCamera;               // reference to the camira in the hierarachy
+    public GameObject onlineBodyView;           // reference to onlineBodyVew (just used to find the spineMid at his grandsons
+    private Transform SpineMid = null;          // reference to spineMid (kinekt creates it at runtime)
+    private bool onFrameWorking;        // true => the 30 frame per second method is working after finding the spineMid | false  => the 30 frame per second method is NOT working
 
 
     /***************this sould be removed by nadir prevez****************/
@@ -20,7 +21,6 @@ public class ExperimentObserves : MonoBehaviour {
     string[] roadtype;
     //public GameObject car;
     /********************************************************************/
-    bool onFrameWorking;
     // Use this for initialization
     void Start()
     {
@@ -29,9 +29,7 @@ public class ExperimentObserves : MonoBehaviour {
     public void Initilize () {
         onFrameWorking = false;
         playerPositions = new List<Vector3>();
-        playerHeadRotations = new List<Vector2>();
         
-
         InvokeRepeating("searchOnPlayer", 1f, 1f);
     }
 
@@ -45,28 +43,24 @@ public class ExperimentObserves : MonoBehaviour {
     {
         Debug.Log("frame");
         angle = mainCamera.transform.localRotation.eulerAngles.y;
-        playerHeadRotations.Add(new Vector2(frameIndex, angle));
-        currentAngle = (int)angle;
-        if (currentAngle != lastAngla)
-        {
-            //MyConsol.log(currentAngle.ToString());
-            lastAngla = currentAngle;
-        }
+        //currentAngle = (int)angle;
+        //if (currentAngle != lastAngla)
+        //{
+        //    //MyConsol.log(currentAngle.ToString());
+        //    lastAngla = currentAngle;
+        //}
         
         playerPositions.Add(SpineMid.position);
-      //  Debug.Log("pos = "+ SpineMid.position);
       
        // CheckDistanceBetweenPlayerAndNearestCar();
 
         Debug.Log("CheckDistanceBetweenPlayerAndNearestCar " + CheckDistanceBetweenPlayerAndNearestCar());
-        //Vector3 screenPoint = mainCamera.GetComponent<Camera>().WorldToViewportPoint(car.transform.position);
-        //bool onScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
-        //Debug.Log("x = "+ screenPoint.x+","+ "y = " + screenPoint.y + "," + "z = " + screenPoint.z);
-        //if (onScreen)
-        //      Debug.Log(" i can see a fucken car");
+
 
         frameIndex++;
     }
+
+
     void searchOnPlayer()
     {
         Debug.Log("searchOnPlayer");
@@ -85,17 +79,16 @@ public class ExperimentObserves : MonoBehaviour {
                     SpineMid = onlineBodyView.transform.GetChild(0).transform.Find("SpineMid");
                     onlineBodyView.transform.GetChild(0).name = "Player";
                 }
-                else
-                    Debug.Log("no children");
+                //else
+                //    Debug.Log("no children");
 
-                if(SpineMid != null)
-                    Debug.Log(" on framework will start in next iteration");
-                else
-                    Debug.Log(" on SpineMid NOT found");
+                //if(SpineMid != null)
+                //    Debug.Log(" on framework will start in next iteration");
+                //else
+                //    Debug.Log(" on SpineMid NOT found");
             }
             else if (!onFrameWorking)
             {
-                Debug.Log(" on framework will start");
                 InvokeRepeating("onFrame", 1f, 0.0333f);
                 onFrameWorking = true;
             }
@@ -130,5 +123,18 @@ public class ExperimentObserves : MonoBehaviour {
 
     }
 
+    class ObservedData
+    {
+        List<Vector3> position;
+        float angle;
+        bool isLookingAtCar;
 
+        public ObservedData(List<Vector3> position, float angle, bool isLookingAtCar)
+        {
+            this.position = position;
+            this.angle = angle;
+            this.isLookingAtCar = isLookingAtCar;
+        }
+
+    }
 }
