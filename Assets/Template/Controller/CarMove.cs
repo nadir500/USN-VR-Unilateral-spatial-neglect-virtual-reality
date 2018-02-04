@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CarMove : MonoBehaviour
 {
-
+    public static int numberOfRenderdCars = 0;
 
     public float speed;
     public AudioClip enginSound;
@@ -25,15 +25,7 @@ public class CarMove : MonoBehaviour
     bool lastIsRenderdState = false;
 
     private Renderer renderer;
-    //void Update()
-    //{
-    //    isRendered = renderer.isVisible;
-    //    if (isRendered != lastIsRenderdState)
-    //    {
-    //        CarController.numberOfRenderdCars = (isRendered) ? CarController.numberOfRenderdCars + 1 : CarController.numberOfRenderdCars - 1;
-    //        lastIsRenderdState = isRendered;
-    //    }
-    //}
+
 
     void Start()
     {
@@ -130,6 +122,13 @@ public class CarMove : MonoBehaviour
             rb.drag = 1;
         }
 
+
+        isRendered = renderer.isVisible;
+        if (isRendered != lastIsRenderdState)
+        {
+            numberOfRenderdCars += (isRendered) ? + 1 : - 1;
+            lastIsRenderdState = isRendered;
+        }
 
     }
     public void CrashSound()
