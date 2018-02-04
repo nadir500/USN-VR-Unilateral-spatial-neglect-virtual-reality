@@ -14,6 +14,7 @@ public class CrossingRoad : MonoBehaviour
     LayerMask uiMask = (1 << 5);
     public delegate void HitByCar();
     public HitByCar WhenHitByCar;
+    private float Timeleft;
 
 
     void Start()
@@ -27,27 +28,34 @@ public class CrossingRoad : MonoBehaviour
     {
         if (hitBox.tag.Equals(value: "Car"))
         {
+            Timeleft = 0.5f;
             parentCar = hitBox.transform.parent.gameObject; //bringing car game object collided with the player 
             rb = parentCar.GetComponent<Rigidbody>();
-            carDirection = hitBox.gameObject.GetComponent<CarMove>().carDirection;
-            stopCar = hitBox.gameObject.GetComponent<CarMove>().hasToStop;
+            carDirection = parentCar.gameObject.GetComponent<CarMove>().carDirection;
+            stopCar = parentCar.gameObject.GetComponent<CarMove>().hasToStop;
             playerGB = this.gameObject; //we'll put it in an apropriate place in the hierarchy 
             carColliderGB = hitBox.gameObject;
             rb.drag = 40;
             WhenHitByCar();
+            parentCar.GetComponent<CarMove>().onBrake();
         }
     }
 
     void Update()
     {
-        if(parentCar.gameObject.GetComponent<CarMove>().hasToStop)
+        if (rb != null && RoadController.fadeout_after_crossing == false)
         {
-            StartCoroutine(BrakeCarSound());
-            CrashSound();
-            StopCar();
-            stopCar=false;
-        }
+            Timeleft -= Time.deltaTime;
+            if (Timeleft < 0.0f)
+            {
 
+                StopCar();
+                parentCar.GetComponent<CarMove>().RemoveBrakeSound();
+                CrashSound();
+                Camera.main.GetComponent<CameraShake>().shakeDuration = 1 ;
+                rb = null;
+            }
+        }
         /* if (Time.frameCount % 7 == 0) //excute every couple frames 
          {
              if (rb != null && RoadController.fadeout_after_crossing == true)
@@ -74,7 +82,7 @@ public class CrossingRoad : MonoBehaviour
                  playerPos = playerGB.transform.position;
                  carColliderPos = carColliderGB.transform.position;
 
-                 distance = Vector3.Distance(playerPos, carColliderPos);
+                float distance = Vector3.Distance(playerPos, carColliderPos);
 
                  //Debug.Log("Distance between cars " + parent.gameObject.name + " " + Vector3.Distance(playerPos, carColliderPos));
 
@@ -97,7 +105,7 @@ public class CrossingRoad : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         parentCar.GetComponent<CarMove>().onBrake();
     }
-    
+
     void StopCar()
     {
         rb.isKinematic = true;

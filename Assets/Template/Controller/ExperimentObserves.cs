@@ -38,7 +38,8 @@ public class ExperimentObserves : MonoBehaviour
         observedData.traffic_towards_flow = ExperementParameters.streetsDirections.Split(' ')[0];
         onFrameWorking = false;
         playerPositions = new List<Vector3>();
-        InvokeRepeating("searchOnPlayer", 1f, 1f);
+        //InvokeRepeating("searchOnPlayer", 1f, 1f);
+        InvokeRepeating("onFrame", 1f, 0.0333f);
     }
 
     /*****temp varialbes****/
@@ -56,7 +57,7 @@ public class ExperimentObserves : MonoBehaviour
         Debug.Log("frame");
         angle = mainCamera.transform.localRotation.eulerAngles.y;
         //if distance < from a certain value then hasToStop bool in car reference should be true 
-        NearCarAndRecordEvent();
+       // NearCarAndRecordEvent();
 
         //currentAngle = (int)angle;
         //if (currentAngle != lastAngla)
@@ -64,12 +65,13 @@ public class ExperimentObserves : MonoBehaviour
         //    //MyConsol.log(currentAngle.ToString());
         //    lastAngla = currentAngle;
         //}
-
-        playerPositions.Add(SpineMid.position);
+        if (SpineMid != null)
+            playerPositions.Add(SpineMid.position);
 
         // CheckDistanceBetweenPlayerAndNearestCar();
 
-        Debug.Log("CheckDistanceBetweenPlayerAndNearestCar " + CheckDistanceBetweenPlayerAndNearestCar());
+        _crossing_road_connection.CreateRoadCrossingData(observedData.traffic_towards_flow, Mathf.RoundToInt(Time.deltaTime * 1000), 0, observedData.isLookingAtCar, false, checkPointsController.isHitByCar);
+        //Debug.Log("CheckDistanceBetweenPlayerAndNearestCar " + CheckDistanceBetweenPlayerAndNearestCar());
 
         //data dabse connection
         frameIndex++;
@@ -78,13 +80,15 @@ public class ExperimentObserves : MonoBehaviour
     void NearCarAndRecordEvent()
     {
         float distanceCar = CheckDistanceBetweenPlayerAndNearestCar();
-        _crossing_road_connection.CreateRoadCrossingData(observedData.traffic_towards_flow, Mathf.RoundToInt(Time.deltaTime * 1000), distanceCar, observedData.isLookingAtCar, false, checkPointsController.isHitByCar);
-        
-        if (distanceCar <= 3.5f)
+        if ((PlayerOnPlath.currentPath != -1)
+             && (carsReferences[PlayerOnPlath.currentPath] != null))
         {
-            carsReferences[PlayerOnPlath.currentPath].GetComponent<CarMove>().hasToStop = true;
-           
+            if (distanceCar <= 3.5f)
+            {
+                carsReferences[PlayerOnPlath.currentPath].GetComponent<CarMove>().hasToStop = true;
 
+
+            }
         }
 
     }
