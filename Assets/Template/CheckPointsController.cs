@@ -107,8 +107,8 @@ public class CheckPointsController : MonoBehaviour
         KVR.localPosition = new Vector3(KVR.localPosition.x - 6.39f, KVR.localPosition.y, KVR.localPosition.z);
         checkPoints[2].SetActive(true);
         // Trigger The Event for each on who linked ot it
-        if (startTheGameCheckPointReachedEvent != null)
-            startTheGameCheckPointReachedEvent();
+        if (midWalkCheckPointReachedEvent != null)
+            midWalkCheckPointReachedEvent();
     }
     // turn of the midwalk far side checkpoint
     // turn on other sidewalk checkpoint
