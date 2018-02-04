@@ -7,9 +7,11 @@ public class ExperimentObserves : MonoBehaviour
 
     public CheckPointsController checkPointsController;
 
-    private List<Vector3> playerPositions;      // took from spineMid GameObject
-    private List<Vector2> playerHeadRotations;  // took from the camira
-    private List<bool> isLookingAtCar;          // took from each car
+    private List<Vector3> playerPositions;      //taken from spineMid GameObject position
+    private List<float> playerHeadRotations;    // taken from the camira
+    public List<bool> isLookingAtCar;           // taken from CarMove class
+    public List<string> traffic_towards_flow;   // 
+    public string current_traffic_towards_flow;
 
     public GameObject mainCamera;               // reference to the camira in the hierarachy
     public GameObject onlineBodyView;           // reference to onlineBodyVew (just used to find the spineMid at his grandsons
@@ -28,18 +30,23 @@ public class ExperimentObserves : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        observedData = new ObservedData();
+        
+        onFrameWorking = false;
+        playerPositions = new List<Vector3>();
+        playerHeadRotations = new List<float>();
+        traffic_towards_flow = new List<string>();
+        isLookingAtCar = new List<bool>();
+
         _crossing_road_connection = new DataService("USN_Simulation.db");
         checkPointsController.startTheGameCheckPointReachedEvent += Initilize;
-        checkPointsController.backToMidWalkCheckPointReachedEvent += observedData.OnChangeTrafficTowardsFlow;
+        checkPointsController.backToMidWalkCheckPointReachedEvent += OnChangeTrafficTowardsFlow;
+
+
     }
     public void Initilize()
     {
-        observedData.traffic_towards_flow = ExperementParameters.streetsDirections.Split(' ')[0];
-        onFrameWorking = false;
-        playerPositions = new List<Vector3>();
-        //InvokeRepeating("searchOnPlayer", 1f, 1f);
-        InvokeRepeating("onFrame", 1f, 0.0333f);
+        current_traffic_towards_flow = ExperementParameters.streetsDirections.Split(' ')[0];
+        InvokeRepeating("searchOnPlayer", 1f, 1f);
     }
 
     /*****temp varialbes****/
@@ -51,13 +58,13 @@ public class ExperimentObserves : MonoBehaviour
 
 
 
-
+    int frame = 0;
     void onFrame()
     {
         Debug.Log("frame");
         angle = mainCamera.transform.localRotation.eulerAngles.y;
-        //if distance < from a certain value then hasToStop bool in car reference should be true 
-       // NearCarAndRecordEvent();
+       //float distanceCar= CheckDistanceBetweenPlayerAndNearestCar();
+        //_crossing_road_connection.CreateRoadCrossingData(observedData.traffic_towards_flow, Mathf.RoundToInt(Time.deltaTime * 1000),distanceCar,observedData.isLookingAtCar,false, checkPointsController.isHitByCar);
 
         //currentAngle = (int)angle;
         //if (currentAngle != lastAngla)
@@ -65,33 +72,31 @@ public class ExperimentObserves : MonoBehaviour
         //    //MyConsol.log(currentAngle.ToString());
         //    lastAngla = currentAngle;
         //}
-        if (SpineMid != null)
-            playerPositions.Add(SpineMid.position);
 
+        playerPositions.Add(SpineMid.position);
+        playerHeadRotations.Add(angle);
+        isLookingAtCar.Add(CarMove.numberOfRenderdCars > 0);
+        Debug.Log((CarMove.numberOfRenderdCars > 0).ToString());
         // CheckDistanceBetweenPlayerAndNearestCar();
 
-        _crossing_road_connection.CreateRoadCrossingData(observedData.traffic_towards_flow, Mathf.RoundToInt(Time.deltaTime * 1000), 0, observedData.isLookingAtCar, false, checkPointsController.isHitByCar);
         //Debug.Log("CheckDistanceBetweenPlayerAndNearestCar " + CheckDistanceBetweenPlayerAndNearestCar());
 
         //data dabse connection
         frameIndex++;
-    }
-
-    void NearCarAndRecordEvent()
-    {
-        float distanceCar = CheckDistanceBetweenPlayerAndNearestCar();
-        if ((PlayerOnPlath.currentPath != -1)
-             && (carsReferences[PlayerOnPlath.currentPath] != null))
+        if(frameIndex == 600)
         {
-            if (distanceCar <= 3.5f)
-            {
-                carsReferences[PlayerOnPlath.currentPath].GetComponent<CarMove>().hasToStop = true;
+            observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow);
+            // send observedData to database here
 
+            playerPositions = new List<Vector3>();
+            playerHeadRotations = new List<float>();
+            traffic_towards_flow = new List<string>();
+            isLookingAtCar = new List<bool>();
 
-            }
+            frameIndex = 0;
         }
-
     }
+
 
     void searchOnPlayer()
     {
@@ -122,7 +127,7 @@ public class ExperimentObserves : MonoBehaviour
             else if (!onFrameWorking)
             {
                 InvokeRepeating("onFrame", 1f, 0.0333f);
-                //onFrameWorking = true;
+                onFrameWorking = true;
             }
         }
         catch (System.Exception e)
@@ -134,11 +139,14 @@ public class ExperimentObserves : MonoBehaviour
 
     public float CheckDistanceBetweenPlayerAndNearestCar()
     {
+        Debug.Log("player on path current path variable " + PlayerOnPlath.currentPath + "and index " + carsReferences.Count);
         if ((PlayerOnPlath.currentPath != -1)
             && (carsReferences[PlayerOnPlath.currentPath] != null))
         {
 
             roadtype = carsReferences[PlayerOnPlath.currentPath].transform.parent.gameObject.name.Split(' ');
+            Debug.Log("ROAD TYPE " + roadtype[1]);
+            Debug.Log("CARRRRRRRR " + carsReferences[PlayerOnPlath.currentPath].name);
             if ((carsReferences[PlayerOnPlath.currentPath].transform.position.z < SpineMid.transform.position.z) && (roadtype[1].Equals(value: "Left"))
             || ((carsReferences[PlayerOnPlath.currentPath].transform.position.z > SpineMid.transform.position.z) && (roadtype[1].Equals(value: "Right"))))
 
@@ -151,38 +159,36 @@ public class ExperimentObserves : MonoBehaviour
 
     }
 
+    public void OnChangeTrafficTowardsFlow()
+    {
+        if (this.current_traffic_towards_flow.Equals(value: "Left"))
+        {
+            this.current_traffic_towards_flow = "Right";
+        }
+        else
+        {
+            this.current_traffic_towards_flow = "Left";
+        }
+    }
 
     class ObservedData
     {
-        public List<Vector3> position;
-        public float angle;
-        public bool isLookingAtCar;
-        public string traffic_towards_flow;
-        public ObservedData()
+        private List<Vector3> playerPositions;      //taken from spineMid GameObject position
+        private List<float> playerHeadRotations;    // taken from the camira
+        public List<bool> isLookingAtCar;           // taken from CarMove class
+        public List<string> traffic_towards_flow;
+
+        public ObservedData(List<Vector3> playerPositions, List<float> playerHeadRotations, List<bool> isLookingAtCar, List<string> traffic_towards_flow)
         {
-            this.position = new List<Vector3>();
-            this.angle = 0;
-            this.isLookingAtCar = false;
-            this.traffic_towards_flow = "";
-        }
-        public ObservedData(List<Vector3> position, float angle, bool isLookingAtCar, string traffic_towards_flow)
-        {
-            this.position = position;
-            this.angle = angle;
+            this.playerPositions = playerPositions;
+            this.playerHeadRotations = playerHeadRotations;
             this.isLookingAtCar = isLookingAtCar;
+            this.traffic_towards_flow = traffic_towards_flow;
             //this.traffic_towards_flow = traffic_towards_flow;
         }
-        public void OnChangeTrafficTowardsFlow()
-        {
-            if (this.traffic_towards_flow.Equals(value: "Left"))
-            {
-                this.traffic_towards_flow = "Right";
-            }
-            else
-            {
-                this.traffic_towards_flow = "Left";
-            }
-        }
+
 
     }
 }
+
+
