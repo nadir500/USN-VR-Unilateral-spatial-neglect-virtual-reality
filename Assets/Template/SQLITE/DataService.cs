@@ -86,23 +86,35 @@ public class DataService
        return _connection.Insert(gamePlay);
     }
     public void CreateRoadCrossingData(
-                                                string traffic_flow_towards, int current_time_span,
-                                                                 double current_distance_nearest_car, bool gazing_car,
-                                                                                           bool gazing_nearest_car, bool after_collision_frame)
+                         List<string> traffic_flow_towards, int current_time_span,
+                                 double current_distance_nearest_car, List<bool> gazing_car,
+                                            bool gazing_nearest_car, bool after_collision_frame,
+                                                        List<Vector3>person_position,List<float>headRotation)
     {
-        StreetCrossingData streetCrossingData = new StreetCrossingData
+        
+        StreetCrossingData streetCrossingData;
+        
+        for (int i = 0; i < traffic_flow_towards.Count; i++)
+        {
+        streetCrossingData = new StreetCrossingData
         {
             gameplay_id = ExperementParameters.gameplay_id,  //storing from the static variable in the class
-            traffic_flow_towards = traffic_flow_towards,
+            traffic_flow_towards = traffic_flow_towards[i],
             current_time_span = current_time_span,
             current_distance_nearest_car = current_distance_nearest_car,
-            gazing_car = gazing_car,
+            gazing_car = gazing_car[i],
             gazing_nearest_car = gazing_nearest_car,
-            after_collision_frame = after_collision_frame
+            after_collision_frame = after_collision_frame,
+
+            person_x = (double) Mathf.Round(person_position[i].x),
+            person_y = (double) Mathf.Round(person_position[i].y),
+            person_z =(double) Mathf.Round(person_position[i].z),
+
+            head_rotation= (double)  Mathf.Round(headRotation[i])
         };
         _connection.Insert(streetCrossingData);
         Debug.Log("CREATED SCD TO SQLITE DB");
-
+        }
     }
 
     public Gameplay GetGameplayByID(int gameplay_id)  //stored in playerPref 

@@ -17,7 +17,8 @@ public class StreetCrossingData   {
 	    public bool gazing_nearest_car {get;set;}
 
 	    public bool after_collision_frame {get;set;}
-
-
-	 
+	    public double person_x {get;set;}
+	    public double person_y {get;set;}
+	    public double person_z {get;set;}
+	    public double head_rotation {get;set;}
 }

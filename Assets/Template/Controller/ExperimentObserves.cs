@@ -22,7 +22,8 @@ public class ExperimentObserves : MonoBehaviour
     /***************this sould be removed by nadir prevez****************/
     public List<GameObject> carsReferences;
     string[] roadtype;
-
+    string leftSideString;
+    string rightSideString;
     DataService _crossing_road_connection;
     ObservedData observedData;
     //public GameObject car;
@@ -45,7 +46,11 @@ public class ExperimentObserves : MonoBehaviour
     }
     public void Initilize()
     {
-        current_traffic_towards_flow = ExperementParameters.streetsDirections.Split(' ')[0];
+        //current_traffic_towards_flow = ExperementParameters.streetsDirections.Split(' ')[0];
+        leftSideString = ExperementParameters.streetsDirections.Split(' ')[0][0].ToString();
+        rightSideString = ExperementParameters.streetsDirections.Split(' ')[2][0].ToString();
+        current_traffic_towards_flow= leftSideString + "T" + rightSideString;
+
         InvokeRepeating("searchOnPlayer", 1f, 1f);
     }
 
@@ -55,9 +60,6 @@ public class ExperimentObserves : MonoBehaviour
     int currentAngle = 90;
     long frameIndex = 0;
     /***********************/
-
-
-
     int frame = 0;
     void onFrame()
     {
@@ -87,6 +89,8 @@ public class ExperimentObserves : MonoBehaviour
         {
             observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow);
             // send observedData to database here
+            _crossing_road_connection.CreateRoadCrossingData(traffic_towards_flow, Mathf.RoundToInt(Time.time * 1000),
+                                                                0,isLookingAtCar,false, checkPointsController.isHitByCar,playerPositions,playerHeadRotations);
 
             playerPositions = new List<Vector3>();
             playerHeadRotations = new List<float>();
@@ -161,13 +165,13 @@ public class ExperimentObserves : MonoBehaviour
 
     public void OnChangeTrafficTowardsFlow()
     {
-        if (this.current_traffic_towards_flow.Equals(value: "Left"))
+        if (this.current_traffic_towards_flow.Equals(value: "LTR"))
         {
-            this.current_traffic_towards_flow = "Right";
+            this.current_traffic_towards_flow = "RTL";
         }
         else
         {
-            this.current_traffic_towards_flow = "Left";
+            this.current_traffic_towards_flow = "LTR";
         }
     }
 

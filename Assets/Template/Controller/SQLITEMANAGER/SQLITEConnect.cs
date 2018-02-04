@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SQLITEConnect : MonoBehaviour {
 
-    DataService sqliteDS;
+   // DataService sqliteDS;
 
 	void Start()
     {
-        sqliteDS=new DataService("USN_Simulation.db");
+        //sqliteDS=new DataService("USN_Simulation.db");
 
-        sqliteDS.CreateGameplay();
+        //sqliteDS.CreateGameplay();
     }
 }

@@ -133,6 +133,7 @@ public class CheckPointsController : MonoBehaviour
     public void reachedToOtherSide()
     {
         Debug.Log("reachedToOtherSide");
+        isHitByCar = false;
         checkPoints[3].SetActive(false);
         //do not make any fade (not until our phase 3)
         RoadController.fadeout_after_crossing = false;
