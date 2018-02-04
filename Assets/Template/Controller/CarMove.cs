@@ -13,6 +13,7 @@ public class CarMove : MonoBehaviour
     public AudioClip crash;
     public string currentClip = "";
     public string carDirection;
+    public bool hasToStop = false;
     private Vector3 _start_car_position;
 
 
@@ -89,19 +90,16 @@ public class CarMove : MonoBehaviour
         //i need to know which road is this is it from left to right road? and vice versa 
         if (carDirection.Equals(value: "Left"))// && RoadController.fadeout_after_crossing == true)
         {
-
             rb.velocity = -Vector3.forward * speed;
-
         }
         else
         {
             if (carDirection.Equals(value: "Right"))// && RoadController.fadeout_after_crossing == true)
             {
                 rb.velocity = Vector3.forward * speed;
-                //rb.isKinematic=false;
             }
         }
-        if (!RoadController.fadeout_after_crossing)
+        if (RoadController.fadeout_after_crossing)
         {
             FadeSound();
             if (carEngineAudio.volume == 0)

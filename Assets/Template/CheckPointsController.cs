@@ -93,6 +93,8 @@ public class CheckPointsController : MonoBehaviour
     public void reachedToTheMidWalk()
     {
         Debug.Log("reachedToTheMidWalk");
+        isHitByCar = false; //intializing the after_collision_frame again when i reach the midwalk  
+        
         StartCoroutine(fadeController.playSound("Stop"));
         checkPoints[1].SetActive(false);
         //Begin the Phase 2 fade 
@@ -136,6 +138,7 @@ public class CheckPointsController : MonoBehaviour
         RoadController.fadeout_after_crossing = false;
         //sending the actual value to the server
         gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);
+        fadeController.BeginFade(0);
 
         if (otherSideCheckPointReachedEvent != null)
             otherSideCheckPointReachedEvent();
