@@ -27,20 +27,27 @@ public class CrossingRoad : MonoBehaviour
     {
         if (hitBox.tag.Equals(value: "Car"))
         {
-          /*  parentCar = hitBox.transform.parent.gameObject; //bringing car game object collided with the player 
+            parentCar = hitBox.transform.parent.gameObject; //bringing car game object collided with the player 
             rb = parentCar.GetComponent<Rigidbody>();
             carDirection = hitBox.gameObject.GetComponent<CarMove>().carDirection;
-            stopCar=hitBox.gameObject.GetComponent<carm>
+            stopCar = hitBox.gameObject.GetComponent<CarMove>().hasToStop;
             playerGB = this.gameObject; //we'll put it in an apropriate place in the hierarchy 
             carColliderGB = hitBox.gameObject;
-            rb.drag = 40;*/
+            rb.drag = 40;
             WhenHitByCar();
         }
     }
 
     void Update()
     {
-        
+        if(parentCar.gameObject.GetComponent<CarMove>().hasToStop)
+        {
+            StartCoroutine(BrakeCarSound());
+            CrashSound();
+            StopCar();
+            stopCar=false;
+        }
+
         /* if (Time.frameCount % 7 == 0) //excute every couple frames 
          {
              if (rb != null && RoadController.fadeout_after_crossing == true)
@@ -85,9 +92,20 @@ public class CrossingRoad : MonoBehaviour
              }
          }*/
     }
+    IEnumerator BrakeCarSound()
+    {
+        yield return new WaitForSeconds(1.5f);
+        parentCar.GetComponent<CarMove>().onBrake();
+    }
+    
     void StopCar()
     {
         rb.isKinematic = true;
+    }
+    void CrashSound()
+    {
+        parentCar.GetComponent<CarMove>().CrashSound();
+
     }
     void CarHornSound()
     {

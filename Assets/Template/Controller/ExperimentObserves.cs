@@ -55,8 +55,8 @@ public class ExperimentObserves : MonoBehaviour
     {
         Debug.Log("frame");
         angle = mainCamera.transform.localRotation.eulerAngles.y;
-       float distanceCar= CheckDistanceBetweenPlayerAndNearestCar();
-        _crossing_road_connection.CreateRoadCrossingData(observedData.traffic_towards_flow, Mathf.RoundToInt(Time.deltaTime * 1000),distanceCar,observedData.isLookingAtCar,false, checkPointsController.isHitByCar);
+        //if distance < from a certain value then hasToStop bool in car reference should be true 
+        NearCarAndRecordEvent();
 
         //currentAngle = (int)angle;
         //if (currentAngle != lastAngla)
@@ -75,6 +75,19 @@ public class ExperimentObserves : MonoBehaviour
         frameIndex++;
     }
 
+    void NearCarAndRecordEvent()
+    {
+        float distanceCar = CheckDistanceBetweenPlayerAndNearestCar();
+        _crossing_road_connection.CreateRoadCrossingData(observedData.traffic_towards_flow, Mathf.RoundToInt(Time.deltaTime * 1000), distanceCar, observedData.isLookingAtCar, false, checkPointsController.isHitByCar);
+        
+        if (distanceCar <= 3.5f)
+        {
+            carsReferences[PlayerOnPlath.currentPath].GetComponent<CarMove>().hasToStop = true;
+           
+
+        }
+
+    }
 
     void searchOnPlayer()
     {
@@ -117,14 +130,11 @@ public class ExperimentObserves : MonoBehaviour
 
     public float CheckDistanceBetweenPlayerAndNearestCar()
     {
-        Debug.Log("player on path current path variable " + PlayerOnPlath.currentPath + "and index " + carsReferences.Count);
         if ((PlayerOnPlath.currentPath != -1)
             && (carsReferences[PlayerOnPlath.currentPath] != null))
         {
 
             roadtype = carsReferences[PlayerOnPlath.currentPath].transform.parent.gameObject.name.Split(' ');
-            Debug.Log("ROAD TYPE " + roadtype[1]);
-            Debug.Log("CARRRRRRRR " + carsReferences[PlayerOnPlath.currentPath].name);
             if ((carsReferences[PlayerOnPlath.currentPath].transform.position.z < SpineMid.transform.position.z) && (roadtype[1].Equals(value: "Left"))
             || ((carsReferences[PlayerOnPlath.currentPath].transform.position.z > SpineMid.transform.position.z) && (roadtype[1].Equals(value: "Right"))))
 
@@ -140,16 +150,16 @@ public class ExperimentObserves : MonoBehaviour
 
     class ObservedData
     {
-       public List<Vector3> position;
-       public float angle;
-      public  bool isLookingAtCar;
-       public string traffic_towards_flow;
+        public List<Vector3> position;
+        public float angle;
+        public bool isLookingAtCar;
+        public string traffic_towards_flow;
         public ObservedData()
         {
             this.position = new List<Vector3>();
-            this.angle=0;
-            this.isLookingAtCar=false;
-            this.traffic_towards_flow="";
+            this.angle = 0;
+            this.isLookingAtCar = false;
+            this.traffic_towards_flow = "";
         }
         public ObservedData(List<Vector3> position, float angle, bool isLookingAtCar, string traffic_towards_flow)
         {
