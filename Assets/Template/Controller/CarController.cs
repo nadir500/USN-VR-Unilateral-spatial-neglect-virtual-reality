@@ -30,7 +30,7 @@ public class CarController : MonoBehaviour
     /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
     public void InstantiateCarsFastRoad()
     {
-        string[] carDirection = ExperementParameters.streetsDirections.Split(); //knowing which rotation and direction to instatiate the car
+        string[] carDirection = ExperementParameters.streetsDirections.Split(' '); //knowing which rotation and direction to instatiate the car
         int numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
         GameObjectHandler carObjectHandler =
                           new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, //pooling from the prefab with copies that is like the number of paths in each street
@@ -41,9 +41,9 @@ public class CarController : MonoBehaviour
         {
             //now i am seperating between going cars which is the cars from left to right direction
             //and back cars which is from right to left direction
-            if (carDirection[0].Equals(value: "Left") || carDirection[2].Equals(value: "Left"))  //from left to right 
+            if (carDirection[0].Equals(value: "Left") || carDirection[2].Equals(value: "Left"))  //from left to right this is wrong i think ... remember me to till you why..
             {
-                GameObject car = carObjectHandler.RetrieveInstance(new Vector3(sidewalkWidth + (streetPathWidth * numberOfPathsInSingleRoad / 4), -2.0f, 0.0f), Quaternion.Euler(new Vector3(0, -90, 0)));
+                GameObject car = carObjectHandler.RetrieveInstance(new Vector3(/*little shift to right*/0.22f + sidewalkWidth + (streetPathWidth / 2) + ( i * (streetPathWidth/2)), -2.0f, 30.0f), Quaternion.Euler(new Vector3(0, -90, 0)));
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, -90, 0)); //this is temporary 
                 car.AddComponent<CarMove>();  //adding the car movement component  
                 car.GetComponent<CarMove>().carDirection = "Left";      //describe which direction 
@@ -52,7 +52,7 @@ public class CarController : MonoBehaviour
 
             if (carDirection[0].Equals(value: "Right") || carDirection[2].Equals(value: "Right"))  //from right to left 
             {
-                GameObject car = carObjectHandler.RetrieveInstance(new Vector3(4.7f + (streetPathWidth * numberOfPathsInSingleRoad / 4), -2.0f, 0.0f), Quaternion.identity);
+                GameObject car = carObjectHandler.RetrieveInstance(new Vector3(-0.2f + sidewalkWidth + (numberOfPathsInSingleRoad * (streetPathWidth/2)) + midwalkWidth + (i * (streetPathWidth/2)), -2.0f, -30.0f), Quaternion.identity);
 
                 car.transform.localRotation = Quaternion.Euler(new Vector3(0, 90, 0));//this is temporary
                 car.AddComponent<CarMove>(); //adding the car moce component 

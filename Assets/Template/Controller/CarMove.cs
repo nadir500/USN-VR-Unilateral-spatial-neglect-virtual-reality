@@ -25,15 +25,15 @@ public class CarMove : MonoBehaviour
     bool lastIsRenderdState = false;
 
     private Renderer renderer;
-    void Update()
-    {
-        isRendered = renderer.isVisible;
-        if (isRendered != lastIsRenderdState)
-        {
-            CarController.numberOfRenderdCars = (isRendered) ? CarController.numberOfRenderdCars + 1 : CarController.numberOfRenderdCars - 1;
-            lastIsRenderdState = isRendered;
-        }
-    }
+    //void Update()
+    //{
+    //    isRendered = renderer.isVisible;
+    //    if (isRendered != lastIsRenderdState)
+    //    {
+    //        CarController.numberOfRenderdCars = (isRendered) ? CarController.numberOfRenderdCars + 1 : CarController.numberOfRenderdCars - 1;
+    //        lastIsRenderdState = isRendered;
+    //    }
+    //}
 
     void Start()
     {
@@ -86,9 +86,10 @@ public class CarMove : MonoBehaviour
                     carBrakeSound.panStereo = 0;
                     break;
                 }
-           
+
         }
     }
+
 
     void Update()
     {
