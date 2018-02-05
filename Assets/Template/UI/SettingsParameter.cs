@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SettingsParameter : MonoBehaviour {
-    public List<string> values;                 // All the avaliable values of each parameter
+    public string[] values;                 // All the avaliable values of each parameter
     public string unitOfParameterValue;         // The Unit of the parameter (ex inch)
     public string parameterKey;                 // THe Parameter Key in playePrefs
     public int _index = 0;                      // it is public because it will be set in the inspector to default value
@@ -60,9 +60,10 @@ public class SettingsParameter : MonoBehaviour {
 
         if(isIterativeValues)
         {
-            values = new List<string>(numberOfValues+1);
+            values = new string[numberOfValues];
+            Debug.Log("count = "+values.Length);
             for (int i = 0; i < numberOfValues; i++)
-                values[i] = (startValue + IterationStepValue * i).ToString(); 
+                values[i] = System.Math.Round((startValue + IterationStepValue * i), 2).ToString(); 
         }
 
         parameterValue = values[index];
@@ -73,7 +74,7 @@ public class SettingsParameter : MonoBehaviour {
         if(!string.IsNullOrEmpty(parameterKey) && PlayerPrefs.HasKey(parameterKey) && (!string.IsNullOrEmpty(PlayerPrefs.GetString(parameterKey)) ))
         {
             parameterValue = PlayerPrefs.GetString(parameterKey);
-            index = values.IndexOf(parameterValue);
+            index = System.Array.IndexOf(values, parameterValue);
         }
 
         if (linkToResources)
@@ -107,7 +108,7 @@ public class SettingsParameter : MonoBehaviour {
 
     private void indexValidator()
     {
-        if (_index == values.Count - 1)
+        if (_index == values.Length - 1)
             plusButton.interactable = false;
         else
             plusButton.interactable = true;

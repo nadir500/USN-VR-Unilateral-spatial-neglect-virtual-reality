@@ -12,6 +12,7 @@ public class ExperementParameters  {
     public static float lengthOfPatient;
     public static float widthOfTable;
     public static string soundDirections;
+    public static string observeFrameRate;
 
 
     

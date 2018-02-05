@@ -65,11 +65,18 @@ public class Settings : MonoBehaviour
         lengthOfPatientParameterWrapper.OnVariableChange += enableSaveChanges;
        // widthOfTableParameterWrapper.OnVariableChange += enableSaveChanges;
         soundDirectionsParameterWrapper.OnVariableChange += enableSaveChanges;
+        observeFrameRateParameterWrapper.OnVariableChange += enableSaveChanges;
     }
     public void saveParameters()
     {
         setExperementParameters();
         saveButton.interactable = false;
+
+        if (PlayerPrefs.HasKey("isSettingsChanged"))
+        {
+            PlayerPrefs.SetInt("isSettingsChanged", 1);
+            Debug.Log("save parameters isSettingsChanged, 1");
+        }
     }
     public void hide()
     {
@@ -126,7 +133,7 @@ public class Settings : MonoBehaviour
     }
     private void setParameterIndex(SettingsParameter parameter)
     {
-        parameter.index = parameter.values.IndexOf(parameter.parameterValue);
+        parameter.index = System.Array.IndexOf(parameter.values, parameter.parameterValue);
     }
     private void setModeParameters(int numberOfPathsPerStreet, string streetsDirections, int carsSpeed, int distanceBetweenCars)
     {
@@ -148,27 +155,27 @@ public class Settings : MonoBehaviour
     }
     private void setExperementParameters()
     {
-        DataService _sqlite_dataServices = new DataService("USN_Simulation.db");
+        //DataService _sqlite_dataServices = new DataService("USN_Simulation.db");
 
         PlayerPrefs.SetString("numberOfPathsPerStreet", this.numberOfPathsPerStreetValue.ToString());
         PlayerPrefs.SetString("streetsDirections", this.streetsDirectionsValue.ToString());
         PlayerPrefs.SetString("carsSpeed", this.carsSpeedValue.ToString());
         PlayerPrefs.SetString("distanceBetweenCars", this.distanceBetweenCarsValue.ToString());
-        PlayerPrefs.SetString("lenthOfPaitnet", this.lengthOfPatientValue.ToString());
-//        PlayerPrefs.SetString("widthOfTable", this.widthOfTableValue.ToString());
+        PlayerPrefs.SetString("PatientHeight", this.lengthOfPatientValue.ToString());
         PlayerPrefs.SetString("soundDirections", this.soundDirectionsValue);
+        PlayerPrefs.SetString("observeFrameRate", this.observeFrameRateValue.ToString());
 
         ExperementParameters.numberOfPathsPerStreet = this.numberOfPathsPerStreetValue;
         ExperementParameters.streetsDirections = this.streetsDirectionsValue;
         ExperementParameters.carsSpeed = this.carsSpeedValue;
         ExperementParameters.distanceBetweenCars = this.distanceBetweenCarsValue;
         ExperementParameters.lengthOfPatient = this.lengthOfPatientValue;
-//        ExperementParameters.widthOfTable = this.widthOfTableValue;
         ExperementParameters.soundDirections = this.soundDirectionsValue;
-
-        ExperementParameters.gameplay_id = _sqlite_dataServices.CreateGameplay();
-                
-        PlayerPrefs.SetString("gameplay_id", ExperementParameters.gameplay_id.ToString());  //storing gameplay_id for SQL SERVER Later :D
+       // _sqlite_dataServices.CreateGameplay();
+       // ExperementParameters.gameplay_id = _sqlite_dataServices.GetGameplayIDFromDatabase();
+        ExperementParameters.observeFrameRate = this.observeFrameRateValue.ToString();
+        //Debug.Log("Saved id gamplay in player prefs" + ExperementParameters.gameplay_id);
+        //PlayerPrefs.SetString("gameplay_id", ExperementParameters.gameplay_id.ToString());  //storing gameplay_id for SQL SERVER Later :D
         PlayerPrefs.Save();
     }
 }

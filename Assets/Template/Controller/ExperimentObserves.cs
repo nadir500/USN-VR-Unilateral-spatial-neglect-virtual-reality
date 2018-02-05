@@ -11,6 +11,8 @@ public class ExperimentObserves : MonoBehaviour
     private List<float> playerHeadRotations;    // taken from the camira
     public List<bool> isLookingAtCar;           // taken from CarMove class
     public List<string> traffic_towards_flow;   // 
+    public List<int> current_time_span;
+    public List<bool> is_hit_by_car;
     public string current_traffic_towards_flow;
 
     public GameObject mainCamera;               // reference to the camira in the hierarachy
@@ -37,7 +39,8 @@ public class ExperimentObserves : MonoBehaviour
         playerHeadRotations = new List<float>();
         traffic_towards_flow = new List<string>();
         isLookingAtCar = new List<bool>();
-
+        current_time_span = new List<int>();
+        is_hit_by_car = new List<bool>();
         _crossing_road_connection = new DataService("USN_Simulation.db");
         checkPointsController.startTheGameCheckPointReachedEvent += Initilize;
         checkPointsController.backToMidWalkCheckPointReachedEvent += OnChangeTrafficTowardsFlow;
@@ -65,38 +68,47 @@ public class ExperimentObserves : MonoBehaviour
     {
         Debug.Log("frame");
         angle = mainCamera.transform.localRotation.eulerAngles.y;
-       //float distanceCar= CheckDistanceBetweenPlayerAndNearestCar();
+        //float distanceCar= CheckDistanceBetweenPlayerAndNearestCar();
         //_crossing_road_connection.CreateRoadCrossingData(observedData.traffic_towards_flow, Mathf.RoundToInt(Time.deltaTime * 1000),distanceCar,observedData.isLookingAtCar,false, checkPointsController.isHitByCar);
 
         //currentAngle = (int)angle;
         //if (currentAngle != lastAngla)
         //{
-        //    //MyConsol.log(currentAngle.ToString());
+        //    Debug.Log(((currentAngle + 90 )%360).ToString());
         //    lastAngla = currentAngle;
         //}
 
         playerPositions.Add(SpineMid.position);
+        //Debug.Log("E.O playerPositions: " + SpineMid.position);
         playerHeadRotations.Add(angle);
+        traffic_towards_flow.Add(current_traffic_towards_flow);
+        current_time_span.Add(Mathf.RoundToInt(Time.time * 1000));
         isLookingAtCar.Add(CarMove.numberOfRenderdCars > 0);
-        Debug.Log((CarMove.numberOfRenderdCars > 0).ToString());
+        is_hit_by_car.Add(checkPointsController.isHitByCar);
+        //Debug.Log((CarMove.numberOfRenderdCars > 0).ToString());
         // CheckDistanceBetweenPlayerAndNearestCar();
 
         //Debug.Log("CheckDistanceBetweenPlayerAndNearestCar " + CheckDistanceBetweenPlayerAndNearestCar());
 
         //data dabse connection
         frameIndex++;
-        if(frameIndex == 600)
+        if(frameIndex == 20)
         {
-            observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow);
+            Debug.Log("600 frame reached");
+            observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow, current_time_span, is_hit_by_car);
             // send observedData to database here
-            _crossing_road_connection.CreateRoadCrossingData(traffic_towards_flow, Mathf.RoundToInt(Time.time * 1000),
-                                                                0,isLookingAtCar,false, checkPointsController.isHitByCar,playerPositions,playerHeadRotations);
-
+            _crossing_road_connection.CreateRoadCrossingData(observedData/*traffic_towards_flow, Mathf.RoundToInt(Time.time * 1000),
+                                                                0,isLookingAtCar,false, checkPointsController.isHitByCar,playerPositions,playerHeadRotations*/);
+            Debug.Log(" playerPositions count:  " + playerPositions.Count);
+            Debug.Log(" playerHeadRotations count:  " + playerHeadRotations.Count);
+            Debug.Log(" traffic_towards_flow count:  " + traffic_towards_flow.Count);
+            Debug.Log(" isLookingAtCar count:  " + isLookingAtCar.Count);
             playerPositions = new List<Vector3>();
             playerHeadRotations = new List<float>();
             traffic_towards_flow = new List<string>();
             isLookingAtCar = new List<bool>();
-
+            current_time_span = new List<int>();
+            is_hit_by_car = new List<bool>();
             frameIndex = 0;
         }
     }
@@ -175,24 +187,7 @@ public class ExperimentObserves : MonoBehaviour
         }
     }
 
-    class ObservedData
-    {
-        private List<Vector3> playerPositions;      //taken from spineMid GameObject position
-        private List<float> playerHeadRotations;    // taken from the camira
-        public List<bool> isLookingAtCar;           // taken from CarMove class
-        public List<string> traffic_towards_flow;
 
-        public ObservedData(List<Vector3> playerPositions, List<float> playerHeadRotations, List<bool> isLookingAtCar, List<string> traffic_towards_flow)
-        {
-            this.playerPositions = playerPositions;
-            this.playerHeadRotations = playerHeadRotations;
-            this.isLookingAtCar = isLookingAtCar;
-            this.traffic_towards_flow = traffic_towards_flow;
-            //this.traffic_towards_flow = traffic_towards_flow;
-        }
-
-
-    }
 }
 
 

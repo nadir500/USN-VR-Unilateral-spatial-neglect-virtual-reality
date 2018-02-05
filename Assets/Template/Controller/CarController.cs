@@ -24,11 +24,12 @@ public class CarController : MonoBehaviour
     {
         //intialze the cars references 
         carRefernces = new List<GameObject>();
-        checkPointsController.startTheGameCheckPointReachedEvent += CarsOnFastRoad;
+         checkPointsController.startTheGameCheckPointReachedEvent += CarsOnFastRoad;
     }
     public void CarsOnFastRoad()
     {
-        StartCoroutine(InstantiateCarsFastRoad());
+          if(MainMenu.playMode ==1)
+             StartCoroutine(InstantiateCarsFastRoad());
     }
     /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */
     public IEnumerator InstantiateCarsFastRoad()

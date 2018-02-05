@@ -44,12 +44,13 @@ public class RoadController : MonoBehaviour
         int numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
         carsReferences = new List<GameObject>();
         //i am using string builder to rename the roads into a correct format just to make it easy reaching them
-        float lastPosition = sidewalkWidth + midwalkWidth + (streetPathWidth / 4) + streetPathWidth * (numberOfPathsInSingleRoad / 2);
+        float lastPosition = sidewalkWidth + midwalkWidth + (streetPathWidth / 2) + streetPathWidth * (numberOfPathsInSingleRoad / 2);
 
-        yellowArrowsFirstPath = Instantiate(yellowArrows, new Vector3(4.7f + (streetPathWidth * numberOfPathsInSingleRoad / 4), -1.99f, -8.98f), Quaternion.identity);
-        if (ExperementParameters.streetsDirections.Split()[0].Equals("Right"))
-            yellowArrowsFirstPath.transform.localScale = new Vector3(1, 1, -1);
-
+        yellowArrowsFirstPath = Instantiate(yellowArrows, new Vector3(sidewalkWidth + (streetPathWidth  / 2), -1.99f, -8.98f), Quaternion.identity);
+            //if (ExperementParameters.streetsDirections.Split()[0].Equals("Right"))
+            //yellowArrowsFirstPath.transform.localScale = new Vector3(1, 1, -1);
+            //yellowArrowsFirstPath.transform.localEulerAngles = new Vector3(0, -90, 0);
+   
         //Road #1
         createDirection(sidewalkWidth + (streetPathWidth / 2), ref pathGenerateIndex, 0);
 
@@ -58,7 +59,8 @@ public class RoadController : MonoBehaviour
             Instantiate(midWalk, new Vector3(sidewalkWidth + (midwalkWidth / 2) + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
             yellowArrowsSecondPath = Instantiate(yellowArrows, new Vector3(lastPosition, -1.99f, -8.98f), Quaternion.identity);
             if (ExperementParameters.streetsDirections.Equals("Left To Right"))
-                yellowArrowsSecondPath.transform.localScale = new Vector3(1, 1, -1);
+                //yellowArrowsSecondPath.transform.localScale = new Vector3(1, 1, -1);
+                yellowArrowsFirstPath.transform.localEulerAngles = new Vector3(0, -90, 0);
             //Road #2
             createDirection(sidewalkWidth + (streetPathWidth / 2) + midwalkWidth + (streetPathWidth * (numberOfPathsInSingleRoad / 2)), ref pathGenerateIndex, 2);
         }
