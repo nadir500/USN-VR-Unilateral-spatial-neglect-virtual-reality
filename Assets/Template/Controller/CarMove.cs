@@ -104,16 +104,18 @@ public class CarMove : MonoBehaviour
             FadeSound();
             if (carEngineAudio.volume == 0)
             {
-                this.transform.position = _start_car_position;
-                rb.velocity = Vector3.zero;
+                // this.transform.position = _start_car_position;
+                //  rb.velocity = Vector3.zero;
+                Destroy(this.gameObject);
             }
         }
-        //if exceeds the streÄet's limit configure the position again
-        if (Mathf.Round(this.transform.position.z) <= -266.0f || Mathf.Round(this.transform.position.z) >= 200)  // going and back street
-        {
-            this.transform.position = _start_car_position;
 
-        }
+        //if exceeds the streÄet's limit configure the position again
+        //if (Mathf.Round(this.transform.position.z) <= -266.0f || Mathf.Round(this.transform.position.z) >= 200)  // going and back street
+        //{
+            //   this.transform.position = _start_car_position;
+          //  Destroy(this.gameObject);
+        //}
         if (this.transform.position == _start_car_position) //intializing after the car triggered the player 
         {
             rb.isKinematic = false;

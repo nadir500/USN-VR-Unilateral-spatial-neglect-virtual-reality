@@ -61,8 +61,8 @@ public class MainMenu : MonoBehaviour {
         if (PlayerPrefs.HasKey("PatientHeight") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("PatientHeight"))))
             ExperementParameters.lengthOfPatient = float.Parse(PlayerPrefs.GetString("PatientHeight"));
 
-        if (PlayerPrefs.HasKey("soundDirections") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("soundDirections"))))
-            ExperementParameters.soundDirections =PlayerPrefs.GetString("soundDirections");
+        if (PlayerPrefs.HasKey("soundsDirection") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("soundsDirection"))))
+            ExperementParameters.soundDirections =PlayerPrefs.GetString("soundsDirection");
     
         if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
         {

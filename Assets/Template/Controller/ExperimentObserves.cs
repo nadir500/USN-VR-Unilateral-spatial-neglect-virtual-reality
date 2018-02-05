@@ -54,7 +54,7 @@ public class ExperimentObserves : MonoBehaviour
         rightSideString = ExperementParameters.streetsDirections.Split(' ')[2][0].ToString();
         current_traffic_towards_flow= leftSideString + "T" + rightSideString;
 
-        InvokeRepeating("searchOnPlayer", 1f, 1f);
+        InvokeRepeating("searchOnPlayer", 1f, 0.0333f);
     }
 
     /*****temp varialbes****/
@@ -97,9 +97,9 @@ public class ExperimentObserves : MonoBehaviour
             Debug.Log("600 frame reached");
             observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow, current_time_span, is_hit_by_car);
             // send observedData to database here
-            _crossing_road_connection.CreateRoadCrossingData(observedData/*traffic_towards_flow, Mathf.RoundToInt(Time.time * 1000),
-                                                                0,isLookingAtCar,false, checkPointsController.isHitByCar,playerPositions,playerHeadRotations*/);
-            Debug.Log(" playerPositions count:  " + playerPositions.Count);
+           // _crossing_road_connection.CreateRoadCrossingData(observedData/*traffic_towards_flow, Mathf.RoundToInt(Time.time * 1000),
+                                                             //   0,isLookingAtCar,false, checkPointsController.isHitByCar,playerPositions,playerHeadRotations*/);
+           /* Debug.Log(" playerPositions count:  " + playerPositions.Count);
             Debug.Log(" playerHeadRotations count:  " + playerHeadRotations.Count);
             Debug.Log(" traffic_towards_flow count:  " + traffic_towards_flow.Count);
             Debug.Log(" isLookingAtCar count:  " + isLookingAtCar.Count);
@@ -108,7 +108,7 @@ public class ExperimentObserves : MonoBehaviour
             traffic_towards_flow = new List<string>();
             isLookingAtCar = new List<bool>();
             current_time_span = new List<int>();
-            is_hit_by_car = new List<bool>();
+            is_hit_by_car = new List<bool>();*/
             frameIndex = 0;
         }
     }

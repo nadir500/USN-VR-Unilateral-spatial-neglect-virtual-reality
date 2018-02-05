@@ -23,6 +23,7 @@ public class CheckPointsController : MonoBehaviour
     public checkPointsReached otherSideCheckPointReachedEvent;
 
     public bool isHitByCar = false;
+   public AudioController audioController;
 
     /********************This should be removed by(it was "my" --Edited by nadir pervez :p --) Mr nadir prevez*****************/
     Fading fadeController;
@@ -95,13 +96,12 @@ public class CheckPointsController : MonoBehaviour
         Debug.Log("reachedToTheMidWalk");
         isHitByCar = false; //intializing the after_collision_frame again when i reach the midwalk  
         
-        StartCoroutine(fadeController.playSound("Stop"));
+        audioController.playAudioClip("Stop",0,0);
         checkPoints[1].SetActive(false);
         //Begin the Phase 2 fade 
         //now fade and show the loading screen
         RoadController.fadeout_after_crossing = true;
         //sending the current value to the server
-        gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);
 
         fadeController.BeginFade(2);  //fade entirely and wait for re-positioning 
         //seeing the JUST the UI From Camera 
@@ -122,8 +122,9 @@ public class CheckPointsController : MonoBehaviour
         //سلوك
         checkPoints[3].SetActive(true);
         // RoadController.fadeout_after_crossing = true;
-        if (RoadController.fadeout_after_crossing == false)  //if reached to the third ball and the sending value from server is to fade out the screen 
-            StartCoroutine(fadeController.playSound("Congrats_Midwalk"));  //Sound of accomplish
+        gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);
+
+        
 
         if (backToMidWalkCheckPointReachedEvent != null)
             backToMidWalkCheckPointReachedEvent();

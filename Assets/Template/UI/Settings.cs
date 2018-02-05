@@ -162,7 +162,7 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetString("carsSpeed", this.carsSpeedValue.ToString());
         PlayerPrefs.SetString("distanceBetweenCars", this.distanceBetweenCarsValue.ToString());
         PlayerPrefs.SetString("PatientHeight", this.lengthOfPatientValue.ToString());
-        PlayerPrefs.SetString("soundDirections", this.soundDirectionsValue);
+        PlayerPrefs.SetString("soundsDirection", this.soundDirectionsValue);
         PlayerPrefs.SetString("observeFrameRate", this.observeFrameRateValue.ToString());
 
         ExperementParameters.numberOfPathsPerStreet = this.numberOfPathsPerStreetValue;

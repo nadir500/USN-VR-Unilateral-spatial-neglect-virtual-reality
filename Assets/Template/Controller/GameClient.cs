@@ -8,12 +8,17 @@ public class GameClient : MonoBehaviour, INetEventListener
     private NetPeer _serverPeer;
     private NetDataWriter _dataWriter;
     private int isCross = 0;
+    private AudioController audioController;
     void Start()
     {
         _netClient = new NetManager(this);
         _dataWriter= new NetDataWriter();
         _netClient.Start();
         _netClient.UpdateTime = 50;
+
+        audioController = GameObject.Find("AudioController").GetComponent<AudioController>();
+     
+
     }
 
     void Update()
@@ -58,12 +63,13 @@ public class GameClient : MonoBehaviour, INetEventListener
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader, DeliveryMethod deliveryMethod)
     {
         RoadController.fadeout_after_crossing = reader.GetBool();
-      /*  if (isCross == 0)
+        
+        if (isCross == 0)
         {
-            StartCoroutine(GameObject.Find("FadeGameObject").GetComponent<Fading>().playSound("Congrats_Midwalk"));
-            isCross=1;
+            audioController.playAudioClip("Congrats_Midwalk",0,0);
+             isCross =1;
         }
-        else
+      /*  else
         {
             StartCoroutine(GameObject.Find("FadeGameObject").GetComponent<Fading>().playSound("ThankYou"));            
         }*/
