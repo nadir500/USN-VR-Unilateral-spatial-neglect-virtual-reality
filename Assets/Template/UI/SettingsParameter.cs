@@ -44,7 +44,6 @@ public class SettingsParameter : MonoBehaviour {
     public Button plusButton;
     public Button minusButton;
 
-    public bool saveChanges = false;
 
     public delegate void OnVariableChangeDelegate();
     public event OnVariableChangeDelegate OnVariableChange;
@@ -66,9 +65,10 @@ public class SettingsParameter : MonoBehaviour {
                 values[i] = System.Math.Round((startValue + IterationStepValue * i), 2).ToString(); 
         }
 
+
         parameterValue = values[index];
-        plusButton.onClick.AddListener(increase);
-        minusButton.onClick.AddListener(decrease);
+        //plusButton.onClick.AddListener(increase);
+        //minusButton.onClick.AddListener(decrease);
 
         //Read the values from player prefs
         if(!string.IsNullOrEmpty(parameterKey) && PlayerPrefs.HasKey(parameterKey) && (!string.IsNullOrEmpty(PlayerPrefs.GetString(parameterKey)) ))
@@ -105,7 +105,7 @@ public class SettingsParameter : MonoBehaviour {
         if (OnVariableChange != null)
             OnVariableChange();
     }
-
+    
     private void indexValidator()
     {
         if (_index == values.Length - 1)
@@ -118,4 +118,6 @@ public class SettingsParameter : MonoBehaviour {
         else
             minusButton.interactable = true;
     }
+
+
 }

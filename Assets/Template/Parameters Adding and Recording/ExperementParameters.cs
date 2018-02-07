@@ -10,7 +10,6 @@ public class ExperementParameters  {
     public static int distanceBetweenCars = 10;
     public static int carsSpeed = 20;
     public static float lengthOfPatient;
-    public static float widthOfTable;
     public static string soundDirections;
     public static string observeFrameRate;
 

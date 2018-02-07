@@ -54,7 +54,7 @@ public class ExperimentObserves : MonoBehaviour
         rightSideString = ExperementParameters.streetsDirections.Split(' ')[2][0].ToString();
         current_traffic_towards_flow= leftSideString + "T" + rightSideString;
 
-        InvokeRepeating("searchOnPlayer", 1f, 0.0333f);
+        InvokeRepeating("searchOnPlayer", 1f,1/float.Parse(ExperementParameters.observeFrameRate));
     }
 
     /*****temp varialbes****/

@@ -31,14 +31,13 @@ public class Settings : MonoBehaviour
     public SettingsParameter lengthOfPatientParameterWrapper;
     public float lengthOfPatientValue { get { return float.Parse(lengthOfPatientParameterWrapper.parameterValue); } set { lengthOfPatientParameterWrapper.parameterValue = value.ToString(); } }
 
-    public SettingsParameter widthOfTableParameterWrapper;
-//    public float widthOfTableValue { get { return float.Parse(widthOfTableParameterWrapper.parameterValue); } set { widthOfTableParameterWrapper.parameterValue = value.ToString(); } }
-
     public SettingsParameter soundDirectionsParameterWrapper;
     public string soundDirectionsValue { get { return soundDirectionsParameterWrapper.parameterValue; } set { soundDirectionsParameterWrapper.parameterValue = value; } }
 
     public SettingsParameter observeFrameRateParameterWrapper;
     public float observeFrameRateValue { get { return float.Parse(observeFrameRateParameterWrapper.parameterValue); } set { observeFrameRateParameterWrapper.parameterValue = value.ToString(); } }
+
+
     // Use this for initialization
     void Start()
     {
@@ -63,7 +62,6 @@ public class Settings : MonoBehaviour
         carsSpeedParameterWrapper.OnVariableChange += enableSaveChanges;
         distanceBetweenCarsParameterWrapper.OnVariableChange += enableSaveChanges;
         lengthOfPatientParameterWrapper.OnVariableChange += enableSaveChanges;
-       // widthOfTableParameterWrapper.OnVariableChange += enableSaveChanges;
         soundDirectionsParameterWrapper.OnVariableChange += enableSaveChanges;
         observeFrameRateParameterWrapper.OnVariableChange += enableSaveChanges;
     }
@@ -151,7 +149,23 @@ public class Settings : MonoBehaviour
     }
     private void enableSaveChanges()
     {
-        saveButton.interactable = true;
+        if (
+            (ExperementParameters.numberOfPathsPerStreet != numberOfPathsPerStreetValue)    ||
+            (ExperementParameters.streetsDirections != streetsDirectionsValue)              ||
+            (ExperementParameters.carsSpeed != carsSpeedValue)                              ||
+            (ExperementParameters.distanceBetweenCars != distanceBetweenCarsValue)          ||
+            (ExperementParameters.lengthOfPatient != lengthOfPatientValue)                  ||
+            (ExperementParameters.soundDirections != soundDirectionsValue)                  ||
+            (ExperementParameters.observeFrameRate != observeFrameRateValue.ToString())
+          )
+        {
+            saveButton.interactable = true;
+        }
+        else
+            saveButton.interactable = false;
+
+          
+        
     }
     private void setExperementParameters()
     {
