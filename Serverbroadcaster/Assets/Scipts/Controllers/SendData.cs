@@ -45,6 +45,7 @@ public class SendData : MonoBehaviour
             Debug.Log("Sent :D ");
         }
 		serverButton.interactable=false;
+        server.fadeConfirm=false;
 
     }
 

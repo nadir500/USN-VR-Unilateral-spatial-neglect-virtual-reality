@@ -12,8 +12,8 @@ public class CameraShake : MonoBehaviour {
 	public  float shakeDuration = 0f;
 	
 	// Amplitude of the shake. A larger value shakes the camera harder.
-	public float shakeAmount = 0.7f;
-	public float decreaseFactor = 1.0f;
+	public float shakeAmount = 0.7f; 
+	public float decreaseFactor = 1.0f;  //decrease factor until the duration = 0 
 	
 	Vector3 originalPos;
 	
@@ -35,7 +35,7 @@ public class CameraShake : MonoBehaviour {
 	}
 	void Update()
 	{
-		if (shakeDuration > 0)
+		if (shakeDuration > 0)  //playing on local position translation to make the shaking effect  
 		{
 			camTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
 			

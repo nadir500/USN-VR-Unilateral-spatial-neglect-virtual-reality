@@ -6,13 +6,11 @@ public class GameClient : MonoBehaviour, INetEventListener
 {
     private NetManager _netClient;
     private NetPeer _serverPeer;
-    private NetDataWriter _dataWriter;
     private int isCross = 0;
     private AudioController audioController;
     void Start()
     {
         _netClient = new NetManager(this);
-        _dataWriter= new NetDataWriter();
         _netClient.Start();
         _netClient.UpdateTime = 50;
 
@@ -37,6 +35,7 @@ public class GameClient : MonoBehaviour, INetEventListener
 
     public void SendDataToServer(bool fadeCondition)
     {
+        NetDataWriter _dataWriter = new NetDataWriter();
         if(_serverPeer!=null)
         {
         _dataWriter.Put(fadeCondition);
@@ -63,7 +62,7 @@ public class GameClient : MonoBehaviour, INetEventListener
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader, DeliveryMethod deliveryMethod)
     {
         RoadController.fadeout_after_crossing = reader.GetBool();
-        
+        Debug.Log("is CROSS " + isCross );
         if (isCross == 0)
         {
             audioController.playAudioClip("Congrats_Midwalk",0,0);

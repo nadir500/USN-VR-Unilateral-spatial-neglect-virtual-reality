@@ -41,7 +41,7 @@ public class RoadController : MonoBehaviour
     {
         //Assigning number of paths from the UI
         int pathGenerateIndex = 0;
-        int numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
+        int numberOfPathsInSingleRoad = ExperementParameters.lanes_per_direction;
         carsReferences = new List<GameObject>();
         //i am using string builder to rename the roads into a correct format just to make it easy reaching them
         float lastPosition = sidewalkWidth + midwalkWidth + (streetPathWidth / 2) + streetPathWidth * (numberOfPathsInSingleRoad / 2);
@@ -67,14 +67,11 @@ public class RoadController : MonoBehaviour
         Instantiate(sidewalk, new Vector3((sidewalkWidth) + (midwalkWidth) + streetPathWidth * (numberOfPathsInSingleRoad), -0.0012f, 0.0f), Quaternion.identity);
 
         BuildingsWrapper.transform.position = new Vector3((sidewalkWidth * 2) + (midwalkWidth) + streetPathWidth * (numberOfPathsInSingleRoad), 0, 0);
-
-
-
     }
 
     public void createDirection(float startPositionAtX, ref int pathGenerateIndex, int indexOfDirection)
     {
-        int numberOfPathsInSingleRoad = ExperementParameters.numberOfPathsPerStreet;
+        int numberOfPathsInSingleRoad = ExperementParameters.lanes_per_direction;
         
         streetsDirections = ExperementParameters.streetsDirections.Split(' '); //to be able to name the streets
         for (int i = 0; i < (numberOfPathsInSingleRoad / 2); i++)
@@ -95,9 +92,6 @@ public class RoadController : MonoBehaviour
             stringBuilder.Append(streetsDirections[indexOfDirection] + " ");
             stringBuilder.Append(i + 1);
             generatedRoad.name = stringBuilder.ToString();
-
-
-            //carController.InstantiateCarsFastRoad(generatedRoad.transform,car_handler);
         }
     }
 

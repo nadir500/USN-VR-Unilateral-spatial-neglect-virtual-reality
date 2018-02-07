@@ -9,9 +9,9 @@ public class ObservedData : MonoBehaviour
     public List<float> playerHeadRotations;    // taken from the camira
     public List<bool> isLookingAtCar;           // taken from CarMove class
     public List<string> traffic_towards_flow;
-    public List<int> current_time_span;
+    public List<float> current_time_span;
     public List<bool> is_hit_by_car;
-    public ObservedData(List<Vector3> playerPositions, List<float> playerHeadRotations, List<bool> isLookingAtCar, List<string> traffic_towards_flow, List<int> current_time_span, List<bool> is_hit_by_car)
+    public ObservedData(List<Vector3> playerPositions, List<float> playerHeadRotations, List<bool> isLookingAtCar, List<string> traffic_towards_flow, List<float> current_time_span, List<bool> is_hit_by_car)
     {
         this.playerPositions = playerPositions;
         this.playerHeadRotations = playerHeadRotations;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StupidWalk : MonoBehaviour {
 
-    public Transform vrCamera;
+   /* public Transform vrCamera;
 
     public float targetAngle;
 
@@ -12,15 +12,21 @@ public class StupidWalk : MonoBehaviour {
 
     public bool moveForward;
 
-    private CharacterController cc;
+    private CharacterController cc;*/
 	// Use this for initialization
+    float spanTime ; 
 	void Start () {
-        cc = GetComponent<CharacterController>();
+      //  cc = GetComponent<CharacterController>();
+
+        spanTime = Time.time;
+        Debug.Log("TIIIIIIIIIIIIME " + spanTime);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(vrCamera.eulerAngles.x >= -20.0f && vrCamera.eulerAngles.x <= 20.0f)
+
+        Debug.Log("TIME IN GAME " + (Mathf.Round((Time.time - spanTime) *1000))); 
+	/*	if(vrCamera.eulerAngles.x >= -20.0f && vrCamera.eulerAngles.x <= 20.0f)
         {
             moveForward = true;
         }
@@ -32,6 +38,6 @@ public class StupidWalk : MonoBehaviour {
         {
             Vector3 forward = vrCamera.TransformDirection(Vector3.forward);
             cc.SimpleMove(forward * speed);
-        }
+        }*/
 	}
 }

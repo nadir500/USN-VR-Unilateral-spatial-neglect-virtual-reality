@@ -71,7 +71,7 @@ public class DataService
 
         //TODO: Linking it do the expermental parameters we have 
         Debug.Log("streetsDirections " + ExperementParameters.streetsDirections);
-        Debug.Log("numberOfPathsPerStreet " + ExperementParameters.numberOfPathsPerStreet);
+        Debug.Log("numberOfPathsPerStreet " + ExperementParameters.lanes_per_direction);
         Debug.Log("carsSpeed " + ExperementParameters.carsSpeed);
         Debug.Log("distanceBetweenCars   " + ExperementParameters.distanceBetweenCars);
         Debug.Log("soundDirections " + ExperementParameters.soundDirections);
@@ -79,9 +79,9 @@ public class DataService
         Gameplay gamePlay = new Gameplay
         {
             street_direction = ExperementParameters.streetsDirections,
-            pathes_per_direction = ExperementParameters.numberOfPathsPerStreet,
+            lanes_per_direction = ExperementParameters.lanes_per_direction,
             car_speed_km = ExperementParameters.carsSpeed,
-            car_span_km = ExperementParameters.distanceBetweenCars,
+            car_span_second = ExperementParameters.distanceBetweenCars,
             sound_mode = ExperementParameters.soundDirections,
             player_name = "Omar",
             player_height = (double)ExperementParameters.lengthOfPatient
@@ -104,7 +104,7 @@ public class DataService
         {
             gameplay_id = ExperementParameters.gameplay_id,  //storing from the static variable in the class
             traffic_flow_towards = observedData.traffic_towards_flow[i],
-            current_time_span = observedData.current_time_span[i],
+            current_time_span =(double) observedData.current_time_span[i],
             current_distance_nearest_car = 0,
             gazing_car = observedData.isLookingAtCar[i],
             gazing_nearest_car = false,
@@ -114,7 +114,7 @@ public class DataService
             person_y = (double) observedData.playerPositions[i].y,
             person_z =(double) observedData.playerPositions[i].z,
 
-            head_rotation= (double) observedData.playerHeadRotations[i]
+            head_rotation_y= (double) observedData.playerHeadRotations[i]
         };
         _connection.Insert(streetCrossingData);
         Debug.Log("CREATED SCD TO SQLITE DB");

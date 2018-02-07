@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Fading : MonoBehaviour {
 
-	// Use this for initialization
 	public CanvasGroup fadecanvas;
 	public float fadeSpeed= 0.8f;
 	private int drawDepth= -1000;
@@ -17,7 +16,8 @@ public class Fading : MonoBehaviour {
     AudioSource audioSource;
     void Start()
     {
-        darkRedColor = new Color32(38, 20, 20, 255);
+        darkRedColor = new Color32(38, 20, 20, 255); //by default 
+
         fadeImage = GameObject.Find("FadeImage") as GameObject;
         loadingImage = GameObject.Find("LoadingImage") as GameObject;
         loadingImage.SetActive(false);
@@ -43,6 +43,7 @@ public class Fading : MonoBehaviour {
        		fadecanvas.alpha = alpha;  //fading entirly 
 			if(!RoadController.fadeout_after_crossing) //if the server sent the false value to the client 
 			{
+				darkRedColor = new Color32(38, 20, 20, 255); //return to red by default 
 				loadingImage.SetActive(false); 
 				//reverse fading
 				fadeDirection = -1;
