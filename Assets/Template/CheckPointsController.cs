@@ -33,7 +33,7 @@ public class CheckPointsController : MonoBehaviour
     GameClient gameClientController;
 
     // Use this for initialization
-    void Start()
+    public void StartAfterMainMenu()
     {
         checkPoints = new GameObject[4];
         ObjectsIntializer();
