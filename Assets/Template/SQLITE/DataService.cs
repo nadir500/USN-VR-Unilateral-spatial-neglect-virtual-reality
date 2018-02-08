@@ -70,12 +70,12 @@ public class DataService
     {
 
         //TODO: Linking it do the expermental parameters we have 
-        Debug.Log("streetsDirections " + ExperementParameters.streetsDirections);
+        /*Debug.Log("streetsDirections " + ExperementParameters.streetsDirections);
         Debug.Log("numberOfPathsPerStreet " + ExperementParameters.lanes_per_direction);
         Debug.Log("carsSpeed " + ExperementParameters.carsSpeed);
         Debug.Log("distanceBetweenCars   " + ExperementParameters.distanceBetweenCars);
         Debug.Log("soundDirections " + ExperementParameters.soundDirections);
-        Debug.Log("lengthOfPatient "+ ExperementParameters.lengthOfPatient);
+        Debug.Log("lengthOfPatient "+ ExperementParameters.lengthOfPatient);*/
         Gameplay gamePlay = new Gameplay
         {
             street_direction = ExperementParameters.streetsDirections,

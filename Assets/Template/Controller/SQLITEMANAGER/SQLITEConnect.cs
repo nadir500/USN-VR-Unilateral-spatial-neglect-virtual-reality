@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SQLITEConnect : MonoBehaviour {
 
-   // DataService sqliteDS;
+   // DUMP SCRIPT 
 
 	void Start()
     {

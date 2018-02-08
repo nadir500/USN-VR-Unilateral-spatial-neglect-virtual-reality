@@ -150,7 +150,7 @@ public class Settings : MonoBehaviour
     private void enableSaveChanges()
     {
         if (
-            (ExperementParameters.numberOfPathsPerStreet != numberOfPathsPerStreetValue)    ||
+            (ExperementParameters.lanes_per_direction != numberOfPathsPerStreetValue)    ||
             (ExperementParameters.streetsDirections != streetsDirectionsValue)              ||
             (ExperementParameters.carsSpeed != carsSpeedValue)                              ||
             (ExperementParameters.distanceBetweenCars != distanceBetweenCarsValue)          ||
