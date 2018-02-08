@@ -12,6 +12,7 @@ public class MainMenu : MonoBehaviour {
     public GameObject settingsWrapper;
     public GameObject creditsWrapper;
     public RoadController roadController;
+    public CheckPointsController checkPointsController;
     public Canvas uiMainCanvas;
 
     public Button startGameButton;
@@ -63,7 +64,10 @@ public class MainMenu : MonoBehaviour {
 
         if (PlayerPrefs.HasKey("soundsDirection") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("soundsDirection"))))
             ExperementParameters.soundDirections =PlayerPrefs.GetString("soundsDirection");
-    
+
+        if (PlayerPrefs.HasKey("observeFrameRate") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("observeFrameRate"))))
+            ExperementParameters.observeFrameRate = PlayerPrefs.GetString("observeFrameRate");
+
         if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
         {
             ExperementParameters.gameplay_id = int.Parse(PlayerPrefs.GetString("gameplay_id"));
@@ -118,6 +122,7 @@ public class MainMenu : MonoBehaviour {
         DataService _sqlite_connection_gamoplay = new DataService("USN_Simulation.db");
         ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         uiMainCanvas.enabled = false;
+        checkPointsController.StartAfterMainMenu();
         roadController.generateRoads();
         VRSettings.enabled = true;
 
@@ -134,6 +139,7 @@ public class MainMenu : MonoBehaviour {
         Debug.Log("Gameplay ID Changed To = " + ExperementParameters.gameplay_id);
 
         uiMainCanvas.enabled = false;
+        checkPointsController.StartAfterMainMenu();
         roadController.generateRoads();
         VRSettings.enabled = true;
         PlayerPrefs.SetInt("isSettingsChanged", 0);

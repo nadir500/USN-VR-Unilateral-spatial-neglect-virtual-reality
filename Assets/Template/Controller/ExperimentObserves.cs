@@ -53,8 +53,8 @@ public class ExperimentObserves : MonoBehaviour
         leftSideString = ExperementParameters.streetsDirections.Split(' ')[0][0].ToString();
         rightSideString = ExperementParameters.streetsDirections.Split(' ')[2][0].ToString();
         current_traffic_towards_flow= leftSideString + "T" + rightSideString;
-
-        InvokeRepeating("searchOnPlayer", 1f,1/float.Parse(ExperementParameters.observeFrameRate));
+        Debug.Log("observe frame rate"+ExperementParameters.observeFrameRate);
+        InvokeRepeating("searchOnPlayer", 1f,1f));
     }
 
     /*****temp varialbes****/
@@ -142,7 +142,7 @@ public class ExperimentObserves : MonoBehaviour
             }
             else if (!onFrameWorking)
             {
-                InvokeRepeating("onFrame", 1f, 0.0333f);
+                InvokeRepeating("onFrame", 1f, 1 / float.Parse(ExperementParameters.observeFrameRate));
                 onFrameWorking = true;
             }
         }
