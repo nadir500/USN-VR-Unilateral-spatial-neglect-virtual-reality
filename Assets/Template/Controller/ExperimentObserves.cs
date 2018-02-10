@@ -58,7 +58,7 @@ public class ExperimentObserves : MonoBehaviour
         timeSinceReachTheFirstYelloePoint = Time.time;
         Debug.Log(timeSinceReachTheFirstYelloePoint);
         //invoke the method
-        InvokeRepeating("searchOnPlayer", 1f, 1);
+        InvokeRepeating("searchOnPlayer", 1f, observeFrameRate);
     }
 
     /*****temp varialbes****/

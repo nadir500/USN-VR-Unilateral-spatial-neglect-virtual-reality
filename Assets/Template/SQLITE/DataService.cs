@@ -91,7 +91,7 @@ public class DataService
             {
                 gameplay_id = ExperementParameters.gameplay_id,  //storing from the static variable in the class
                 traffic_flow_towards = observedData.traffic_towards_flow[i],
-                current_time_span = (double)observedData.current_time_span[i],
+                current_time_span = double.Parse(observedData.current_time_span[i].ToString("F3")),
                 current_distance_nearest_car = 0, //for now 
                 gazing_car = observedData.isLookingAtCar[i],
                 gazing_nearest_car = false, //for now 
