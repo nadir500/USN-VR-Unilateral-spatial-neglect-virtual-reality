@@ -1,6 +1,7 @@
 ﻿using SQLite4Unity3d;
 public class Gameplay {
 
+		//the classes in SQLITE ADDING AND RECORDING are in the same name and type as in the sqlite db tables  
 		[PrimaryKey,AutoIncrement]
 		public int gameplay_id{get;set;}
 		[NotNull]

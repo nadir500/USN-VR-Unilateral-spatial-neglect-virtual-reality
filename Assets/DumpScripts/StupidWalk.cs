@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class StupidWalk : MonoBehaviour {
@@ -15,6 +16,8 @@ public class StupidWalk : MonoBehaviour {
     private CharacterController cc;*/
 	// Use this for initialization
     float spanTime ; 
+    float result;
+    
 	void Start () {
       //  cc = GetComponent<CharacterController>();
 
@@ -24,8 +27,8 @@ public class StupidWalk : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        Debug.Log("TIME IN GAME " + (Mathf.Round((Time.time - spanTime) *1000))); 
+        threads();
+        Debug.Log("TIME IN GAME " + result); 
 	/*	if(vrCamera.eulerAngles.x >= -20.0f && vrCamera.eulerAngles.x <= 20.0f)
         {
             moveForward = true;
@@ -40,4 +43,10 @@ public class StupidWalk : MonoBehaviour {
             cc.SimpleMove(forward * speed);
         }*/
 	}
+
+    void threads()
+    {
+        result = Mathf.Round((Time.time - spanTime) *1000) /1000;
+
+    }
 }

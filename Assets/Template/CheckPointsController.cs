@@ -95,7 +95,7 @@ public class CheckPointsController : MonoBehaviour
         Debug.Log("reachedToTheMidWalk");
         isHitByCar = false; //intializing the after_collision_frame again when i reach the midwalk  
 
-        audioController.playAudioClip("Stop", 0, 0);
+        audioController.playAudioClip("Stop", 0, -1);
         checkPoints[1].SetActive(false);
         //Begin the Phase 2 fade 
         //now fade and show the loading screen

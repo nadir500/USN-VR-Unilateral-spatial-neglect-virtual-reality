@@ -5,7 +5,9 @@ using UnityEngine;
 public class CarParentOnRoad : MonoBehaviour
 {
 
-    // This class aim to manage the generated road through adding it as a component in a "parent" after generating evey lane 
+    // This class aim to manage the generated road through adding it as a component 
+    //in a "parent" after generating evey lane 
+   
     public GameObject[] carRefernces;  //array refernces to the childs (cars) in the parent attached with this class 
     public int index = 0; //index of the car we're trying to generate in every lane from the array above
     private CheckPointsController checkPointsController;  //helping us in detecting if the car hit the player or not 
@@ -25,6 +27,7 @@ public class CarParentOnRoad : MonoBehaviour
         else
          InvokeRepeating("SpawnCar", 1, ExperementParameters.distanceBetweenCars);
     }
+    //entering this method in a loop for spawning cars using setActive for effectiveness  
     void SpawnCar()
     {
         if (index < carRefernces.Length &&!hitByCar)
@@ -44,6 +47,7 @@ public class CarParentOnRoad : MonoBehaviour
         }
      
     }   
+    //making all cars disappear except the one that hit the player SetActive(true)
     public void StopAllCarsAfterAccident(int carIndex)
     {
         for (int i = 0; i < carRefernces.Length; i++)

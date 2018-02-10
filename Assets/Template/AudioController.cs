@@ -15,7 +15,7 @@ public class AudioController : MonoBehaviour {
         audioSource = this.GetComponent<AudioSource>();
     }
 
-    public void playAudioClip(string audioName, float waitTime = 0.0f, float clipTime = 30.0f)
+    public void playAudioClip(string audioName, float waitTime = 0.0f, float clipTime = -1f)
     {
         StartCoroutine(playTheClipWithTimes(audioName, waitTime, clipTime));
     }
@@ -26,11 +26,12 @@ public class AudioController : MonoBehaviour {
         audioSource.clip = ac;
 
         yield return new WaitForSeconds(waitTime);
-  
         audioSource.Play();
-
-        yield return new WaitForSeconds(clipTime);
-        audioSource.Stop();
+        if(clipTime >=0)
+        {
+            yield return new WaitForSeconds(clipTime);
+            audioSource.Stop();
+        }
     }
 	
 

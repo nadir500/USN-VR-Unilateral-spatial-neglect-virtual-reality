@@ -5,8 +5,8 @@ using UnityEngine;
 public class LoadingImageRotate : MonoBehaviour {
 
   
-	// Update is called once per frame
+	// it's a loading bar rotate nothing more 
 	void Update () {
-		this.transform.Rotate(new Vector3(0,0,1),20);
+		this.transform.Rotate(new Vector3(0,0,1),20); 
 	}
 }

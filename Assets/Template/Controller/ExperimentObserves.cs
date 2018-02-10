@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class ExperimentObserves : MonoBehaviour
@@ -7,55 +8,57 @@ public class ExperimentObserves : MonoBehaviour
 
     public CheckPointsController checkPointsController;
 
-    private List<Vector3> playerPositions;      //taken from spineMid GameObject position
-    private List<float> playerHeadRotations;    // taken from the camira
-    public List<bool> isLookingAtCar;           // taken from CarMove class
-    public List<string> traffic_towards_flow;   // 
-    public List<float> current_time_span;
-    public List<bool> is_hit_by_car;
-    public string current_traffic_towards_flow;
+    private Vector3[] playerPositions;      //taken from spineMid GameObject position
+    private float[] playerHeadRotations;    // taken from the camira
+    public bool[] isLookingAtCar;           // taken from CarMove class
+    public string[] traffic_towards_flow;   //determine which direction the player is on 
+    public float[] current_time_span;  //current time capturing the data 
+    public bool[] is_hit_by_car;        //current state of the player when recording the data (is hit by a car ot not)
+    public string current_traffic_towards_flow;  //where is the player right now is it on the left side road? or the right side
 
     public GameObject mainCamera;               // reference to the camira in the hierarachy
     public GameObject onlineBodyView;           // reference to onlineBodyVew (just used to find the spineMid at his grandsons
     private Transform SpineMid = null;          // reference to spineMid (kinekt creates it at runtime)
     private bool onFrameWorking;        // true => the 30 frame per second method is working after finding the spineMid | false  => the 30 frame per second method is NOT working
-
+    private float observeFrameRate;  //the framerate from expermental parameters 
+    private float timeSinceReachTheFirstYelloePoint;  //to calculate the start point of excuting OnFrame in invoke 
+    private string leftSideString; //getting the left side of the ExperementParameters.streetsDirections string to determine if the player is on the left side or right side (R/L)
 
     /***************this sould be removed by nadir prevez****************/
     public List<GameObject> carsReferences;
     string[] roadtype;
-    string leftSideString;
-    string rightSideString;
     DataService _crossing_road_connection;
     ObservedData observedData;
-    float timeSinceReachTheFirstYelloePoint;
-    //public GameObject car;
     /********************************************************************/
     // Use this for initialization
     void Start()
     {
-
         onFrameWorking = false;
-        playerPositions = new List<Vector3>();
-        playerHeadRotations = new List<float>();
-        traffic_towards_flow = new List<string>();
-        isLookingAtCar = new List<bool>();
-        current_time_span = new List<float>();
-        is_hit_by_car = new List<bool>();
         _crossing_road_connection = new DataService("USN_Simulation.db");
         checkPointsController.startTheGameCheckPointReachedEvent += Initilize;
         checkPointsController.backToMidWalkCheckPointReachedEvent += OnChangeTrafficTowardsFlow;
-
-
     }
     public void Initilize()
     {
-        //current_traffic_towards_flow = ExperementParameters.streetsDirections.Split(' ')[0];
+        //intialize the framerate value (i made it like this cuz i want to reduce some operations :) )
+        float frameRateIntialize = float.Parse(ExperementParameters.observeFrameRate);
+        observeFrameRate = 1 / frameRateIntialize; //now getting the invoke reapeting rate 
+
+        //those arrays are here for recording the data to DB every 2 invokes (performance matter) 
+        playerPositions = new Vector3[3];  //player position array for recording 
+        playerHeadRotations = new float[3]; //player head rotation as array for recording purpose 
+        traffic_towards_flow = new string[3]; //recording the current road the player is on
+        isLookingAtCar = new bool[3]; //is he looking to a car
+        current_time_span = new float[3]; //time span since OnFrame() started 
+        is_hit_by_car = new bool[3];
+        //getting the itial state of the first road 
         leftSideString = ExperementParameters.streetsDirections.Split(' ')[0][0].ToString();
-        rightSideString = ExperementParameters.streetsDirections.Split(' ')[2][0].ToString();
-        current_traffic_towards_flow = leftSideString + "T" + rightSideString;
+        current_traffic_towards_flow = leftSideString;
+        //time since touching the first yellow point
         timeSinceReachTheFirstYelloePoint = Time.time;
-        InvokeRepeating("searchOnPlayer", 1f, 1 / float.Parse(ExperementParameters.observeFrameRate));
+        Debug.Log(timeSinceReachTheFirstYelloePoint);
+        //invoke the method
+        InvokeRepeating("searchOnPlayer", 1f, 1);
     }
 
     /*****temp varialbes****/
@@ -64,60 +67,40 @@ public class ExperimentObserves : MonoBehaviour
     int currentAngle = 90;
     long frameIndex = 0;
     /***********************/
-    int frame = 0;
-    void onFrame()
+    int frame = 0;      // initilize with zero
+    void OnFrame()
     {
-        Debug.Log("frame");
+        //recording the data 
         angle = mainCamera.transform.localRotation.eulerAngles.y;
-        //float distanceCar= CheckDistanceBetweenPlayerAndNearestCar();
-        //_crossing_road_connection.CreateRoadCrossingData(observedData.traffic_towards_flow, Mathf.RoundToInt(Time.deltaTime * 1000),distanceCar,observedData.isLookingAtCar,false, checkPointsController.isHitByCar);
+        playerPositions[frameIndex] = SpineMid.position;
+        playerHeadRotations[frameIndex] = angle;
+        traffic_towards_flow[frameIndex] = current_traffic_towards_flow;
+        current_time_span[frameIndex] = Mathf.Abs(Mathf.Round((Time.time - timeSinceReachTheFirstYelloePoint) * 1000) / 1000);
+        Debug.Log(current_time_span[frameIndex]);
+        isLookingAtCar[frameIndex] = CarMove.numberOfRenderdCars > 0;
+        is_hit_by_car[frameIndex] = checkPointsController.isHitByCar;
 
-        //currentAngle = (int)angle;
-        //if (currentAngle != lastAngla)
-        //{
-        //    Debug.Log(((currentAngle + 90 )%360).ToString());
-        //    lastAngla = currentAngle;
-        //}
-
-        playerPositions.Add(SpineMid.position);
-        //Debug.Log("E.O playerPositions: " + SpineMid.position);
-        playerHeadRotations.Add(angle);
-        traffic_towards_flow.Add(current_traffic_towards_flow);
-        current_time_span.Add((Mathf.Round((Time.time - timeSinceReachTheFirstYelloePoint) * 1000)));
-        isLookingAtCar.Add(CarMove.numberOfRenderdCars > 0);
-        is_hit_by_car.Add(checkPointsController.isHitByCar);
-        //Debug.Log((CarMove.numberOfRenderdCars > 0).ToString());
-        // CheckDistanceBetweenPlayerAndNearestCar();
-
-        //Debug.Log("CheckDistanceBetweenPlayerAndNearestCar " + CheckDistanceBetweenPlayerAndNearestCar());
-
-        //data dabse connection
         frameIndex++;
-        if (frameIndex == 20)
+        if (frameIndex == 2)   // you can use this as the index of the lists
         {
-            Debug.Log("600 frame reached");
             observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow, current_time_span, is_hit_by_car);
-            // send observedData to database here
-            // _crossing_road_connection.CreateRoadCrossingData(observedData/*traffic_towards_flow, Mathf.RoundToInt(Time.time * 1000),
-            //   0,isLookingAtCar,false, checkPointsController.isHitByCar,playerPositions,playerHeadRotations*/);
-            /* Debug.Log(" playerPositions count:  " + playerPositions.Count);
-             Debug.Log(" playerHeadRotations count:  " + playerHeadRotations.Count);
-             Debug.Log(" traffic_towards_flow count:  " + traffic_towards_flow.Count);
-             Debug.Log(" isLookingAtCar count:  " + isLookingAtCar.Count);
-             playerPositions = new List<Vector3>();
-             playerHeadRotations = new List<float>();
-             traffic_towards_flow = new List<string>();
-             isLookingAtCar = new List<bool>();
-             current_time_span = new List<int>();
-             is_hit_by_car = new List<bool>();*/
-            frameIndex = 0;
-        }
-    }
+            //connection to database in a thread 
+            Thread connectionDBThread = new Thread(() => ConnectionToDB());
 
+            connectionDBThread.Start();
+            if (!connectionDBThread.IsAlive)
+                connectionDBThread.Abort();
+            frameIndex = 0;     // back to zero after each send
+        }
+
+    }
+    private void ConnectionToDB()
+    {
+        _crossing_road_connection.CreateRoadCrossingData(observedData);
+    }
 
     void searchOnPlayer()
     {
-        Debug.Log("searchOnPlayer");
         try
         {
             if (SpineMid == null)
@@ -126,24 +109,18 @@ public class ExperimentObserves : MonoBehaviour
                 {
                     onFrameWorking = false;
 
-                    CancelInvoke("onFrameWorking");
+                    CancelInvoke("onFramh,reWorking");
                 }
                 if (onlineBodyView.transform.GetChild(0) != null)
                 {
                     SpineMid = onlineBodyView.transform.GetChild(0).transform.Find("SpineMid");
                     onlineBodyView.transform.GetChild(0).name = "Player";
                 }
-                //else
-                //    Debug.Log("no children");
 
-                //if(SpineMid != null)
-                //    Debug.Log(" on framework will start in next iteration");
-                //else
-                //    Debug.Log(" on SpineMid NOT found");
             }
             else if (!onFrameWorking)
             {
-                InvokeRepeating("onFrame", 1f, 0.0333f);
+                InvokeRepeating("onFrame", 0.0f, observeFrameRate);
                 onFrameWorking = true;
             }
         }
@@ -178,13 +155,13 @@ public class ExperimentObserves : MonoBehaviour
 
     public void OnChangeTrafficTowardsFlow()
     {
-        if (this.current_traffic_towards_flow.Equals(value: "LTR"))
+        if (this.current_traffic_towards_flow.Equals(value: "L"))
         {
-            this.current_traffic_towards_flow = "RTL";
+            this.current_traffic_towards_flow = "R";
         }
         else
         {
-            this.current_traffic_towards_flow = "LTR";
+            this.current_traffic_towards_flow = "L";
         }
     }
 
