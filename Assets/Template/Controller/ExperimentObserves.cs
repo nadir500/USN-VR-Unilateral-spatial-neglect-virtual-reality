@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class ExperimentObserves : MonoBehaviour
 {
-
+    /// <summary>
+    /// CheckPointController class is almost the Spine of the game
+    /// 
+    /// </summary>
     public CheckPointsController checkPointsController;
 
     private List<Vector3> playerPositions;      //taken from spineMid GameObject position
@@ -54,7 +57,7 @@ public class ExperimentObserves : MonoBehaviour
         rightSideString = ExperementParameters.streetsDirections.Split(' ')[2][0].ToString();
         current_traffic_towards_flow= leftSideString + "T" + rightSideString;
         Debug.Log("observe frame rate"+ExperementParameters.observeFrameRate);
-        InvokeRepeating("searchOnPlayer", 1f,1f));
+        InvokeRepeating("searchOnPlayer", 1f,1f);
     }
 
     /*****temp varialbes****/

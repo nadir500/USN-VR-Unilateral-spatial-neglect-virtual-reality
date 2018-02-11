@@ -1,11 +1,13 @@
 ﻿using System;
 using UnityEngine;
 
-
-// This class is tha manager of the check points their events
-//  it creates the checkpoints in checkPoints with the positions calculated in Start()->generateCheckPoints() method by the variables in RoadController
-//  then manualy assign the currect method to the behavior event at each checkpoint
-//  each metho is liked to a "global" event and trigger it to aware each class lined to that event
+/// <summary>
+/// This class is tha manager of the check points their events
+///  it creates the checkpoints in checkPoints with the positions calculated in Start()->generateCheckPoints() method by the variables in RoadController
+///  then manualy assign the currect method to the behavior event at each checkpoint
+///  each method is linked to a "global" event and trigger it to Aware each class linked to that event
+/// </summary>
+/// 
 
 public class CheckPointsController : MonoBehaviour
 {
@@ -16,6 +18,7 @@ public class CheckPointsController : MonoBehaviour
                                             // 2=> checkpoint at the far side of mid-walk to be sure that is the player on the mid-walk after polling the table of kinekt
                                             // 3=> checkpoint at the other side
 
+
     public delegate void checkPointsReached();
     public checkPointsReached startTheGameCheckPointReachedEvent;
     public checkPointsReached midWalkCheckPointReachedEvent;
@@ -23,7 +26,7 @@ public class CheckPointsController : MonoBehaviour
     public checkPointsReached otherSideCheckPointReachedEvent;
 
     public bool isHitByCar = false;
-   public AudioController audioController;
+    public AudioController audioController;
 
     /********************This should be removed by(it was "my" --Edited by nadir pervez :p --) Mr nadir prevez*****************/
     Fading fadeController;
@@ -48,6 +51,10 @@ public class CheckPointsController : MonoBehaviour
         crossingRoad = GameObject.Find("PlayerTrigger").GetComponent<CrossingRoad>();  //for making an event to it with its trigger
         fadeController = GameObject.Find("FadeController").GetComponent<Fading>();
     }
+
+    /// <summary>
+    /// initilizeCheckPoints used to instantiate each checkpoint and subscribe the appropriate method
+    /// </summary>
     private void initilizeCheckPoints()
     {
         checkPoints[0] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
@@ -63,16 +70,17 @@ public class CheckPointsController : MonoBehaviour
         checkPoints[3].GetComponent<CheckPoints>().behaviorEvent += reachedToOtherSide;
         checkPoints[3].SetActive(false);
     }
+    
     //Intialize the same way with checkpoints array 
     private void IntializeCar()
     {
         //Intialize the event from CrossingRoad Class 
         crossingRoad.WhenHitByCar += Accedint;
     }
+
     // turn of the first sidewalk checkpoint
     // turn on the second side checkpoint
     // TODO(0): start generating the cars after calling this event
-
     public void startTheGame()
     {
         Debug.Log("startTheGame");

@@ -30,7 +30,7 @@ public class CarController : MonoBehaviour
     }
     public void CarsOnFastRoad()
     {
-        if (MainMenu.playMode == 1)
+        if (PlayerPrefs.GetInt("isSettingsChanged") == 0)
               StartCoroutine(InstantiateCarsFastRoad());
             //InstantiateCarsFastRoad();
     }
