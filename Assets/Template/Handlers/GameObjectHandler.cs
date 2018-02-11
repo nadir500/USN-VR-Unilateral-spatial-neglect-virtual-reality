@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class GameObjectHandler  
 {
+    //we use this class to manage and objectpool method for more effeciency to the memory resources
+    //plus managing the behaviour of those instantiated objects in the memory 
     private bool _isDoneLoading;
     private GameObject _prefab;
     private GameObject[] _pool;
@@ -43,11 +45,7 @@ public class GameObjectHandler
     }
      public GameObject RetrieveInstance(Vector3 position, Quaternion rotation)
     {
-      /*   Transform parentTrans = null;
-        if (!String.IsNullOrEmpty(parent))
-        {
-            parentTrans = GameObject.Find(parent).transform;
-        }**/
+     
         for (int i = 0; i < _poolSize; i++)
         {
             var gm = _pool[i];
@@ -55,7 +53,6 @@ public class GameObjectHandler
             {
                 gm.transform.position = position;
                 gm.transform.rotation = rotation;
-             //   gm.transform.parent = parentTrans;
                 gm.SetActive(true);
                 return gm;
             }

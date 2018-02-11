@@ -13,39 +13,9 @@ public class AudioController : MonoBehaviour {
     public AudioSource audioSource;
 	void Start () {
         audioSource = this.GetComponent<AudioSource>();
-        switch (ExperementParameters.soundDirections)
-        {
-            case "Off":
-                {
-                    audioSource.volume = 0;
-
-                    break;
-                }
-            case "Left":
-                {
-                    audioSource.panStereo = -1;
-
-                    break;
-                }
-            case "Right":
-                {
-                    audioSource.panStereo = 1;
-
-                    break;
-                }
-            case "Both":
-                {
-                    audioSource.volume = 1;
-
-                    audioSource.panStereo = 0;
-
-                    break;
-                }
-
-        }
     }
 
-    public void playAudioClip(string audioName, float waitTime = 0.0f, float clipTime = 30.0f)
+    public void playAudioClip(string audioName, float waitTime = 0.0f, float clipTime = -1f)
     {
         StartCoroutine(playTheClipWithTimes(audioName, waitTime, clipTime));
     }
@@ -56,11 +26,12 @@ public class AudioController : MonoBehaviour {
         audioSource.clip = ac;
 
         yield return new WaitForSeconds(waitTime);
-  
         audioSource.Play();
-
-        yield return new WaitForSeconds(clipTime);
-        audioSource.Stop();
+        if(clipTime >=0)
+        {
+            yield return new WaitForSeconds(clipTime);
+            audioSource.Stop();
+        }
     }
 	
 

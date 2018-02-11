@@ -23,16 +23,7 @@ public class ServerStart : MonoBehaviour, INetEventListener
 	{
 		_netServer.PollEvents();
 
-	}
-	public void SendToSocket()
-    {
-        if(_ourPeer !=null)
-		{
-			_dataWriter.Put(1);
-			_ourPeer.Send(_dataWriter,DeliveryMethod.Sequenced);
-			Debug.Log("Send 1");
-		}
-    }
+	}  
   void OnDestroy()
     {
         if (_netServer != null)
@@ -42,6 +33,7 @@ public class ServerStart : MonoBehaviour, INetEventListener
     public void OnPeerConnected(NetPeer peer)
     {
         Debug.Log("[SERVER] We have new peer " + peer.EndPoint);
+        disconnectedFromPeer=false;
         _ourPeer = peer;
     }
 
@@ -77,13 +69,15 @@ public class ServerStart : MonoBehaviour, INetEventListener
     public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
     {
         Debug.Log("[SERVER] peer disconnected " + peer.EndPoint + ", info: " + disconnectInfo.Reason);
+        disconnectedFromPeer = true;
         if (peer == _ourPeer)
             _ourPeer = null;
     }
 
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader, DeliveryMethod deliveryMethod)
     {
-        Debug.Log("SAY WAAAAT " + reader.GetBool());
+        //Debug.Log("SAY WAAAAT " + reader.GetBool());
         fadeConfirm = reader.GetBool();
+        Debug.Log("Still in first point  " + fadeConfirm);
     }
 }

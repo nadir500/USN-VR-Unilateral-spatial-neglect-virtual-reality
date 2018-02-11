@@ -1,6 +1,8 @@
 ﻿using SQLite4Unity3d;
 public class GrabbedObjects  {
 
+		//the classes in SQLITE ADDING AND RECORDING are in the same name and type as in the sqlite db tables  
+
 		[PrimaryKey,AutoIncrement]
 		public int grabb_id{get;set;}
 		public int gameplay_id{get;set;}

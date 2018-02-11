@@ -1,13 +1,11 @@
 ﻿using System;
 using UnityEngine;
 
-/// <summary>
-/// This class is tha manager of the check points their events
-///  it creates the checkpoints in checkPoints with the positions calculated in Start()->generateCheckPoints() method by the variables in RoadController
-///  then manualy assign the currect method to the behavior event at each checkpoint
-///  each method is linked to a "global" event and trigger it to Aware each class linked to that event
-/// </summary>
-/// 
+
+// This class is tha manager of the check points their events
+//  it creates the checkpoints in checkPoints with the positions calculated in Start()->generateCheckPoints() method by the variables in RoadController
+//  then manualy assign the currect method to the behavior event at each checkpoint
+//  each metho is liked to a "global" event and trigger it to aware each class lined to that event
 
 public class CheckPointsController : MonoBehaviour
 {
@@ -18,7 +16,6 @@ public class CheckPointsController : MonoBehaviour
                                             // 2=> checkpoint at the far side of mid-walk to be sure that is the player on the mid-walk after polling the table of kinekt
                                             // 3=> checkpoint at the other side
 
-
     public delegate void checkPointsReached();
     public checkPointsReached startTheGameCheckPointReachedEvent;
     public checkPointsReached midWalkCheckPointReachedEvent;
@@ -27,7 +24,6 @@ public class CheckPointsController : MonoBehaviour
 
     public bool isHitByCar = false;
     public AudioController audioController;
-
     /********************This should be removed by(it was "my" --Edited by nadir pervez :p --) Mr nadir prevez*****************/
     Fading fadeController;
     CrossingRoad crossingRoad;
@@ -51,36 +47,31 @@ public class CheckPointsController : MonoBehaviour
         crossingRoad = GameObject.Find("PlayerTrigger").GetComponent<CrossingRoad>();  //for making an event to it with its trigger
         fadeController = GameObject.Find("FadeController").GetComponent<Fading>();
     }
-
-    /// <summary>
-    /// initilizeCheckPoints used to instantiate each checkpoint and subscribe the appropriate method
-    /// </summary>
     private void initilizeCheckPoints()
     {
         checkPoints[0] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
         checkPoints[0].GetComponent<CheckPoints>().behaviorEvent += startTheGame;
         checkPoints[0].SetActive(true);
-        checkPoints[1] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.numberOfPathsPerStreet / 2) - 0.35f, -0.5f, -8.98f), Quaternion.identity);
+        checkPoints[1] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction / 2) - 0.35f, -0.5f, -8.98f), Quaternion.identity);
         checkPoints[1].GetComponent<CheckPoints>().behaviorEvent += reachedToTheMidWalk;
         checkPoints[1].SetActive(false);
-        checkPoints[2] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.numberOfPathsPerStreet / 2) + 0.35f, -0.5f, -8.98f), Quaternion.identity);
+        checkPoints[2] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction / 2) + 0.35f, -0.5f, -8.98f), Quaternion.identity);
         checkPoints[2].GetComponent<CheckPoints>().behaviorEvent += backToMidWalk;
         checkPoints[2].SetActive(false);
-        checkPoints[3] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth) + RoadController.streetPathWidth * (ExperementParameters.numberOfPathsPerStreet) + 0.25f, -0.5f, -8.98f), Quaternion.identity);
+        checkPoints[3] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction) + 0.25f, -0.5f, -8.98f), Quaternion.identity);
         checkPoints[3].GetComponent<CheckPoints>().behaviorEvent += reachedToOtherSide;
         checkPoints[3].SetActive(false);
     }
-    
     //Intialize the same way with checkpoints array 
     private void IntializeCar()
     {
         //Intialize the event from CrossingRoad Class 
         crossingRoad.WhenHitByCar += Accedint;
     }
-
     // turn of the first sidewalk checkpoint
     // turn on the second side checkpoint
     // TODO(0): start generating the cars after calling this event
+
     public void startTheGame()
     {
         Debug.Log("startTheGame");
@@ -103,8 +94,8 @@ public class CheckPointsController : MonoBehaviour
     {
         Debug.Log("reachedToTheMidWalk");
         isHitByCar = false; //intializing the after_collision_frame again when i reach the midwalk  
-        
-        audioController.playAudioClip("Stop",0,0);
+
+        audioController.playAudioClip("Stop", 0, -1);
         checkPoints[1].SetActive(false);
         //Begin the Phase 2 fade 
         //now fade and show the loading screen
@@ -130,9 +121,10 @@ public class CheckPointsController : MonoBehaviour
         //سلوك
         checkPoints[3].SetActive(true);
         // RoadController.fadeout_after_crossing = true;
+
         gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);
 
-        
+
 
         if (backToMidWalkCheckPointReachedEvent != null)
             backToMidWalkCheckPointReachedEvent();
@@ -147,6 +139,7 @@ public class CheckPointsController : MonoBehaviour
         //do not make any fade (not until our phase 3)
         RoadController.fadeout_after_crossing = false;
         //sending the actual value to the server
+
         gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);
         fadeController.BeginFade(0);
 

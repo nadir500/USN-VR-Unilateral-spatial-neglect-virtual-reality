@@ -17,6 +17,7 @@ public class MainMenu : MonoBehaviour {
 
     public Button startGameButton;
     public Button testGameButton;
+    public static int playMode;         // 0 => test ; 1 => full
     // Use this for initialization
     void Start () {
         VRSettings.enabled = false;
@@ -34,7 +35,6 @@ public class MainMenu : MonoBehaviour {
             {
                 Debug.Log("main menu start settings changed, 1");
                 startGameButton.interactable = false;
-                checkPointsController.otherSideCheckPointReachedEvent += OpenFullGameChoice;
             }
             else
                 Debug.Log("main menu start settings changed, 0");
@@ -51,14 +51,11 @@ public class MainMenu : MonoBehaviour {
     public void setExperementParametersToLastSavedOnes()
     {
         if (PlayerPrefs.HasKey("numberOfPathsPerStreet") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("numberOfPathsPerStreet"))))
-            ExperementParameters.numberOfPathsPerStreet = int.Parse(PlayerPrefs.GetString("numberOfPathsPerStreet"));
-
+            ExperementParameters.lanes_per_direction = int.Parse(PlayerPrefs.GetString("numberOfPathsPerStreet"));
         if (PlayerPrefs.HasKey("streetsDirections") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("streetsDirections"))))
             ExperementParameters.streetsDirections = PlayerPrefs.GetString("streetsDirections");
-
         if (PlayerPrefs.HasKey("carsSpeed") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("carsSpeed"))))
             ExperementParameters.carsSpeed = int.Parse(PlayerPrefs.GetString("carsSpeed"));
-
         if (PlayerPrefs.HasKey("distanceBetweenCars") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("distanceBetweenCars"))))
             ExperementParameters.distanceBetweenCars = int.Parse(PlayerPrefs.GetString("distanceBetweenCars"));
 
@@ -103,13 +100,12 @@ public class MainMenu : MonoBehaviour {
         active = true;
         mainMenuAnimator.SetBool("Active", active);
                                                                                                     
-        if (PlayerPrefs.HasKey("isSettingsChanged")) // 1 => the settings have changed
+        if (PlayerPrefs.HasKey("isSettingsChanged")) // 1 => the settings have been changed
         {
             if (PlayerPrefs.GetInt("isSettingsChanged") == 1)
             {
                 Debug.Log("show settings changed, 1");
                 startGameButton.interactable = false;
-                checkPointsController.otherSideCheckPointReachedEvent += OpenFullGameChoice;
             }
             else
             {
@@ -119,17 +115,10 @@ public class MainMenu : MonoBehaviour {
         else
             Debug.Log("has not key or null or empty");
     }
-
-    void OpenFullGameChoice()
-    {
-        startGameButton.interactable = true;
-        PlayerPrefs.SetInt("isSettingsChanged", 0);
-        checkPointsController.otherSideCheckPointReachedEvent -= OpenFullGameChoice;
-    }
     public void newGame()
     {
         Debug.Log("newGame()");
-        //playMode = 1;
+        playMode = 1;
         DataService _sqlite_connection_gamoplay = new DataService("USN_Simulation.db");
         ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         uiMainCanvas.enabled = false;
@@ -139,11 +128,10 @@ public class MainMenu : MonoBehaviour {
 
 
     }
-
     public void testGame()
     {
         Debug.Log("PLAY GAME ()");
-        //playMode = 0;
+        playMode = 0;
         DataService _sqlite_connection_gamoplay = new DataService("USN_Simulation.db");
         _sqlite_connection_gamoplay.CreateGameplay();
         ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
@@ -154,7 +142,7 @@ public class MainMenu : MonoBehaviour {
         checkPointsController.StartAfterMainMenu();
         roadController.generateRoads();
         VRSettings.enabled = true;
-        //PlayerPrefs.SetInt("isSettingsChanged", 0);
+        PlayerPrefs.SetInt("isSettingsChanged", 0);
         PlayerPrefs.Save();
         
     }

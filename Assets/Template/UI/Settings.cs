@@ -150,7 +150,7 @@ public class Settings : MonoBehaviour
     private void enableSaveChanges()
     {
         if (
-            (ExperementParameters.numberOfPathsPerStreet != numberOfPathsPerStreetValue)    ||
+            (ExperementParameters.lanes_per_direction != numberOfPathsPerStreetValue)    ||
             (ExperementParameters.streetsDirections != streetsDirectionsValue)              ||
             (ExperementParameters.carsSpeed != carsSpeedValue)                              ||
             (ExperementParameters.distanceBetweenCars != distanceBetweenCarsValue)          ||
@@ -179,7 +179,7 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetString("soundsDirection", this.soundDirectionsValue);
         PlayerPrefs.SetString("observeFrameRate", this.observeFrameRateValue.ToString());
 
-        ExperementParameters.numberOfPathsPerStreet = this.numberOfPathsPerStreetValue;
+        ExperementParameters.lanes_per_direction = this.numberOfPathsPerStreetValue;
         ExperementParameters.streetsDirections = this.streetsDirectionsValue;
         ExperementParameters.carsSpeed = this.carsSpeedValue;
         ExperementParameters.distanceBetweenCars = this.distanceBetweenCarsValue;
