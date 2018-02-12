@@ -70,11 +70,11 @@ public class Settings : MonoBehaviour
         setExperementParameters();
         saveButton.interactable = false;
 
-        if (PlayerPrefs.HasKey("isSettingsChanged"))
-        {
+        //if (PlayerPrefs.HasKey("isSettingsChanged"))
+        //{
             PlayerPrefs.SetInt("isSettingsChanged", 1);
-            Debug.Log("save parameters isSettingsChanged, 1");
-        }
+        //    Debug.Log("save parameters isSettingsChanged, 1");
+        //}
     }
     public void hide()
     {

@@ -24,7 +24,7 @@ public class CarController : MonoBehaviour
     {
         checkPointsController.startTheGameCheckPointReachedEvent += CarsOnFastRoad; //subscribe the event 
     }
-    
+
     public void CarsOnFastRoad()
     {
         if (MainMenu.playMode == 1)
@@ -34,11 +34,11 @@ public class CarController : MonoBehaviour
     public void InstantiateCarsFastRoad()
     {
         //knowing which rotation and direction to instatiate the car
-        string[] carDirection = ExperementParameters.streetsDirections.Split(' '); 
+        string[] carDirection = ExperementParameters.streetsDirections.Split(' ');
         int numberOfPathsInSingleRoad = ExperementParameters.lanes_per_direction;
         GameObjectHandler carObjectHandler =
                  new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, //pooling from the prefab with copies that is like the number of paths in each street
-                                 numberOfPathsInSingleRoad * 20,true, "");          //making a prefab copy with a number enough to coer a whole one path 
+                                 numberOfPathsInSingleRoad * 20, true, "");          //making a prefab copy with a number enough to coer a whole one path 
 
         for (int i = 0; i < ExperementParameters.lanes_per_direction; i++) //2 cars each road
         {
@@ -53,7 +53,7 @@ public class CarController : MonoBehaviour
             {
                 yRotate = (ExperementParameters.streetsDirections.Split()[0].Equals("Right")) ? -1 : +1;  //identify the rotation 
                 car1 = carObjectHandler.RetrieveInstance(new Vector3(sidewalkWidth + (streetPathWidth / 4) + (i * (streetPathWidth / 2)),
-                         -2.0f, yRotate * (190.0f + ExperementParameters.distanceBetweenCars)), 
+                         -2.0f, yRotate * (190.0f + ExperementParameters.distanceBetweenCars)),
                                             Quaternion.Euler(new Vector3(0, yRotate * -90, 0)));
                 car1.AddComponent<CarMove>();  //adding the CarMove Script  
                 car1.GetComponent<CarMove>().carDirection = ExperementParameters.streetsDirections.Split()[0];      //describe which direction 
