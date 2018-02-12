@@ -6,5 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/GoogleVR/Demos/Scenes/GVRDemo.unity
-    guid: 00000000000000000000000000000000
+    path: Assets/Scenes/CrossingRoad.unity
+    guid: 405960256cabfac44852f0e8b270b7db
+  - enabled: 0
+    path: Assets/Scenes/TestsScene.unity
+    guid: 9a662cc1e1b0a5944bab955af70c7253
