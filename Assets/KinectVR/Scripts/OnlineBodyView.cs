@@ -340,10 +340,13 @@ public class BodyPart
 		parentOnlineBody = body;
 		name = aName;
 		go = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-		//go.GetComponent<Renderer> ().enabled = false;
+
+		go.GetComponent<Renderer> ().enabled = false;
 		go.name = name;
+
 		go.transform.parent = parentBody.transform;
 		go.transform.localScale = new Vector3 (0.2f, 0.2f, 0.2f);
+		
 		go.layer = LayerMask.NameToLayer ("PlayerPoints");
 		Rigidbody rb = go.AddComponent<Rigidbody> ();
 		rb.useGravity = false;
@@ -356,8 +359,7 @@ public class BodyPart
 		lr.SetVertexCount (2);
 		lr.SetWidth (0.1f, 0.1f);
 		//lr.SetColors (Color.black, Color.black);
-		lr.material = ObjectManager.s.lineMat;
-
+		//lr.material = ObjectManager.s.lineMat;
 		if (aName == "HandTipLeft" || aName == "HandTipRight" || aName == "HandLeft" || aName == "HandRight" || aName == "ThumbRight" || aName == "ThumbLeft") {
 			r.enabled = false;
 		} else if (aName == "WristLeft" || aName == "WristRight" ) {
@@ -373,6 +375,7 @@ public class BodyPart
 
 		}
 
+		lr.enabled=false;
 	}
 
 

@@ -83,13 +83,13 @@ public class ExperimentObserves : MonoBehaviour
         frameIndex++;
         if (frameIndex == 2)   // you can use this as the index of the lists
         {
-            observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow, current_time_span, is_hit_by_car);
+         //   observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow, current_time_span, is_hit_by_car);
             //connection to database in a thread 
-            Thread connectionDBThread = new Thread(() => ConnectionToDB());
+           // Thread connectionDBThread = new Thread(() => ConnectionToDB());
 
-            connectionDBThread.Start();
-            if (!connectionDBThread.IsAlive)
-                connectionDBThread.Abort();
+          //  connectionDBThread.Start();
+        //    if (!connectionDBThread.IsAlive)
+         //       connectionDBThread.Abort();
             frameIndex = 0;     // back to zero after each send
         }
 
@@ -109,7 +109,7 @@ public class ExperimentObserves : MonoBehaviour
                 {
                     onFrameWorking = false;
 
-                    CancelInvoke("onFramh,reWorking");
+                    CancelInvoke("OnFrame");
                 }
                 if (onlineBodyView.transform.GetChild(0) != null)
                 {
@@ -120,7 +120,7 @@ public class ExperimentObserves : MonoBehaviour
             }
             else if (!onFrameWorking)
             {
-                InvokeRepeating("onFrame", 0.0f, observeFrameRate);
+                InvokeRepeating("OnFrame", 0.0f, observeFrameRate);
                 onFrameWorking = true;
             }
         }
