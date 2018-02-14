@@ -51,12 +51,12 @@ public class EyeTracker : MonoBehaviour {
 
     void OnRaycasthit(GameObject hit)
     {
-        MyConsol.log(hit.name + " hitted");
+//        MyConsol.log(hit.name + " hitted");
     }
     void DeactiveLastInteractible()
     {
 
-        MyConsol.log(lastHitted.name + "De hitted");
+//        MyConsol.log(lastHitted.name + "De hitted");
     }
 
 }

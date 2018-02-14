@@ -17,7 +17,7 @@ public class TestRendered : MonoBehaviour
 
     void Update()
     {
-        if (GetComponent<Renderer>().isVisible)
-            MyConsol.log("Visible");
+     //   if (GetComponent<Renderer>().isVisible)
+//            MyConsol.log("Visible");
     }
 }
