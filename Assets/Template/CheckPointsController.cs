@@ -24,12 +24,13 @@ public class CheckPointsController : MonoBehaviour
 
     public bool isHitByCar = false;
     public AudioController audioController;
+    public GameObject serverNetworkController;
     /********************This should be removed by(it was "my" --Edited by nadir pervez :p --) Mr nadir prevez*****************/
     Fading fadeController;
     CrossingRoad crossingRoad;
     LayerMask uiMask = (1 << 5);
     /******************************************************************************/
-    Transform KVR;
+    public GameObject KVR;
     GameClient gameClientController;
 
     // Use this for initialization
@@ -52,13 +53,21 @@ public class CheckPointsController : MonoBehaviour
         checkPoints[0] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
         checkPoints[0].GetComponent<CheckPoints>().behaviorEvent += startTheGame;
         checkPoints[0].SetActive(true);
-        checkPoints[1] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction / 2) - 0.35f, -0.5f, -8.98f), Quaternion.identity);
+        checkPoints[1] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
+       
+       // checkPoints[1] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction / 2) - 0.35f, -0.5f, -8.98f), Quaternion.identity);
         checkPoints[1].GetComponent<CheckPoints>().behaviorEvent += reachedToTheMidWalk;
         checkPoints[1].SetActive(false);
-        checkPoints[2] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction / 2) + 0.35f, -0.5f, -8.98f), Quaternion.identity);
+        
+        checkPoints[2] = Instantiate(yellowPoint,  new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
+        //checkPoints[2] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction / 2) + 0.35f, -0.5f, -8.98f), Quaternion.identity);
+        
         checkPoints[2].GetComponent<CheckPoints>().behaviorEvent += backToMidWalk;
         checkPoints[2].SetActive(false);
-        checkPoints[3] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction) + 0.25f, -0.5f, -8.98f), Quaternion.identity);
+       
+        checkPoints[3] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
+       // checkPoints[3] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction) + 0.25f, -0.5f, -8.98f), Quaternion.identity);
+       
         checkPoints[3].GetComponent<CheckPoints>().behaviorEvent += reachedToOtherSide;
         checkPoints[3].SetActive(false);
     }
@@ -102,10 +111,10 @@ public class CheckPointsController : MonoBehaviour
         RoadController.fadeout_after_crossing = true;
         //sending the current value to the server
 
-        fadeController.BeginFade(2);  //fade entirely and wait for re-positioning 
+//        fadeController.BeginFade(2);  //fade entirely and wait for re-positioning 
         //seeing the JUST the UI From Camera 
         Camera.main.cullingMask = uiMask;
-        KVR.localPosition = new Vector3(KVR.localPosition.x - 6.39f, KVR.localPosition.y, KVR.localPosition.z);
+//        KVR.localPosition = new Vector3(KVR.localPosition.x - 6.39f, KVR.localPosition.y, KVR.localPosition.z);
         checkPoints[2].SetActive(true);
         // Trigger The Event for each on who linked ot it
         if (midWalkCheckPointReachedEvent != null)
@@ -122,7 +131,7 @@ public class CheckPointsController : MonoBehaviour
         checkPoints[3].SetActive(true);
         // RoadController.fadeout_after_crossing = true;
 
-        gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);
+       // gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);
 
 
 
@@ -136,12 +145,14 @@ public class CheckPointsController : MonoBehaviour
         Debug.Log("reachedToOtherSide");
         isHitByCar = false;
         checkPoints[3].SetActive(false);
+        KVR.SetActive(false);
+        serverNetworkController.SetActive(true);
         //do not make any fade (not until our phase 3)
         RoadController.fadeout_after_crossing = false;
         //sending the actual value to the server
 
-        gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);
-        fadeController.BeginFade(0);
+      //  gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);
+        //fadeController.BeginFade(0);
 
         if (otherSideCheckPointReachedEvent != null)
             otherSideCheckPointReachedEvent();
