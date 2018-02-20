@@ -53,7 +53,6 @@ public class CrossingRoad : MonoBehaviour
                 parentCar.GetComponent<CarMove>().RemoveBrakeSound();
                 // CrashSound();  //here to add additional sound effects whhen hit the car 
                 CarHornSound();
-                Camera.main.GetComponent<CameraShake>().shakeDuration = 0.5f;  //put shake camera effect to the car 
                 rb = null;
             }
         }

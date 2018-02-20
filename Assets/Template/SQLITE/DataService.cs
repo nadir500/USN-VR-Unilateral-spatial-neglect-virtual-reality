@@ -123,8 +123,8 @@ public class DataService
     {
         return _connection.Table<StreetCrossingData>();
     }
-    public IEnumerable<GrabbedObjects> GetGrabbedObjectDataTable()
-    {
-        return _connection.Table<GrabbedObjects>();
-    }
+//    public IEnumerable<GrabbedObjects> GetGrabbedObjectDataTable()
+   // {
+   //     return _connection.Table<GrabbedObjects>();
+   // }
 }
