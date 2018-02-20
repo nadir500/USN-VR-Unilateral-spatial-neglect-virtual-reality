@@ -42,10 +42,10 @@ public class CheckPointsController : MonoBehaviour
     }
     private void ObjectsIntializer()
     {
-        KVR = GameObject.Find("OnlineBodyView").transform;
+      //  KVR = GameObject.Find("OnlineBodyView").transform;
         gameClientController = GameObject.Find("GameClient").GetComponent<GameClient>();  //for sending Data to server
-        crossingRoad = GameObject.Find("PlayerTrigger").GetComponent<CrossingRoad>();  //for making an event to it with its trigger
-        fadeController = GameObject.Find("FadeController").GetComponent<Fading>();
+     //   crossingRoad = GameObject.Find("PlayerTrigger").GetComponent<CrossingRoad>();  //for making an event to it with its trigger
+      //  fadeController = GameObject.Find("FadeController").GetComponent<Fading>();
     }
     private void initilizeCheckPoints()
     {
@@ -66,7 +66,7 @@ public class CheckPointsController : MonoBehaviour
     private void IntializeCar()
     {
         //Intialize the event from CrossingRoad Class 
-        crossingRoad.WhenHitByCar += Accedint;
+//        crossingRoad.WhenHitByCar += Accedint;  /////////////////////
     }
     // turn of the first sidewalk checkpoint
     // turn on the second side checkpoint

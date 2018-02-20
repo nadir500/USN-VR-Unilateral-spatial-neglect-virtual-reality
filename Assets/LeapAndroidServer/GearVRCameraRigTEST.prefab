@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 20000012815174328}
   - component: {fileID: 114000012700079114}
   - component: {fileID: 114000012803405078}
+  - component: {fileID: 45377235366208112}
   m_Layer: 0
   m_Name: CenterEyeAnchor
   m_TagString: MainCamera
@@ -5598,7 +5599,7 @@ Camera:
   m_GameObject: {fileID: 1000011235221574}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.32352942, g: 0.32352942, b: 0.32352942, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -8700,6 +8701,14 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1051926861556306}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!45 &45377235366208112
+Skybox:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011235221574}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 0}
 --- !u!54 &54036281028333822
 Rigidbody:
   m_ObjectHideFlags: 1
