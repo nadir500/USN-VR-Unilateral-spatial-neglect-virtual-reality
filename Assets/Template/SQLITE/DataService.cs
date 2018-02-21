@@ -102,7 +102,7 @@ public class DataService
                 head_rotation_y = (double)observedData.playerHeadRotations[i]
             };
             _connection.Insert(streetCrossingData);
-           // Debug.Log("CREATED SCD TO SQLITE DB");
+            // Debug.Log("CREATED SCD TO SQLITE DB");
         }
     }
     //getting the current gameplay id 
@@ -110,10 +110,7 @@ public class DataService
     {
         Debug.Log("GET  GAMEPLAY ID FROM SQLITE DB");
         return _connection.Table<Gameplay>().Select(x => x.gameplay_id).Count();
-        //return  _connection.Table<Gameplay>().Where(x => x.gameplay_id == gameplay_id_last).First();
-
     }
-
     /*******************************************return table in array form so we can extract it using foreach************************************/
     public IEnumerable<Gameplay> GetGameplayTable()
     {
@@ -123,8 +120,14 @@ public class DataService
     {
         return _connection.Table<StreetCrossingData>();
     }
-//    public IEnumerable<GrabbedObjects> GetGrabbedObjectDataTable()
-   // {
-   //     return _connection.Table<GrabbedObjects>();
-   // }
+    //recording objects collecting data from hands 
+    public void CreateCollectedObjects(Collected_Objects collected_Objects)
+    {
+         _connection.Insert(collected_Objects);
+
+    }
+    //    public IEnumerable<GrabbedObjects> GetGrabbedObjectDataTable()
+    // {
+    //     return _connection.Table<GrabbedObjects>();
+    // }
 }

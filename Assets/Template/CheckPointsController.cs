@@ -48,7 +48,7 @@ public class CheckPointsController : MonoBehaviour
     {
       //  KVR = GameObject.Find("OnlineBodyView").transform;
         gameClientController = GameObject.Find("GameClient").GetComponent<GameClient>();  //for sending Data to server
-     //   crossingRoad = GameObject.Find("PlayerTrigger").GetComponent<CrossingRoad>();  //for making an event to it with its trigger
+       crossingRoad = GameObject.Find("PlayerTrigger").GetComponent<CrossingRoad>();  //for making an event to it with its trigger
       //  fadeController = GameObject.Find("FadeController").GetComponent<Fading>();
     }
     private void initilizeCheckPoints()
