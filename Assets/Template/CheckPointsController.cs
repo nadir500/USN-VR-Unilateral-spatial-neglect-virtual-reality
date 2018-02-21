@@ -25,6 +25,8 @@ public class CheckPointsController : MonoBehaviour
     public bool isHitByCar = false;
     public AudioController audioController;
     public GameObject serverNetworkController;
+    public GameObject LeapEventSystem;
+    public GameObject UIEventSystem;
     /********************This should be removed by(it was "my" --Edited by nadir pervez :p --) Mr nadir prevez*****************/
     Fading fadeController;
     CrossingRoad crossingRoad;
@@ -147,6 +149,8 @@ public class CheckPointsController : MonoBehaviour
         checkPoints[3].SetActive(false);
         KVR.SetActive(false);
         serverNetworkController.SetActive(true);
+        UIEventSystem.SetActive(false);
+       Invoke("enableevent",2);
         //do not make any fade (not until our phase 3)
         RoadController.fadeout_after_crossing = false;
         //sending the actual value to the server
@@ -165,6 +169,10 @@ public class CheckPointsController : MonoBehaviour
         fadeController.BeginFade(1);
         //it will be useful for entering the data from Experment Observe Class
         isHitByCar = true;
+    }
+    void enableevent()
+    {
+         LeapEventSystem.SetActive(true);
     }
 
 }
