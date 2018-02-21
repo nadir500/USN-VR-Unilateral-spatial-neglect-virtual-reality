@@ -5,20 +5,48 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TableController : MonoBehaviour {
+
+    public CheckPointsController checkPointsController;
+
+    public GameObject tableWrapper;
+    public GameObject leapMotionCamera;
+    public GameObject cameraPositionXZ;
+
     private Object[] tablePrefabs;
     private int[] shuffeledNumbers;
     private static int shuffeledNumbersIndex = 0;
-    private static int numberOfLable = 0;
+    private static int numberOfLable = 1;
     private Transform points;
     private GameObject[] pointsArr;
     // Use this for initialization
 
 
+    void Start()
+    {
+        if (checkPointsController != null)
+            checkPointsController.otherSideCheckPointReachedEvent += Initilize;
+        else
+            Initilize();
+    }
+    void Initilize()
+    {
+        tablePrefabs = Resources.LoadAll("Prefabs/TableObjects");
+        tableWrapper.SetActive(true);
+        points = tableWrapper.transform.Find("Points");
+
+        int[] indeces = new int[tablePrefabs.Length];
+        for (int i = 0; i < indeces.Length; indeces[i] = i++) ;
+        System.Random rnd = new System.Random();
+        shuffeledNumbers = Enumerable.Range(0, indeces.Length - 1).OrderBy(r => rnd.Next()).ToArray();
+        generateFirstLevel();
+
+        leapMotionCamera.transform.position = new Vector3(cameraPositionXZ.transform.position.x, ExperementParameters.lengthOfPatient/10, cameraPositionXZ.transform.position.z);
+
+    }
     void generateTableObject(int level, string dist, string direc, int group, bool active)
     {
         string name = "Lvl" + level + "_" + direc + "_Group" + group + "_" + dist;
         //Debug.Log(name);
-        //Debug.Log(tablePrefabs[shuffeledNumbers[shuffeledNumbersIndex]]);
         Transform parent = points.transform.Find(name);
         int childIndex = Random.Range(0, parent.childCount);
         GameObject newTableObject = Instantiate(tablePrefabs[shuffeledNumbers[shuffeledNumbersIndex++]], parent.GetChild(childIndex).position, Quaternion.identity) as GameObject;
@@ -31,9 +59,6 @@ public class TableController : MonoBehaviour {
             newTableObject.transform.Find("Canvas").GetChild(0).GetChild(0).localScale = new Vector3(-1, 1, 1);
         }
             newTableObject.transform.Find("Canvas").GetChild(0).GetChild(0).GetComponent<Text>().text = numberOfLable++.ToString();
-                                 
-
-
 
     }
     void generateFirstLevel()
@@ -70,18 +95,9 @@ public class TableController : MonoBehaviour {
 
         //Debug.Log(this.transform.FindChild("Lvl" + level + "_" + direc + "_Group" + group + "_" + dist).name);
 
-    void Start() {
-        tablePrefabs = Resources.LoadAll("Prefabs/TableObjects");
-        points = this.transform.Find("Points");
-        // pointsPositions = new Vector3[3][][][][];
-        //pointsArr = GameObject.FindGameObjectsWithTag("POINT");
 
-        int[] indeces = new int[tablePrefabs.Length];
-        for (int i = 0; i < indeces.Length; indeces[i] = i++) ;
-        System.Random rnd = new System.Random();
-        shuffeledNumbers = Enumerable.Range(0, indeces.Length - 1).OrderBy(r => rnd.Next()).ToArray();
-        generateFirstLevel();
-
+		
+}
         //{
         //    int i = 0;
         //    foreach (Transform level in points)         //lvl1 lvl2 lvl3
@@ -129,7 +145,3 @@ public class TableController : MonoBehaviour {
         //        usedPositions[j + (i * 2)] = pos;
         //    }
         //}
-
-    }
-		
-}
