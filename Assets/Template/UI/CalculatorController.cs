@@ -19,6 +19,16 @@ public class CalculatorController : MonoBehaviour {
 		direction = "none";
 	}
 	
+    void Show()
+    {
+
+    }
+
+    void Hide()
+    {
+
+    }
+
 	public void putNumber(string number)
 	{
 		numbersPad.text = number;
