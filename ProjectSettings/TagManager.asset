@@ -8,6 +8,8 @@ TagManager:
   - CheckPoint
   - PlayerTag
   - POINT
+  - Child
+  - ObjectGrab
   layers:
   - Default
   - TransparentFX
