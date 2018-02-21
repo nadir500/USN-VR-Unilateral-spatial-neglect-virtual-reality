@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 4112022087282572}
   - component: {fileID: 54286879199322220}
   - component: {fileID: 65481953991679462}
+  - component: {fileID: 114262019742881682}
   m_Layer: 0
   m_Name: CamelRoot
   m_TagString: ObjectGrab
@@ -152,7 +153,7 @@ Transform:
   m_GameObject: {fileID: 1752288075774564}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224810178707410732}
   - {fileID: 4716936528329186}
@@ -340,6 +341,17 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114262019742881682
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1752288075774564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 193a9451fbecea245990b5a31a7ce659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114410494781071656
 MonoBehaviour:
   m_ObjectHideFlags: 1

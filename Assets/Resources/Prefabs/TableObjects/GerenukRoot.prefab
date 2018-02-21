@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 4919245149313244}
   - component: {fileID: 54178965661955748}
   - component: {fileID: 65478256620811042}
+  - component: {fileID: 114208463300426362}
   m_Layer: 0
   m_Name: GerenukRoot
   m_TagString: ObjectGrab
@@ -178,7 +179,7 @@ Transform:
   m_GameObject: {fileID: 1858658590812376}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224707263248373034}
   - {fileID: 4433254070616862}
@@ -351,6 +352,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 9
+--- !u!114 &114208463300426362
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1858658590812376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 193a9451fbecea245990b5a31a7ce659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114381615972329960
 MonoBehaviour:
   m_ObjectHideFlags: 1

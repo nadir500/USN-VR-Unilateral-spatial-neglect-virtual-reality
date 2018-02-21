@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4870295832892572}
   - component: {fileID: 54567327882073362}
   - component: {fileID: 65773796085065706}
+  - component: {fileID: 114594010033826904}
   m_Layer: 0
   m_Name: Fennec_FoxRoot
   m_TagString: ObjectGrab
@@ -118,7 +119,7 @@ Transform:
   m_GameObject: {fileID: 1068641995758874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224951554669560558}
   - {fileID: 4549394555281826}
@@ -209,6 +210,17 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114594010033826904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1068641995758874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 193a9451fbecea245990b5a31a7ce659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114601431022560892
 MonoBehaviour:
   m_ObjectHideFlags: 1

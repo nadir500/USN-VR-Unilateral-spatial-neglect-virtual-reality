@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4757702441503322}
   - component: {fileID: 54545417280082872}
   - component: {fileID: 65922294781164882}
+  - component: {fileID: 114152440812885304}
   m_Layer: 0
   m_Name: PandaRoot
   m_TagString: ObjectGrab
@@ -118,7 +119,7 @@ Transform:
   m_GameObject: {fileID: 1168149692939128}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224637960710179416}
   - {fileID: 4349393548777252}
@@ -219,6 +220,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114152440812885304
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1168149692939128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 193a9451fbecea245990b5a31a7ce659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114718973629410822
 MonoBehaviour:
   m_ObjectHideFlags: 1
