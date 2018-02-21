@@ -103,9 +103,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4919245149313244}
+  - component: {fileID: 54178965661955748}
+  - component: {fileID: 65478256620811042}
   m_Layer: 0
   m_Name: GerenukRoot
-  m_TagString: Untagged
+  m_TagString: ObjectGrab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,6 +275,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1280266654980728}
   m_Mesh: {fileID: 4300000, guid: 63a295f8557308c44b343c405e83560f, type: 3}
+--- !u!54 &54178965661955748
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1858658590812376}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65478256620811042
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1858658590812376}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.2, y: 0.2, z: 0.2}
+  m_Center: {x: 0, y: 0.13, z: 0}
 --- !u!114 &114173513594483676
 MonoBehaviour:
   m_ObjectHideFlags: 1

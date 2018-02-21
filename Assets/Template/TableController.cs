@@ -24,9 +24,9 @@ public class TableController : MonoBehaviour
 
     void Start()
     {
-       // DataService dbgrabconnection = new DataService("USN_Simulation.db");
-       // Collected_Objects collected_Objects = new Collected_Objects(1,1,1,"e","2",true,true,"222");
-       // dbgrabconnection.CreateCollectedObjects(collected_Objects);
+        DataService dbgrabconnection = new DataService("USN_Simulation.db");
+        Collected_Objects collected_Objects = new Collected_Objects(1,1,1,"e","2",true,true,"222");
+        dbgrabconnection.CreateCollectedObjects(collected_Objects);
 
 
         if (checkPointsController != null)
