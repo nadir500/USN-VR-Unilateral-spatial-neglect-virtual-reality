@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 4896305507464454}
   - component: {fileID: 65788710226463018}
   - component: {fileID: 54015752313981448}
+  - component: {fileID: 114546668191678424}
   m_Layer: 0
   m_Name: DeerRoot
   m_TagString: Untagged
@@ -267,6 +268,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114546668191678424
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1489161604097516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 193a9451fbecea245990b5a31a7ce659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114869627760150600
 MonoBehaviour:
   m_ObjectHideFlags: 1
