@@ -14,6 +14,7 @@ public class TableController : MonoBehaviour
     public GameObject cameraPositionXZ;
 
     private Object[] tablePrefabs;
+    private GameObject[] instantiatedTableActiveGameObjects;
     private int[] shuffeledNumbers;
     private static int shuffeledNumbersIndex = 0;
     private static int numberOfLable = 1;
@@ -27,12 +28,24 @@ public class TableController : MonoBehaviour
         DataService dbgrabconnection = new DataService("USN_Simulation.db");
         Collected_Objects collected_Objects = new Collected_Objects(1,1,1,"e","2",true,true,"222");
         dbgrabconnection.CreateCollectedObjects(collected_Objects);
+        instantiatedTableActiveGameObjects = new GameObject[6];
 
 
         if (checkPointsController != null)
             checkPointsController.otherSideCheckPointReachedEvent += Initilize;
         else
             Initilize();
+    }
+
+    public void tableObjectSelectedByCalculator(string id, string side)
+    {
+        for(int i = 0; i < instantiatedTableActiveGameObjects.Length; i++)
+        {
+            if(id.Equals(instantiatedTableActiveGameObjects[i]))
+            {
+                Debug.Log(instantiatedTableActiveGameObjects[i].gameObject.name);
+            }
+        }
     }
     void Initilize()
     {
@@ -73,13 +86,15 @@ public class TableController : MonoBehaviour
         GameObject newTableObject = Instantiate(tablePrefabs[shuffeledNumbers[shuffeledNumbersIndex++]], parent.GetChild(childIndex).position, Quaternion.identity) as GameObject;
         if (!active)
             newTableObject.transform.Find("Canvas").gameObject.SetActive(false);
-        else if (direc.Equals("Right"))
+        else
         {
-            newTableObject.transform.Find("Canvas").localEulerAngles = new Vector3(0, 270, 0);
-            newTableObject.transform.Find("Canvas").GetChild(0).localScale = new Vector3(1, 1, 1);
-            newTableObject.transform.Find("Canvas").GetChild(0).GetChild(0).localScale = new Vector3(-1, 1, 1);
+            Debug.Log("numberOfLable-1 = " + (numberOfLable - 1).ToString());
+            instantiatedTableActiveGameObjects[numberOfLable-1] = newTableObject;
+
+            newTableObject.AddComponent<TableObject>();
+            newTableObject.GetComponent<TableObject>().setValues(shuffeledNumbersIndex++.ToString(), level.ToString(), direc);
         }
-        newTableObject.transform.Find("Canvas").GetChild(0).GetChild(0).GetComponent<Text>().text = numberOfLable++.ToString();
+
 
     }
     void generateFirstLevel()
@@ -119,50 +134,3 @@ public class TableController : MonoBehaviour
 
 
 }
-//{
-//    int i = 0;
-//    foreach (Transform level in points)         //lvl1 lvl2 lvl3
-//    {
-//        pointsPositions[i] = new Vector3[level.childCount][][][];
-//        int j = 0;
-//        foreach (Transform direction in level)        //right and left
-//        {
-//            pointsPositions[i][j] = new Vector3[direction.childCount][][];
-//            int k = 0;
-//            foreach (Transform group in direction)
-//            {
-//                pointsPositions[i][j][k] = new Vector3[group.childCount][];
-//                int l = 0;
-//                foreach (Transform dist in group)
-//                {
-//                    pointsPositions[i][j][k][l] = new Vector3[dist.childCount];
-//                    int p = 0;
-//                    foreach (Transform point in dist)
-//                    {
-//                        pointsPositions[i][j][k][l][p] = point.position;
-//                    }
-//                    p++;
-//                }
-//                k++;
-//            }
-//            j++;
-//        }
-//        i++;
-//    }
-//}
-
-//int[] indeces = new int[tablePrefabs.Length];
-//Vector3[] usedPositions = new Vector3[6];
-
-//for (int i = 0; i < indeces.Length; indeces[i] = i++) ;
-//System.Random rnd = new System.Random();
-//int[] shuffeledNumbers = Enumerable.Range(0, indeces.Length-1).OrderBy(r => rnd.Next()).ToArray();
-//for (int i = 0; i < 3; i++)
-//{
-//    for(int j = 0; j < 2; j++)
-//    {
-//        Vector3 pos = pointsPositions[i][j][Random.Range(0, pointsPositions[i][j].Length)];
-//        Instantiate(tablePrefabs[shuffeledNumbers[j + (i*2)]], pos, Quaternion.identity);
-//        usedPositions[j + (i * 2)] = pos;
-//    }
-//}
