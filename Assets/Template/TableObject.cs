@@ -20,8 +20,8 @@ public class TableObject : MonoBehaviour {
         this.id = id;
         this.level = level;
         this.side = side;
-
         canvas = transform.Find("Canvas");
+
         if (side.Equals("Right"))
         {
             canvas.localEulerAngles = new Vector3(0, 270, 0);

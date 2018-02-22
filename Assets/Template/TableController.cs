@@ -14,8 +14,9 @@ public class TableController : MonoBehaviour
     public GameObject cameraPositionXZ;
 
     private Object[] tablePrefabs;
-    private GameObject[] instantiatedTableActiveGameObjects;
-    private int[] shuffeledNumbers;
+    private GameObject[] instantiatedTableActiveGameObjects;        // array of active instanitated object 0 - 5 (size = 6)
+    private int[] shuffeledNumbers;        // array of shuffeled number from 0-9 (to randomly select instantiated prafabs)
+    private int [] shuffeledIds;        // array of shuffeled number from 0-5 (to randomly select instantiated prafabs)
     private static int shuffeledNumbersIndex = 0;
     private static int numberOfLable = 1;
     private Transform points;
@@ -29,6 +30,7 @@ public class TableController : MonoBehaviour
         Collected_Objects collected_Objects = new Collected_Objects(1,1,1,"e","2",true,true,"222");
         dbgrabconnection.CreateCollectedObjects(collected_Objects);
         instantiatedTableActiveGameObjects = new GameObject[6];
+        shuffeledIds = new int[6];
 
 
         if (checkPointsController != null)
@@ -39,11 +41,14 @@ public class TableController : MonoBehaviour
 
     public void tableObjectSelectedByCalculator(string id, string side)
     {
+        Debug.Log("id = " + id);
         for(int i = 0; i < instantiatedTableActiveGameObjects.Length; i++)
         {
-            if(id.Equals(instantiatedTableActiveGameObjects[i]))
+            Debug.Log(i +" " + instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().id);
+            if(id.Equals(instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().id))
             {
                 Debug.Log(instantiatedTableActiveGameObjects[i].gameObject.name);
+                break;
             }
         }
     }
@@ -57,6 +62,12 @@ public class TableController : MonoBehaviour
         for (int i = 0; i < indeces.Length; indeces[i] = i++) ;
         System.Random rnd = new System.Random();
         shuffeledNumbers = Enumerable.Range(0, indeces.Length - 1).OrderBy(r => rnd.Next()).ToArray();
+
+        int[] ids = new int[6];
+        for (int i = 0; i < ids.Length; ids[i] = i++) ;
+        shuffeledIds = Enumerable.Range(0, ids.Length - 1).OrderBy(r => rnd.Next()).ToArray();
+
+
         generateFirstLevel();
         InvokeRepeating("LeapCameraIntialize",1, 1);
 
@@ -89,10 +100,10 @@ public class TableController : MonoBehaviour
         else
         {
             Debug.Log("numberOfLable-1 = " + (numberOfLable - 1).ToString());
-            instantiatedTableActiveGameObjects[numberOfLable-1] = newTableObject;
+            instantiatedTableActiveGameObjects[numberOfLable -1] = newTableObject;
 
             newTableObject.AddComponent<TableObject>();
-            newTableObject.GetComponent<TableObject>().setValues(shuffeledNumbersIndex++.ToString(), level.ToString(), direc);
+            newTableObject.GetComponent<TableObject>().setValues((shuffeledNumbers[numberOfLable++ -1]).ToString(), level.ToString(), direc);
         }
 
 
