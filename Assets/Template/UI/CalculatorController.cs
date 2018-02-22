@@ -27,7 +27,7 @@ public class CalculatorController : MonoBehaviour {
     void SearchForLeapMotionCamera()
     {
         Debug.Log("LeapCameraIntialize");
-        leapMotionCamera = GameObject.Find("GearVRCameraRigTEST(Clone)") as GameObject;
+        leapMotionCamera = GameObject.Find("CenterEyeAnchor") as GameObject;
         if (leapMotionCamera != null)
         {
             leapMotionCameraTracking = true;
@@ -89,6 +89,7 @@ public class CalculatorController : MonoBehaviour {
 	public void SelectDirection(string direction)
 	{
 		this.direction = direction;
+        Debug.Log("Direction "+ direction);
 		if(direction.Equals("left"))
 		{
 			leftButton.interactable = false;
