@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 4462340291534066}
   - component: {fileID: 54987227977076544}
   - component: {fileID: 65464595699653266}
+  - component: {fileID: 114923310374645768}
   m_Layer: 0
   m_Name: SquirrelRoot
   m_TagString: ObjectGrab
@@ -257,7 +258,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1238668041624238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 17.69783, y: -2.01, z: -8.167969}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224608411298993572}
@@ -569,8 +570,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.2, z: 0.2}
-  m_Center: {x: 0, y: 0.13, z: 0}
+  m_Size: {x: 0.030636951, y: 0.04461191, z: 0.036334038}
+  m_Center: {x: -0.011467539, y: 0.033101764, z: 0.0003476143}
 --- !u!95 &95909657893982804
 Animator:
   serializedVersion: 3
@@ -685,6 +686,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 9
+--- !u!114 &114923310374645768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1238668041624238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 193a9451fbecea245990b5a31a7ce659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222300387124105026
 CanvasRenderer:
   m_ObjectHideFlags: 1

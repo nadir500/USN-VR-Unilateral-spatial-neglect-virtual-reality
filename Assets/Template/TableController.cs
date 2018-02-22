@@ -21,14 +21,13 @@ public class TableController : MonoBehaviour
     private static int numberOfLable = 1;
     private Transform points;
     private GameObject[] pointsArr;
+    private DataService dbgrabconnection;
     // Use this for initialization
 
 
     void Start()
     {
-        DataService dbgrabconnection = new DataService("USN_Simulation.db");
-        Collected_Objects collected_Objects = new Collected_Objects(1,1,1,"e","2",true,true,"222");
-        dbgrabconnection.CreateCollectedObjects(collected_Objects);
+         dbgrabconnection = new DataService("USN_Simulation.db");
         instantiatedTableActiveGameObjects = new GameObject[6];
         shuffeledIds = new int[6];
 
@@ -44,11 +43,22 @@ public class TableController : MonoBehaviour
         Debug.Log("id = " + id);
         for(int i = 0; i < instantiatedTableActiveGameObjects.Length; i++)
         {
+             TableObject activeTableGameObject = instantiatedTableActiveGameObjects[i].GetComponent<TableObject>();
+            
             Debug.Log(i +" " + instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().id);
-            if(id.Equals(instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().id))
+            if(id.Equals(activeTableGameObject.id))
             {
                 Debug.Log(instantiatedTableActiveGameObjects[i].gameObject.name);
+
+                if(side.Equals(activeTableGameObject.side))
+                {
+                activeTableGameObject.obj_recorded_on_pad = true;
+                dbgrabconnection.UpdateCollectedObjectOnPad(int.Parse(activeTableGameObject.id),activeTableGameObject.obj_recorded_on_pad);
+                activeTableGameObject.canvas.GetChild(0).GetComponent<Image>().sprite = Resources.Load("Textures/UiSprites/golden_star") as Sprite;
+                activeTableGameObject.canvas.GetChild(0).GetChild(0).GetComponent<Text>().enabled = false;
                 break;
+
+                }
             }
         }
     }
@@ -101,9 +111,14 @@ public class TableController : MonoBehaviour
         {
             Debug.Log("numberOfLable-1 = " + (numberOfLable - 1).ToString());
             instantiatedTableActiveGameObjects[numberOfLable -1] = newTableObject;
-
             newTableObject.AddComponent<TableObject>();
             newTableObject.GetComponent<TableObject>().setValues((shuffeledNumbers[numberOfLable++ -1]).ToString(), level.ToString(), direc);
+           
+            TableObject tempTableObject = newTableObject.GetComponent<TableObject>();
+
+            Collected_Objects tempCollectedObject = new Collected_Objects();
+            tempCollectedObject.SetValues(ExperementParameters.gameplay_id,int.Parse(tempTableObject.id),tempTableObject.side,tempTableObject.level,false,false,"");
+            dbgrabconnection.CreateCollectedObjectsRow(tempCollectedObject);
         }
 
 
@@ -112,11 +127,11 @@ public class TableController : MonoBehaviour
     {
         int rightSideFirstLevelGroup = (int)UnityEngine.Mathf.Round(UnityEngine.Random.Range(0, 1));//Random.Range(0, 1);
         int leftSideFirstLevelGroup = 1 - rightSideFirstLevelGroup;
-        generateTableObject(1, "Far", "Left", leftSideFirstLevelGroup, true);
-        generateTableObject(1, "Far", "Right", rightSideFirstLevelGroup, true);
+        generateTableObject(1, "Far", "left", leftSideFirstLevelGroup, true);
+        generateTableObject(1, "Far", "right", rightSideFirstLevelGroup, true);
 
-        generateNextLevels(2, leftSideFirstLevelGroup, (((int)UnityEngine.Mathf.Round(Random.value) - 0.1) > 0) ? "Far" : "Near", "Left");
-        generateNextLevels(2, rightSideFirstLevelGroup, (((int)UnityEngine.Mathf.Round(Random.value) + 0.1) > 0) ? "Far" : "Near", "Right");
+        generateNextLevels(2, leftSideFirstLevelGroup, (((int)UnityEngine.Mathf.Round(Random.value) - 0.1) > 0) ? "Far" : "Near", "left");
+        generateNextLevels(2, rightSideFirstLevelGroup, (((int)UnityEngine.Mathf.Round(Random.value) + 0.1) > 0) ? "Far" : "Near", "right");
 
     }
 

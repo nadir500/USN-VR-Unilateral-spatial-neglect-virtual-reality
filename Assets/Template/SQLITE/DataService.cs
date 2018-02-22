@@ -121,13 +121,26 @@ public class DataService
         return _connection.Table<StreetCrossingData>();
     }
     //recording objects collecting data from hands 
-    public void CreateCollectedObjects(Collected_Objects collected_Objects)
+    public void CreateCollectedObjectsRow(Collected_Objects collected_Objects)
     {
-         _connection.Insert(collected_Objects);
+        _connection.Insert(collected_Objects);
 
     }
-    //    public IEnumerable<GrabbedObjects> GetGrabbedObjectDataTable()
-    // {
-    //     return _connection.Table<GrabbedObjects>();
-    // }
+
+    public void UpdateCollectedObjectOnPad(int id , bool recorded_on_pad)
+    {
+        Collected_Objects temp_collected_Objects = _connection.Table<Collected_Objects>().Where(x => x.obj_number == id).First();
+        temp_collected_Objects.obj_recorded_on_pad = recorded_on_pad;
+        _connection.Insert(temp_collected_Objects);
+        Debug.Log("Updated the recorded on Pad Object in the database ^_^ ");
+    }
+    public void UpdateCollectedObjectByClicking(int id, bool obj_collected,char obj_collected_by_hand)
+    {
+        Collected_Objects temp_collected_Objects = _connection.Table<Collected_Objects>().Where(x => x.obj_number == id).First();
+        temp_collected_Objects.obj_collected = obj_collected;
+        temp_collected_Objects.obj_collected_by_hand = obj_collected_by_hand.ToString();
+        _connection.Insert(temp_collected_Objects);
+        Debug.Log("Updated the recorded By Clicking  Object in the database ^_^ ");
+    }
+
 }

@@ -135,9 +135,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4112022087282572}
-  - component: {fileID: 114123216712828894}
   - component: {fileID: 65750101477064516}
   - component: {fileID: 54183481155734718}
+  - component: {fileID: 114123216712828894}
   m_Layer: 0
   m_Name: CamelRoot
   m_TagString: Untagged

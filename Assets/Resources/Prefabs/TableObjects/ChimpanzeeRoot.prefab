@@ -118,9 +118,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4205512664254898}
-  - component: {fileID: 114555814264572202}
   - component: {fileID: 65403276732548864}
   - component: {fileID: 54949729578939206}
+  - component: {fileID: 114555814264572202}
   m_Layer: 0
   m_Name: ChimpanzeeRoot
   m_TagString: Untagged
