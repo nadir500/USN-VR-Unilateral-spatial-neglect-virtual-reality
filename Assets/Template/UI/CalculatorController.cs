@@ -7,6 +7,9 @@ public class CalculatorController : MonoBehaviour {
 	public Text numbersPad;
 	public Button leftButton;
 	public Button rightButton;
+    public Button addButton;
+    public Button clearButton;
+    private bool readyToAdd = false;
 
 	private string direction;
     private bool Active = false;
@@ -23,6 +26,7 @@ public class CalculatorController : MonoBehaviour {
         calculatorAnimator = this.GetComponent<Animator>();
 		direction = "none";
         InvokeRepeating("SearchForLeapMotionCamera", 1, 1);
+        addButton.interactable = false;
     }
     void SearchForLeapMotionCamera()
     {
@@ -72,6 +76,12 @@ public class CalculatorController : MonoBehaviour {
 	public void putNumber(string number)
 	{
 		numbersPad.text = number;
+        if(!direction.Equals("none"))
+        {
+            Debug.Log("green");
+            addButton.transform.GetChild(0).GetComponent<Image>().color = new Color(0, 162, 0, 147);
+            addButton.interactable = true;
+        }
 	}
 
 	public void Done()
@@ -101,6 +111,13 @@ public class CalculatorController : MonoBehaviour {
 			rightButton.interactable = false;
 		}
 
+        if(!numbersPad.Equals("0"))
+        {
+            Debug.Log("green");
+            addButton.transform.GetChild(0).GetComponent<Image>().color = Color.green;
+            addButton.interactable = true;
+        }
+
 	}
 	public void DeSelectDirection()
 	{
@@ -121,7 +138,7 @@ public class CalculatorController : MonoBehaviour {
             Debug.Log("Number is not selected");
             return;
         }
-
+        addButton.interactable = false;
         tableController.tableObjectSelectedByCalculator(numbersPad.text, direction);
 
         Clear();
