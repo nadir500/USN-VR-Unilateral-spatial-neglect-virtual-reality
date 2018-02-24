@@ -22,7 +22,7 @@ public class AudioController : MonoBehaviour {
 
     IEnumerator playTheClipWithTimes(string audioName, float waitTime = 0.0f, float clipTime = 30.0f)
     {
-        AudioClip ac = Resources.Load("Audio/DRSounds/" + audioName) as AudioClip;
+        AudioClip ac = Resources.Load("Audio/" + audioName) as AudioClip;
         audioSource.clip = ac;
 
         yield return new WaitForSeconds(waitTime);

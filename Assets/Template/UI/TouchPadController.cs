@@ -91,6 +91,7 @@ public class TouchPadController : MonoBehaviour {
 	{
 		Clear();
 		DeSelectObjectPosition();
+        tableController.EnableAllGameObjectsBoxColliders();
         leapMotionCameraTracking = false;
         Hide();
         
@@ -98,6 +99,9 @@ public class TouchPadController : MonoBehaviour {
 	public void Clear()
 	{
 		numbersPad.text = "0";
+        DeSelectObjectPosition();
+        turnLeapMotionUiButton(addButton, false);
+        
 	}
 	public void SelectObjectPosition(string objectPosition)
 	{
@@ -123,7 +127,7 @@ public class TouchPadController : MonoBehaviour {
         {
             Debug.Log("green");
             addButton.transform.GetChild(0).GetComponent<Image>().color = new Color32(0, 162, 0, 147);
-            addButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = Color.black;
+            addButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = new Color32(37, 37, 37, 255);
             turnLeapMotionUiButton(addButton, true);
         }
 
@@ -163,7 +167,7 @@ public class TouchPadController : MonoBehaviour {
 
         turnLeapMotionUiButton(addButton,false);
 
-        addButton.transform.GetChild(0).GetComponent<Image>().color = new Color32(13, 13, 13, 1);
+        addButton.transform.GetChild(0).GetComponent<Image>().color = new Color32(13, 13, 13, 255);
         addButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = new Color32(99, 99, 99, 255);
         tableController.tableObjectSelectedByCalculator(numbersPad.text, objectPosition);
 

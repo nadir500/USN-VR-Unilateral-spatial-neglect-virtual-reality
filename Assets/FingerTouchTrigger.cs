@@ -63,4 +63,8 @@ public class FingerTouchTrigger : MonoBehaviour
 
 
     }
+    void PlayBeep()
+    {
+        
+    }
 }

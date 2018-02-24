@@ -50,23 +50,19 @@ public class TableController : MonoBehaviour
             {
                 Debug.Log(instantiatedTableActiveGameObjects[i].gameObject.name);
 
-<<<<<<< HEAD
-                    Collected_Objects tempCollectedObject = new Collected_Objects();
-                if (side.Equals(activeTableGameObject.side))
-=======
-                if(side.Equals(activeTableGameObject.objectPosition))
->>>>>>> 4f657fa1f9fe4f5fdfa9ad37ce599edf56893fe0
+                Collected_Objects tempCollectedObject = new Collected_Objects();
+                // if (side.Equals(activeTableGameObject.side))
+                if (side.Equals(activeTableGameObject.objectPosition))
                 {
                     activeTableGameObject.obj_recorded_on_pad = true;
 
                     //dbgrabconnection.UpdateCollectedObjectOnPad(int.Parse(activeTableGameObject.id),activeTableGameObject.obj_recorded_on_pad);
-                    tempCollectedObject.SetValues(ExperementParameters.gameplay_id, int.Parse(activeTableGameObject.id), activeTableGameObject.side, activeTableGameObject.level, activeTableGameObject.obj_recorded_on_pad, false, "");
+                    tempCollectedObject.SetValues(ExperementParameters.gameplay_id, int.Parse(activeTableGameObject.id), activeTableGameObject.objectPosition, BringLevelToString(int.Parse(activeTableGameObject.level)), activeTableGameObject.obj_recorded_on_pad, false, "");
                     tempCollectedObject.SetAttempts(1);
                     activeTableGameObject.SetCollectedObject(tempCollectedObject);
 
                     // dbgrabconnection.CreateCollectedObjectsRow(tempCollectedObject);
-
-                    activeTableGameObject.canvas.GetChild(0).GetComponent<Image>().sprite = Resources.Load("Textures/UiSprites/golden_star") as Sprite;
+                    activeTableGameObject.canvas.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/UiSprites/golden_star");
                     activeTableGameObject.canvas.GetChild(0).GetChild(0).GetComponent<Text>().enabled = false;
                     break;
 
@@ -76,18 +72,11 @@ public class TableController : MonoBehaviour
                     tempCollectedObject.SetAttempts(activeTableGameObject.attempts++);
                 }
 
-                
+
             }
         }
     }
-    void DisableAllGameObjectsBoxColliders(GameObject[] gameObjects_table)
-    {
-        Debug.Log("Box Colliders Disabled");
-        for (int i = 0; i < gameObjects_table.Length; i++)
-        {
-            gameObjects_table[i].GetComponent<BoxCollider>().enabled = false;
-        }
-    }
+
     void Initilize()
     {
         tablePrefabs = Resources.LoadAll("Prefabs/TableObjects");
@@ -137,30 +126,16 @@ public class TableController : MonoBehaviour
         {
             Debug.Log("numberOfLable-1 = " + (numberOfLable - 1).ToString());
             instantiatedTableActiveGameObjects[numberOfLable - 1] = newTableObject;
+            newTableObject.GetComponent<BoxCollider>().enabled = false;
+
             newTableObject.AddComponent<TableObject>();
-<<<<<<< HEAD
-            newTableObject.GetComponent<TableObject>().setValues((shuffeledNumbers[numberOfLable++ - 1]).ToString(), level.ToString(), direc);
-=======
             newTableObject.GetComponent<TableObject>().setValues((shuffeledIds[numberOfLable++]).ToString(), level.ToString(), objectPosition);
-           
-            TableObject tempTableObject = newTableObject.GetComponent<TableObject>();
->>>>>>> 4f657fa1f9fe4f5fdfa9ad37ce599edf56893fe0
 
 
             TableObject activeTableGameObject = newTableObject.GetComponent<TableObject>();
             Collected_Objects tempCollectedObject = new Collected_Objects();
-<<<<<<< HEAD
-
-            tempCollectedObject.SetValues(ExperementParameters.gameplay_id, int.Parse(activeTableGameObject.id), activeTableGameObject.side, activeTableGameObject.level, false, false, "");
+            tempCollectedObject.SetValues(ExperementParameters.gameplay_id, int.Parse(activeTableGameObject.id), activeTableGameObject.objectPosition,BringLevelToString(int.Parse(activeTableGameObject.level)), false, false, "");
             activeTableGameObject.SetCollectedObject(tempCollectedObject);
-
-            // Collected_Objects tempCollectedObject = new Collected_Objects();
-            //  tempCollectedObject.SetValues(ExperementParameters.gameplay_id,int.Parse(tempTableObject.id),tempTableObject.side,tempTableObject.level,false,false,"");
-            //   dbgrabconnection.CreateCollectedObjectsRow(tempCollectedObject);
-=======
-            tempCollectedObject.SetValues(ExperementParameters.gameplay_id,int.Parse(tempTableObject.id),tempTableObject.objectPosition,tempTableObject.level,false,false,"");
-            dbgrabconnection.CreateCollectedObjectsRow(tempCollectedObject);
->>>>>>> 4f657fa1f9fe4f5fdfa9ad37ce599edf56893fe0
         }
 
 
@@ -194,18 +169,41 @@ public class TableController : MonoBehaviour
 
         if (level == 3)
         {
-            //  DisableAllGameObjectsBoxColliders(instantiatedTableActiveGameObjects);
-
+            // DisableAllGameObjectsBoxColliders(instantiatedTableActiveGameObjects);            
             return;
-<<<<<<< HEAD
         }
-        generateNextLevels(level + 1, activepointGroup, activepointdistance, direct);
-=======
         generateNextLevels(level + 1, activepointGroup, activepointdistance, objectPosition);
->>>>>>> 4f657fa1f9fe4f5fdfa9ad37ce599edf56893fe0
     }
+    public void EnableAllGameObjectsBoxColliders()
+    {
+        Debug.Log("Box Colliders Disabled");
+        for (int i = 0; i < instantiatedTableActiveGameObjects.Length; i++)
+        {
+            instantiatedTableActiveGameObjects[i].GetComponent<BoxCollider>().enabled = true;
+        }
+    }
+    string BringLevelToString(int level)
+    {
+        string levelInString = "";
+        switch (level)
+        {
+            case 1:
+                {
+                   return levelInString = "Personal";
+                }
+            case 2:
+                {
+                   return levelInString = "PeriPersonal";
 
-
+                }
+            case 3:
+                {
+                   return levelInString = "Far";
+                }
+                default:
+                 return "";
+        }
+    }
     void CheckTableGameObjects()
     {
         int objectsDisabled = 0;
