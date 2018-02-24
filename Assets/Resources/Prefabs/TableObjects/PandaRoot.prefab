@@ -19,12 +19,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4757702441503322}
-  - component: {fileID: 65181223519427132}
-  - component: {fileID: 54716472503726558}
-  - component: {fileID: 114955454448403054}
+  - component: {fileID: 54677892554123026}
+  - component: {fileID: 65344946769050732}
   m_Layer: 0
   m_Name: PandaRoot
-  m_TagString: Untagged
+  m_TagString: ObjectGrab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +117,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1168149692939128}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.708832, y: -2.01, z: -7.9351196}
+  m_LocalPosition: {x: 16.97097, y: -2.01, z: -8.969208}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224627373987490602}
@@ -166,7 +165,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1282539643642404}
   m_Mesh: {fileID: 4300000, guid: e3018a69272312b4e84cc160fe29ac9e, type: 3}
---- !u!54 &54716472503726558
+--- !u!54 &54677892554123026
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -181,7 +180,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65181223519427132
+--- !u!65 &65344946769050732
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -191,8 +190,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.095362835, y: 0.04461191, z: 0.05942008}
-  m_Center: {x: 0.0033260249, y: 0.033101764, z: -0.009003386}
+  m_Size: {x: 0.095149994, y: 0.06037116, z: 0.049215317}
+  m_Center: {x: 0.0069179535, y: 0.029801011, z: 0.0012207031}
 --- !u!114 &114054659822498968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -290,17 +289,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 9
---- !u!114 &114955454448403054
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1168149692939128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 193a9451fbecea245990b5a31a7ce659, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222328123738525590
 CanvasRenderer:
   m_ObjectHideFlags: 1

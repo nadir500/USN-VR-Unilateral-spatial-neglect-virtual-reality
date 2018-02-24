@@ -8,15 +8,15 @@ public class TableController : MonoBehaviour
 {
 
     public CheckPointsController checkPointsController;
+    public GameObject[] instantiatedTableActiveGameObjects;        // array of active instanitated object 0 - 5 (size = 6)
 
     public GameObject tableWrapper;
     public GameObject leapMotionCamera;
     public GameObject cameraPositionXZ;
 
     private Object[] tablePrefabs;
-    private GameObject[] instantiatedTableActiveGameObjects;        // array of active instanitated object 0 - 5 (size = 6)
     private int[] shuffeledNumbers;        // array of shuffeled number from 0-9 (to randomly select instantiated prafabs)
-    private int [] shuffeledIds;        // array of shuffeled number from 0-5 (to randomly select instantiated prafabs)
+    private int[] shuffeledIds;        // array of shuffeled number from 0-5 (to randomly select instantiated prafabs)
     private static int shuffeledNumbersIndex = 0;
     private static int numberOfLable = 1;
     private Transform points;
@@ -27,7 +27,7 @@ public class TableController : MonoBehaviour
 
     void Start()
     {
-         dbgrabconnection = new DataService("USN_Simulation.db");
+        dbgrabconnection = new DataService("USN_Simulation.db");
         instantiatedTableActiveGameObjects = new GameObject[6];
         shuffeledIds = new int[6];
 
@@ -41,25 +41,47 @@ public class TableController : MonoBehaviour
     public void tableObjectSelectedByCalculator(string id, string side)
     {
         Debug.Log("id = " + id);
-        for(int i = 0; i < instantiatedTableActiveGameObjects.Length; i++)
+        for (int i = 0; i < instantiatedTableActiveGameObjects.Length; i++)
         {
-             TableObject activeTableGameObject = instantiatedTableActiveGameObjects[i].GetComponent<TableObject>();
-            
-            Debug.Log(i +" " + instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().id);
-            if(id.Equals(activeTableGameObject.id))
+            TableObject activeTableGameObject = instantiatedTableActiveGameObjects[i].GetComponent<TableObject>();
+
+            Debug.Log(i + " " + instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().id);
+            if (id.Equals(activeTableGameObject.id))
             {
                 Debug.Log(instantiatedTableActiveGameObjects[i].gameObject.name);
 
-                if(side.Equals(activeTableGameObject.side))
+                    Collected_Objects tempCollectedObject = new Collected_Objects();
+                if (side.Equals(activeTableGameObject.side))
                 {
-                activeTableGameObject.obj_recorded_on_pad = true;
-                dbgrabconnection.UpdateCollectedObjectOnPad(int.Parse(activeTableGameObject.id),activeTableGameObject.obj_recorded_on_pad);
-                activeTableGameObject.canvas.GetChild(0).GetComponent<Image>().sprite = Resources.Load("Textures/UiSprites/golden_star") as Sprite;
-                activeTableGameObject.canvas.GetChild(0).GetChild(0).GetComponent<Text>().enabled = false;
-                break;
+                    activeTableGameObject.obj_recorded_on_pad = true;
+
+                    //dbgrabconnection.UpdateCollectedObjectOnPad(int.Parse(activeTableGameObject.id),activeTableGameObject.obj_recorded_on_pad);
+                    tempCollectedObject.SetValues(ExperementParameters.gameplay_id, int.Parse(activeTableGameObject.id), activeTableGameObject.side, activeTableGameObject.level, activeTableGameObject.obj_recorded_on_pad, false, "");
+                    tempCollectedObject.SetAttempts(1);
+                    activeTableGameObject.SetCollectedObject(tempCollectedObject);
+
+                    // dbgrabconnection.CreateCollectedObjectsRow(tempCollectedObject);
+
+                    activeTableGameObject.canvas.GetChild(0).GetComponent<Image>().sprite = Resources.Load("Textures/UiSprites/golden_star") as Sprite;
+                    activeTableGameObject.canvas.GetChild(0).GetChild(0).GetComponent<Text>().enabled = false;
+                    break;
 
                 }
+                else
+                {
+                    tempCollectedObject.SetAttempts(activeTableGameObject.attempts++);
+                }
+
+                
             }
+        }
+    }
+    void DisableAllGameObjectsBoxColliders(GameObject[] gameObjects_table)
+    {
+        Debug.Log("Box Colliders Disabled");
+        for (int i = 0; i < gameObjects_table.Length; i++)
+        {
+            gameObjects_table[i].GetComponent<BoxCollider>().enabled = false;
         }
     }
     void Initilize()
@@ -79,17 +101,17 @@ public class TableController : MonoBehaviour
 
 
         generateFirstLevel();
-        InvokeRepeating("LeapCameraIntialize",1, 1);
-
+        InvokeRepeating("LeapCameraIntialize", 1, 1);
+        InvokeRepeating("CheckTableGameObjects", 4, 3);
 
     }
     void LeapCameraIntialize()
     {
         Debug.Log("LeapCameraIntialize");
         leapMotionCamera = GameObject.Find("GearVRCameraRigTEST(Clone)") as GameObject;
-        if(leapMotionCamera != null)
+        if (leapMotionCamera != null)
         {
-            leapMotionCamera.transform.position = new Vector3(cameraPositionXZ.transform.position.x, ExperementParameters.lengthOfPatient / 100 - 1.5f, cameraPositionXZ.transform.position.z);      
+            leapMotionCamera.transform.position = new Vector3(cameraPositionXZ.transform.position.x, ExperementParameters.lengthOfPatient / 100 - 1.5f, cameraPositionXZ.transform.position.z);
             CancelInvoke("LeapCameraIntialize");
             Debug.Log("found");
         }
@@ -110,15 +132,20 @@ public class TableController : MonoBehaviour
         else
         {
             Debug.Log("numberOfLable-1 = " + (numberOfLable - 1).ToString());
-            instantiatedTableActiveGameObjects[numberOfLable -1] = newTableObject;
+            instantiatedTableActiveGameObjects[numberOfLable - 1] = newTableObject;
             newTableObject.AddComponent<TableObject>();
-            newTableObject.GetComponent<TableObject>().setValues((shuffeledNumbers[numberOfLable++ -1]).ToString(), level.ToString(), direc);
-           
-            TableObject tempTableObject = newTableObject.GetComponent<TableObject>();
+            newTableObject.GetComponent<TableObject>().setValues((shuffeledNumbers[numberOfLable++ - 1]).ToString(), level.ToString(), direc);
 
+
+            TableObject activeTableGameObject = newTableObject.GetComponent<TableObject>();
             Collected_Objects tempCollectedObject = new Collected_Objects();
-            tempCollectedObject.SetValues(ExperementParameters.gameplay_id,int.Parse(tempTableObject.id),tempTableObject.side,tempTableObject.level,false,false,"");
-            dbgrabconnection.CreateCollectedObjectsRow(tempCollectedObject);
+
+            tempCollectedObject.SetValues(ExperementParameters.gameplay_id, int.Parse(activeTableGameObject.id), activeTableGameObject.side, activeTableGameObject.level, false, false, "");
+            activeTableGameObject.SetCollectedObject(tempCollectedObject);
+
+            // Collected_Objects tempCollectedObject = new Collected_Objects();
+            //  tempCollectedObject.SetValues(ExperementParameters.gameplay_id,int.Parse(tempTableObject.id),tempTableObject.side,tempTableObject.level,false,false,"");
+            //   dbgrabconnection.CreateCollectedObjectsRow(tempCollectedObject);
         }
 
 
@@ -151,12 +178,45 @@ public class TableController : MonoBehaviour
         generateTableObject(level, dummyPointDistance, direct, dummyPointGroup, false);
 
         if (level == 3)
+        {
+            //  DisableAllGameObjectsBoxColliders(instantiatedTableActiveGameObjects);
+
             return;
+        }
         generateNextLevels(level + 1, activepointGroup, activepointdistance, direct);
     }
 
     //Debug.Log(this.transform.FindChild("Lvl" + level + "_" + direc + "_Group" + group + "_" + dist).name);
 
+    void CheckTableGameObjects()
+    {
+        int objectsDisabled = 0;
+        for (int i = 0; i < instantiatedTableActiveGameObjects.Length; i++)
+        {
+            if (instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().finishedRecord == true)
+            {//  objectsDisabled++;
 
+                dbgrabconnection.CreateCollectedObjectsRow(instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().collected_Objects);
+                CancelInvoke("CheckTableGameObjects");
+            }
+
+        }
+        /* if (objectsDisabled == 1)
+         {
+             Debug.Log("All Game Objects Are Disabled ");
+
+             //write to DB 
+             for (int i = 0; i < instantiatedTableActiveGameObjects.Length; i++)
+             {
+                 dbgrabconnection.CreateCollectedObjectsRow(instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().collected_Objects);
+
+             }
+             CancelInvoke("CheckTableGameObjects");
+         }
+         else
+         {
+             Debug.Log("Not All Disabled ");
+         }*/
+    }
 
 }

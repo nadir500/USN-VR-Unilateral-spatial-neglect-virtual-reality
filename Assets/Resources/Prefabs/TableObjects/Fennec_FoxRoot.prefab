@@ -19,12 +19,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4870295832892572}
-  - component: {fileID: 65438807505220292}
-  - component: {fileID: 54793296540980276}
-  - component: {fileID: 114948380625807318}
+  - component: {fileID: 54381604007442306}
+  - component: {fileID: 65881610761900312}
   m_Layer: 0
   m_Name: Fennec_FoxRoot
-  m_TagString: Untagged
+  m_TagString: ObjectGrab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +117,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1068641995758874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.800667, y: -2.01, z: -8.130737}
+  m_LocalPosition: {x: 17.622353, y: -2.01, z: -9.147858}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224785466625512136}
@@ -167,7 +166,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1327969339573454}
   m_Mesh: {fileID: 4300000, guid: 3177de74537e9354c89a3570a4913f61, type: 3}
---- !u!54 &54793296540980276
+--- !u!54 &54381604007442306
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -182,7 +181,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65438807505220292
+--- !u!65 &65881610761900312
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -192,8 +191,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.04616849, y: 0.05165191, z: 0.031760216}
-  m_Center: {x: -0.0037017688, y: 0.029581763, z: 0.008119106}
+  m_Size: {x: 0.06666756, y: 0.06037116, z: 0.041641235}
+  m_Center: {x: 0.010905266, y: 0.029801011, z: 0.008395195}
 --- !u!114 &114023791098607640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -291,17 +290,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114948380625807318
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1068641995758874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 193a9451fbecea245990b5a31a7ce659, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222012108632804248
 CanvasRenderer:
   m_ObjectHideFlags: 1

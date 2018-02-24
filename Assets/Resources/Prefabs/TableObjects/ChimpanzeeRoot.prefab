@@ -118,12 +118,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4205512664254898}
-  - component: {fileID: 65403276732548864}
-  - component: {fileID: 54949729578939206}
-  - component: {fileID: 114555814264572202}
+  - component: {fileID: 54525716541496168}
+  - component: {fileID: 65322321946495592}
   m_Layer: 0
   m_Name: ChimpanzeeRoot
-  m_TagString: Untagged
+  m_TagString: ObjectGrab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,7 +151,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1863352806781010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 17.87127, y: -2.01, z: -9.071442}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224098874785597810}
@@ -301,7 +300,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1415084435283324}
   m_Mesh: {fileID: 4300000, guid: a552390f3f02bfb41bea1b84579515cc, type: 3}
---- !u!54 &54949729578939206
+--- !u!54 &54525716541496168
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -316,7 +315,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65403276732548864
+--- !u!65 &65322321946495592
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -326,8 +325,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.04, z: 0.08}
-  m_Center: {x: 0, y: 0.03, z: 0}
+  m_Size: {x: 0.09179497, y: 0.06037116, z: 0.08450413}
+  m_Center: {x: -0.0016584396, y: 0.029801011, z: -0.004667759}
 --- !u!114 &114007286780701482
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -398,17 +397,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114555814264572202
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1863352806781010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 193a9451fbecea245990b5a31a7ce659, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114890979010843716
 MonoBehaviour:
   m_ObjectHideFlags: 1

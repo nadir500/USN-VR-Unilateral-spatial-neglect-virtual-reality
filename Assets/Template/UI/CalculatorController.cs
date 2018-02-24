@@ -71,8 +71,13 @@ public class CalculatorController : MonoBehaviour {
     {
         Active = false;
         calculatorAnimator.SetBool("Active", Active);
+        Debug.Log("BoxColliders Enabled");
+        for (int i = 0; i < tableController.instantiatedTableActiveGameObjects.Length; i++)
+        {
+            tableController.instantiatedTableActiveGameObjects[i].GetComponent<BoxCollider>().enabled=true;
+        }
     }
-
+    
 	public void putNumber(string number)
 	{
 		numbersPad.text = number;

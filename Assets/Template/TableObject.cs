@@ -13,6 +13,9 @@ public class TableObject : MonoBehaviour {
     public bool obj_recorded_on_pad;
     public bool obj_collected;
     public string obj_caollected_by_hand;
+    public Collected_Objects collected_Objects =null;
+    public bool finishedRecord=false;
+    public int attempts = 1 ;
 
     void Start()
     {
@@ -33,5 +36,14 @@ public class TableObject : MonoBehaviour {
         }
 
         transform.Find("Canvas").GetChild(0).GetChild(0).GetComponent<Text>().text = id.ToString();
+    }
+    public void SetCollectedObject(Collected_Objects collected_Objects)
+    {
+        this.collected_Objects = collected_Objects;
+    }
+    public void SetHandHoldObject(bool obj_collected, string  obj_collected_by_hand)
+    {
+        this.collected_Objects.obj_collected = obj_collected;
+        this.collected_Objects.obj_collected_by_hand = obj_collected_by_hand;
     }
 }

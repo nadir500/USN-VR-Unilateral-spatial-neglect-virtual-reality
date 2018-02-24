@@ -103,12 +103,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4919245149313244}
-  - component: {fileID: 65090849635726382}
-  - component: {fileID: 54602190605135262}
-  - component: {fileID: 114650904819763400}
+  - component: {fileID: 54195573884673990}
+  - component: {fileID: 65334491332360020}
   m_Layer: 0
   m_Name: GerenukRoot
-  m_TagString: Untagged
+  m_TagString: ObjectGrab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,7 +177,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1858658590812376}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.941338, y: -2.01, z: -8.066437}
+  m_LocalPosition: {x: 16.698357, y: -2.01, z: -9.194366}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224402195637783538}
@@ -276,7 +275,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1280266654980728}
   m_Mesh: {fileID: 4300000, guid: 63a295f8557308c44b343c405e83560f, type: 3}
---- !u!54 &54602190605135262
+--- !u!54 &54195573884673990
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -291,7 +290,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65090849635726382
+--- !u!65 &65334491332360020
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -301,8 +300,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.045240402, y: 0.08512759, z: 0.038977623}
-  m_Center: {x: 0.026259422, y: 0.024882674, z: 0.006758213}
+  m_Size: {x: 0.061998367, y: 0.0726552, z: 0.041641235}
+  m_Center: {x: 0.031991005, y: 0.03594303, z: 0.008395195}
 --- !u!114 &114000883109162182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -373,17 +372,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 9
---- !u!114 &114650904819763400
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1858658590812376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 193a9451fbecea245990b5a31a7ce659, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114969503328182574
 MonoBehaviour:
   m_ObjectHideFlags: 1

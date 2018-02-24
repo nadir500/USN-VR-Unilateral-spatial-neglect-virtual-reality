@@ -53,9 +53,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4462340291534066}
-  - component: {fileID: 54987227977076544}
-  - component: {fileID: 65464595699653266}
-  - component: {fileID: 114923310374645768}
+  - component: {fileID: 54620281125165066}
+  - component: {fileID: 65239303487119826}
   m_Layer: 0
   m_Name: SquirrelRoot
   m_TagString: ObjectGrab
@@ -258,7 +257,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1238668041624238}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.69783, y: -2.01, z: -8.167969}
+  m_LocalPosition: {x: 16.866394, y: -2.01, z: -9.039154}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224608411298993572}
@@ -545,7 +544,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1077377305546094}
   m_Mesh: {fileID: 4300004, guid: 26314593b41194e47bdfa06146a1934c, type: 3}
---- !u!54 &54987227977076544
+--- !u!54 &54620281125165066
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -560,7 +559,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65464595699653266
+--- !u!65 &65239303487119826
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -570,8 +569,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.030636951, y: 0.04461191, z: 0.036334038}
-  m_Center: {x: -0.011467539, y: 0.033101764, z: 0.0003476143}
+  m_Size: {x: 0.04450798, y: 0.049448133, z: 0.049215317}
+  m_Center: {x: -0.0029153824, y: 0.035262525, z: 0.0012207031}
 --- !u!95 &95909657893982804
 Animator:
   serializedVersion: 3
@@ -686,17 +685,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 9
---- !u!114 &114923310374645768
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1238668041624238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 193a9451fbecea245990b5a31a7ce659, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222300387124105026
 CanvasRenderer:
   m_ObjectHideFlags: 1
