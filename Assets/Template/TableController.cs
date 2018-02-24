@@ -58,7 +58,7 @@ public class TableController : MonoBehaviour
 
                     //dbgrabconnection.UpdateCollectedObjectOnPad(int.Parse(activeTableGameObject.id),activeTableGameObject.obj_recorded_on_pad);
                     tempCollectedObject.SetValues(ExperementParameters.gameplay_id, int.Parse(activeTableGameObject.id), activeTableGameObject.objectPosition, BringLevelToString(int.Parse(activeTableGameObject.level)), activeTableGameObject.obj_recorded_on_pad, false, "");
-                    tempCollectedObject.SetAttempts(1);
+                    tempCollectedObject.SetAttempts(activeTableGameObject.attempts);
                     activeTableGameObject.SetCollectedObject(tempCollectedObject);
 
                     // dbgrabconnection.CreateCollectedObjectsRow(tempCollectedObject);
@@ -134,7 +134,7 @@ public class TableController : MonoBehaviour
 
             TableObject activeTableGameObject = newTableObject.GetComponent<TableObject>();
             Collected_Objects tempCollectedObject = new Collected_Objects();
-            tempCollectedObject.SetValues(ExperementParameters.gameplay_id, int.Parse(activeTableGameObject.id), activeTableGameObject.objectPosition,BringLevelToString(int.Parse(activeTableGameObject.level)), false, false, "");
+            tempCollectedObject.SetValues(ExperementParameters.gameplay_id, int.Parse(activeTableGameObject.id), activeTableGameObject.objectPosition, BringLevelToString(int.Parse(activeTableGameObject.level)), false, false, "");
             activeTableGameObject.SetCollectedObject(tempCollectedObject);
         }
 
@@ -189,19 +189,19 @@ public class TableController : MonoBehaviour
         {
             case 1:
                 {
-                   return levelInString = "Personal";
+                    return levelInString = "Personal";
                 }
             case 2:
                 {
-                   return levelInString = "PeriPersonal";
+                    return levelInString = "PeriPersonal";
 
                 }
             case 3:
                 {
-                   return levelInString = "Far";
+                    return levelInString = "Far";
                 }
-                default:
-                 return "";
+            default:
+                return "";
         }
     }
     void CheckTableGameObjects()
@@ -211,29 +211,35 @@ public class TableController : MonoBehaviour
         for (int i = 0; i < instantiatedTableActiveGameObjects.Length; i++)
         {
             if (instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().finishedRecord == true)
-            {//  objectsDisabled++;
-            Debug.Log("For loop check v table game objects ");
-                dbgrabconnection.CreateCollectedObjectsRow(instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().collected_Objects);
-                CancelInvoke("CheckTableGameObjects");
+            {
+                objectsDisabled++;
+                // Debug.Log("For loop check v table game objects ");
+                //   dbgrabconnection.CreateCollectedObjectsRow(instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().collected_Objects);
+                //   CancelInvoke("CheckTableGameObjects");
             }
 
         }
-        /* if (objectsDisabled == 1)
-         {
-             Debug.Log("All Game Objects Are Disabled ");
+        if (objectsDisabled == 3)
+        {
+            Debug.Log("All Game Objects Are Disabled ");
 
-             //write to DB 
-             for (int i = 0; i < instantiatedTableActiveGameObjects.Length; i++)
-             {
-                 dbgrabconnection.CreateCollectedObjectsRow(instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().collected_Objects);
+            //write to DB 
+            for (int i = 0; i < instantiatedTableActiveGameObjects.Length; i++)
+            {
+                if (instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().finishedRecord == true)
+                {
 
-             }
-             CancelInvoke("CheckTableGameObjects");
-         }
-         else
-         {
-             Debug.Log("Not All Disabled ");
-         }*/
+                    dbgrabconnection.CreateCollectedObjectsRow(instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().collected_Objects);
+                }
+
+            }
+
+            CancelInvoke("CheckTableGameObjects");
+        }
+        else
+        {
+            Debug.Log("Not All Disabled ");
+        }
     }
 
 }
