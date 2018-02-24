@@ -41,6 +41,7 @@ public class TableObject : MonoBehaviour {
     {
         this.collected_Objects = collected_Objects;
     }
+    
     public void SetHandHoldObject(bool obj_collected, string  obj_collected_by_hand)
     {
         this.collected_Objects.obj_collected = obj_collected;
