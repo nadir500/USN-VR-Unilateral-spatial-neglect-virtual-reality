@@ -50,8 +50,12 @@ public class TableController : MonoBehaviour
             {
                 Debug.Log(instantiatedTableActiveGameObjects[i].gameObject.name);
 
+<<<<<<< HEAD
                     Collected_Objects tempCollectedObject = new Collected_Objects();
                 if (side.Equals(activeTableGameObject.side))
+=======
+                if(side.Equals(activeTableGameObject.objectPosition))
+>>>>>>> 4f657fa1f9fe4f5fdfa9ad37ce599edf56893fe0
                 {
                     activeTableGameObject.obj_recorded_on_pad = true;
 
@@ -90,14 +94,14 @@ public class TableController : MonoBehaviour
         tableWrapper.SetActive(true);
         points = tableWrapper.transform.Find("Points");
 
-        int[] indeces = new int[tablePrefabs.Length];
-        for (int i = 0; i < indeces.Length; indeces[i] = i++) ;
+        shuffeledNumbers = new int[tablePrefabs.Length];
+        //for (int i = 0; i < indeces.Length; indeces[i] = i++) ;
         System.Random rnd = new System.Random();
-        shuffeledNumbers = Enumerable.Range(0, indeces.Length - 1).OrderBy(r => rnd.Next()).ToArray();
+        shuffeledNumbers = Enumerable.Range(0, shuffeledNumbers.Length - 1).OrderBy(r => rnd.Next()).ToArray();
 
-        int[] ids = new int[6];
-        for (int i = 0; i < ids.Length; ids[i] = i++) ;
-        shuffeledIds = Enumerable.Range(0, ids.Length - 1).OrderBy(r => rnd.Next()).ToArray();
+        shuffeledIds = new int[8];
+        //for (int i = 1; i < ids.Length +1; ids[i-1] = i++) ;
+        shuffeledIds = Enumerable.Range(1, shuffeledIds.Length).OrderBy(r => rnd.Next()).ToArray();
 
 
         generateFirstLevel();
@@ -120,9 +124,9 @@ public class TableController : MonoBehaviour
             Debug.Log("not found");
         }
     }
-    void generateTableObject(int level, string dist, string direc, int group, bool active)
+    void generateTableObject(int level, string dist, string objectPosition, int group, bool active)
     {
-        string name = "Lvl" + level + "_" + direc + "_Group" + group + "_" + dist;
+        string name = "Lvl" + level + "_" + objectPosition + "_Group" + group + "_" + dist;
         //Debug.Log(name);
         Transform parent = points.transform.Find(name);
         int childIndex = Random.Range(0, parent.childCount);
@@ -134,11 +138,18 @@ public class TableController : MonoBehaviour
             Debug.Log("numberOfLable-1 = " + (numberOfLable - 1).ToString());
             instantiatedTableActiveGameObjects[numberOfLable - 1] = newTableObject;
             newTableObject.AddComponent<TableObject>();
+<<<<<<< HEAD
             newTableObject.GetComponent<TableObject>().setValues((shuffeledNumbers[numberOfLable++ - 1]).ToString(), level.ToString(), direc);
+=======
+            newTableObject.GetComponent<TableObject>().setValues((shuffeledIds[numberOfLable++]).ToString(), level.ToString(), objectPosition);
+           
+            TableObject tempTableObject = newTableObject.GetComponent<TableObject>();
+>>>>>>> 4f657fa1f9fe4f5fdfa9ad37ce599edf56893fe0
 
 
             TableObject activeTableGameObject = newTableObject.GetComponent<TableObject>();
             Collected_Objects tempCollectedObject = new Collected_Objects();
+<<<<<<< HEAD
 
             tempCollectedObject.SetValues(ExperementParameters.gameplay_id, int.Parse(activeTableGameObject.id), activeTableGameObject.side, activeTableGameObject.level, false, false, "");
             activeTableGameObject.SetCollectedObject(tempCollectedObject);
@@ -146,6 +157,10 @@ public class TableController : MonoBehaviour
             // Collected_Objects tempCollectedObject = new Collected_Objects();
             //  tempCollectedObject.SetValues(ExperementParameters.gameplay_id,int.Parse(tempTableObject.id),tempTableObject.side,tempTableObject.level,false,false,"");
             //   dbgrabconnection.CreateCollectedObjectsRow(tempCollectedObject);
+=======
+            tempCollectedObject.SetValues(ExperementParameters.gameplay_id,int.Parse(tempTableObject.id),tempTableObject.objectPosition,tempTableObject.level,false,false,"");
+            dbgrabconnection.CreateCollectedObjectsRow(tempCollectedObject);
+>>>>>>> 4f657fa1f9fe4f5fdfa9ad37ce599edf56893fe0
         }
 
 
@@ -162,7 +177,7 @@ public class TableController : MonoBehaviour
 
     }
 
-    void generateNextLevels(int level, int lastActivePointGroup, string LastActivePointDistance, string direct)
+    void generateNextLevels(int level, int lastActivePointGroup, string LastActivePointDistance, string objectPosition)
     {
 
         int activepointGroup = (int)UnityEngine.Mathf.Round(Random.value);
@@ -174,19 +189,22 @@ public class TableController : MonoBehaviour
             activepointdistance = "Far";
         else
             activepointdistance = (((int)UnityEngine.Mathf.Round(Random.value)) > 0) ? "Far" : "Near";
-        generateTableObject(level, activepointdistance, direct, activepointGroup, true);
-        generateTableObject(level, dummyPointDistance, direct, dummyPointGroup, false);
+        generateTableObject(level, activepointdistance, objectPosition, activepointGroup, true);
+        generateTableObject(level, dummyPointDistance, objectPosition, dummyPointGroup, false);
 
         if (level == 3)
         {
             //  DisableAllGameObjectsBoxColliders(instantiatedTableActiveGameObjects);
 
             return;
+<<<<<<< HEAD
         }
         generateNextLevels(level + 1, activepointGroup, activepointdistance, direct);
+=======
+        generateNextLevels(level + 1, activepointGroup, activepointdistance, objectPosition);
+>>>>>>> 4f657fa1f9fe4f5fdfa9ad37ce599edf56893fe0
     }
 
-    //Debug.Log(this.transform.FindChild("Lvl" + level + "_" + direc + "_Group" + group + "_" + dist).name);
 
     void CheckTableGameObjects()
     {
