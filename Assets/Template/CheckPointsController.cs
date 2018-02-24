@@ -149,6 +149,8 @@ public class CheckPointsController : MonoBehaviour
     // turn of the sidewalk checkpoint
     public void reachedToOtherSide()
     {
+        audioController.playAudioClip("DRSounds/TouchpadInstructions",0,15);
+        
         Debug.Log("reachedToOtherSide");
         isHitByCar = false;
         checkPoints[3].SetActive(false);

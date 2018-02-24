@@ -17,6 +17,7 @@ public class AudioController : MonoBehaviour {
 
     public void playAudioClip(string audioName, float waitTime = 0.0f, float clipTime = -1f)
     {
+        Debug.Log("AudioPlayed " + audioName);
         StartCoroutine(playTheClipWithTimes(audioName, waitTime, clipTime));
     }
 

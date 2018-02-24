@@ -206,12 +206,13 @@ public class TableController : MonoBehaviour
     }
     void CheckTableGameObjects()
     {
+        Debug.Log("CheckTableGameObject");
         int objectsDisabled = 0;
         for (int i = 0; i < instantiatedTableActiveGameObjects.Length; i++)
         {
             if (instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().finishedRecord == true)
             {//  objectsDisabled++;
-
+            Debug.Log("For loop check v table game objects ");
                 dbgrabconnection.CreateCollectedObjectsRow(instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().collected_Objects);
                 CancelInvoke("CheckTableGameObjects");
             }

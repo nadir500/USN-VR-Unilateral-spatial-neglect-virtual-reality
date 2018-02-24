@@ -2,29 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class TouchPadController : MonoBehaviour {
+public class TouchPadController : MonoBehaviour
+{
 
-	public Text numbersPad;
+    public Text numbersPad;
 
-	public Button leftButton;
-	public Button rightButton;
+    public Button leftButton;
+    public Button rightButton;
     public Button addButton;
     public Button clearButton;
 
-	private string objectPosition;
+    private string objectPosition;
     private bool Active = false;
     private Animator calculatorAnimator;
 
     private GameObject leapMotionCamera;
     public TableController tableController;
+    public AudioController audioController;
 
     // Use this for initialization
-    void Start () {
-		numbersPad.text = "0";
+    void Start()
+    {
+        numbersPad.text = "0";
         turnLeapMotionUiButton(leftButton, true);
         turnLeapMotionUiButton(rightButton, true);
         turnLeapMotionUiButton(addButton, false);
-		objectPosition = "none";
+        objectPosition = "none";
         calculatorAnimator = this.GetComponent<Animator>();
         InvokeRepeating("SearchForLeapMotionCamera", 1, 1);
     }
@@ -52,11 +55,11 @@ public class TouchPadController : MonoBehaviour {
         {
             cameraRotationX = leapMotionCamera.transform.eulerAngles.x;
             Debug.Log("camera x = " + cameraRotationX);
-            if (((cameraRotationX <=357.0f)&& (cameraRotationX >= 330.0f)) && (!Active))
+            if (((cameraRotationX <= 357.0f) && (cameraRotationX >= 330.0f)) && (!Active))
             {
                 Show();
             }
-            else if (((cameraRotationX < 0.0f) && (cameraRotationX > 330.0f) || (cameraRotationX >357f) && (cameraRotationX < 359.0f)) &&(Active))
+            else if (((cameraRotationX < 0.0f) && (cameraRotationX > 330.0f) || (cameraRotationX > 357f) && (cameraRotationX < 359.0f)) && (Active))
             {
                 Hide();
             }
@@ -74,10 +77,10 @@ public class TouchPadController : MonoBehaviour {
         calculatorAnimator.SetBool("Active", Active);
     }
 
-	public void putNumber(string number)
-	{
-		numbersPad.text = number;
-        if(!objectPosition.Equals("none"))
+    public void putNumber(string number)
+    {
+        numbersPad.text = number;
+        if (!objectPosition.Equals("none"))
         {
             Debug.Log("num = " + number + " dir = " + objectPosition);
             Debug.Log("add = " + addButton.interactable + "  right = " + rightButton.interactable + "  left =" + leftButton.interactable);
@@ -85,45 +88,46 @@ public class TouchPadController : MonoBehaviour {
             addButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = Color.black;
             turnLeapMotionUiButton(addButton, true);
         }
-	}
+    }
 
-	public void Done()
-	{
-		Clear();
-		DeSelectObjectPosition();
+    public void Done()
+    {
+        audioController.playAudioClip("DRSounds/TouchpadDone",0,19);
+        Clear();
+        DeSelectObjectPosition();
         tableController.EnableAllGameObjectsBoxColliders();
         leapMotionCameraTracking = false;
         Hide();
-        
-	}
-	public void Clear()
-	{
-		numbersPad.text = "0";
+
+    }
+    public void Clear()
+    {
+        numbersPad.text = "0";
         DeSelectObjectPosition();
         turnLeapMotionUiButton(addButton, false);
-        
-	}
-	public void SelectObjectPosition(string objectPosition)
-	{
-		this.objectPosition = objectPosition;
-		if(objectPosition.Equals("left"))
-		{
+
+    }
+    public void SelectObjectPosition(string objectPosition)
+    {
+        this.objectPosition = objectPosition;
+        if (objectPosition.Equals("left"))
+        {
             Debug.Log("num = " + numbersPad.text + " dir = " + objectPosition);
             Debug.Log("add = " + addButton.interactable + "  right = " + rightButton.interactable + "  left =" + leftButton.interactable);
 
             turnLeapMotionUiButton(leftButton, false);
             turnLeapMotionUiButton(rightButton, true);
-		}
-		else
-		{
+        }
+        else
+        {
             Debug.Log("num = " + numbersPad.text + " dir = " + objectPosition);
             Debug.Log("add = " + addButton.interactable + "  right = " + rightButton.interactable + "  left =" + leftButton.interactable);
 
             turnLeapMotionUiButton(leftButton, true);
             turnLeapMotionUiButton(rightButton, false);
-		}
+        }
 
-        if(!numbersPad.text.Equals("0"))
+        if (!numbersPad.text.Equals("0"))
         {
             Debug.Log("green");
             addButton.transform.GetChild(0).GetComponent<Image>().color = new Color32(0, 162, 0, 147);
@@ -131,13 +135,13 @@ public class TouchPadController : MonoBehaviour {
             turnLeapMotionUiButton(addButton, true);
         }
 
-	}
-	public void DeSelectObjectPosition()
-	{
-		this.objectPosition = "none";
-        turnLeapMotionUiButton(leftButton,true);
+    }
+    public void DeSelectObjectPosition()
+    {
+        this.objectPosition = "none";
+        turnLeapMotionUiButton(leftButton, true);
         turnLeapMotionUiButton(rightButton, true);
-	}
+    }
 
     private void turnLeapMotionUiButton(Button button, bool interactable)
     {
@@ -154,18 +158,23 @@ public class TouchPadController : MonoBehaviour {
 
     public void Add()
     {
-        if(objectPosition.Equals("none"))
+
+        if (objectPosition.Equals("none"))
         {
             Debug.Log("ObjectPosition is none");
+            audioController.playAudioClip("TableSounds/errorTyping", 0, 0.41f);
             return;
         }
-        if(numbersPad.text.Equals("0"))
+        if (numbersPad.text.Equals("0"))
         {
             Debug.Log("Number is not selected");
+            audioController.playAudioClip("TableSounds/errorTyping", 0, 0.41f);
+
             return;
         }
 
-        turnLeapMotionUiButton(addButton,false);
+        turnLeapMotionUiButton(addButton, false);
+        audioController.playAudioClip("TableSounds/Add", 0, 0.8f);
 
         addButton.transform.GetChild(0).GetComponent<Image>().color = new Color32(13, 13, 13, 255);
         addButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = new Color32(99, 99, 99, 255);
@@ -178,5 +187,6 @@ public class TouchPadController : MonoBehaviour {
         Debug.Log("add = " + addButton.interactable + "right = " + rightButton.interactable + "left =" + leftButton.interactable);
         Debug.Log("green");
     }
+
 
 }
