@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114000012803405078}
   - component: {fileID: 45377235366208112}
   - component: {fileID: 114490179873236512}
+  - component: {fileID: 114262990716545910}
   m_Layer: 0
   m_Name: CenterEyeAnchor
   m_TagString: MainCamera
@@ -99,6 +100,7 @@ GameObject:
   - component: {fileID: 114000011215719398}
   - component: {fileID: 114078124014963282}
   - component: {fileID: 114244673925006538}
+  - component: {fileID: 114929258023698306}
   m_Layer: 0
   m_Name: GearVRCameraRigTEST
   m_TagString: MainCamera
@@ -1029,6 +1031,7 @@ GameObject:
   - component: {fileID: 4222519967251566}
   - component: {fileID: 54286611356850414}
   - component: {fileID: 136970168051750394}
+  - component: {fileID: 114802484292489270}
   m_Layer: 0
   m_Name: bone3
   m_TagString: Untagged
@@ -2087,6 +2090,7 @@ GameObject:
   - component: {fileID: 4528156180106282}
   - component: {fileID: 54912203120320680}
   - component: {fileID: 136536876536229410}
+  - component: {fileID: 114690474227303148}
   m_Layer: 0
   m_Name: bone3
   m_TagString: Untagged
@@ -10245,6 +10249,17 @@ MonoBehaviour:
   m_MovementThreshold: 0.001
   m_InterpolateRotation: 0.5
   m_InterpolateMovement: 0.5
+--- !u!114 &114262990716545910
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011235221574}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84af7a6e21235e143abdca69066adf0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114265321938615512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10566,7 +10581,7 @@ MonoBehaviour:
     RightModel: {fileID: 114474996303509310}
     IsRightToBeSpawned: 0
     IsEnabled: 1
-    CanDuplicate: 1
+    CanDuplicate: 0
     HandPostProcesses:
       m_PersistentCalls:
         m_Calls: []
@@ -10579,7 +10594,7 @@ MonoBehaviour:
     RightModel: {fileID: 114210266181815348}
     IsRightToBeSpawned: 0
     IsEnabled: 1
-    CanDuplicate: 1
+    CanDuplicate: 0
     HandPostProcesses:
       m_PersistentCalls:
         m_Calls: []
@@ -10617,6 +10632,17 @@ MonoBehaviour:
     i15: 186
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114690474227303148
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1681876878211086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe1d40ab78f85ef45a06041795253303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114710467108532658
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10742,6 +10768,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   filtering: 0.5
+--- !u!114 &114802484292489270
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1287910801053818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe1d40ab78f85ef45a06041795253303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114814761548160070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10918,6 +10955,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   filtering: 0.5
+--- !u!114 &114929258023698306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012218139506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84af7a6e21235e143abdca69066adf0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &136030284916619372
 CapsuleCollider:
   m_ObjectHideFlags: 1
