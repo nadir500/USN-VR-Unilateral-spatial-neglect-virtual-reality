@@ -59,6 +59,7 @@ public class TableController : MonoBehaviour
                     //dbgrabconnection.UpdateCollectedObjectOnPad(int.Parse(activeTableGameObject.id),activeTableGameObject.obj_recorded_on_pad);
                     tempCollectedObject.SetValues(ExperementParameters.gameplay_id, int.Parse(activeTableGameObject.id), activeTableGameObject.objectPosition, BringLevelToString(int.Parse(activeTableGameObject.level)), activeTableGameObject.obj_recorded_on_pad, false, "");
                     tempCollectedObject.SetAttempts(activeTableGameObject.attempts);
+                    Debug.Log("tempCollectedObject "+ tempCollectedObject.attempts);
                     activeTableGameObject.SetCollectedObject(tempCollectedObject);
 
                     // dbgrabconnection.CreateCollectedObjectsRow(tempCollectedObject);
@@ -219,7 +220,7 @@ public class TableController : MonoBehaviour
             }
 
         }
-        if (objectsDisabled == 3)
+        if (objectsDisabled == 2)
         {
             Debug.Log("All Game Objects Are Disabled ");
 
@@ -228,7 +229,7 @@ public class TableController : MonoBehaviour
             {
                 if (instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().finishedRecord == true)
                 {
-
+                    Debug.Log("Object Stopped On" + instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().collected_Objects.attempts);
                     dbgrabconnection.CreateCollectedObjectsRow(instantiatedTableActiveGameObjects[i].GetComponent<TableObject>().collected_Objects);
                 }
 
