@@ -19,6 +19,7 @@ public class TouchPadController : MonoBehaviour
     private GameObject leapMotionCamera;
     public TableController tableController;
     public AudioController audioController;
+    public int numberOnPad;
 
     // Use this for initialization
     void Start()
