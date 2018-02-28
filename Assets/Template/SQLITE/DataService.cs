@@ -130,8 +130,17 @@ public class DataService
     public void CreateCollectedObjectsRow(Collected_Objects collected_Objects)
     {
         Debug.Log("Collected objects created ");
-        
-        _connection.Insert(collected_Objects);
+        Collected_Objects collected_ = new Collected_Objects {
+                gameplay_id = ExperementParameters.gameplay_id,
+                obj_number = collected_Objects.obj_number,
+                obj_position = collected_Objects.obj_position,
+                obj_field = collected_Objects.obj_field,
+                obj_recorded_on_pad = collected_Objects.obj_recorded_on_pad,
+                obj_collected = collected_Objects.obj_collected,
+                obj_collected_by_hand = collected_Objects.obj_collected_by_hand,
+                attempts = collected_Objects.attempts
+        };
+        _connection.Insert(collected_);
 
     }
 

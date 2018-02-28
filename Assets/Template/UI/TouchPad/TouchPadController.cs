@@ -36,7 +36,7 @@ public class TouchPadController : MonoBehaviour
     void SearchForLeapMotionCamera()
     {
         Debug.Log("LeapCameraIntialize");
-        leapMotionCamera = GameObject.Find("GearVRCameraRigTEST(Clone)") as GameObject;
+        leapMotionCamera = GameObject.Find("CenterEyeAnchor") as GameObject;
         if (leapMotionCamera != null)
         {
             leapMotionCameraTracking = true;
