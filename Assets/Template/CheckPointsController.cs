@@ -74,7 +74,7 @@ public class CheckPointsController : MonoBehaviour
 
         serverNetworkController.transform.position = checkPoints[3].transform.position;
 
-        checkPoints[3].SetActive(false);
+        checkPoints[3].SetActive(true);
     }
     //Intialize the same way with checkpoints array 
     private void IntializeCar()

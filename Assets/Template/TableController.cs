@@ -58,9 +58,11 @@ public class TableController : MonoBehaviour
 
                     //dbgrabconnection.UpdateCollectedObjectOnPad(int.Parse(activeTableGameObject.id),activeTableGameObject.obj_recorded_on_pad);
                     tempCollectedObject.SetValues(ExperementParameters.gameplay_id, int.Parse(activeTableGameObject.id), activeTableGameObject.objectPosition, BringLevelToString(int.Parse(activeTableGameObject.level)), activeTableGameObject.obj_recorded_on_pad, false, "");
-                    tempCollectedObject.SetAttempts(activeTableGameObject.attempts);
-                    Debug.Log("tempCollectedObject "+ tempCollectedObject.attempts);
+                    
+                    Debug.Log("tempCollectedObject " + tempCollectedObject.attempts);
+                   
                     activeTableGameObject.SetCollectedObject(tempCollectedObject);
+                    activeTableGameObject.SetAttempts(activeTableGameObject.attempts);
 
                     // dbgrabconnection.CreateCollectedObjectsRow(tempCollectedObject);
                     activeTableGameObject.canvas.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/UiSprites/golden_star");
@@ -70,7 +72,7 @@ public class TableController : MonoBehaviour
                 }
                 else
                 {
-                    tempCollectedObject.SetAttempts(activeTableGameObject.attempts++);
+                    activeTableGameObject.SetAttempts(activeTableGameObject.attempts++);
                 }
 
 
@@ -153,6 +155,15 @@ public class TableController : MonoBehaviour
 
     }
 
+    public void DoneWithTouchPad()
+    {
+        foreach(GameObject obj in instantiatedTableActiveGameObjects)
+        {
+            TableObject tObj = obj.GetComponent<TableObject>();
+            tObj.canvas.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/UiSprites/golden_star");
+            tObj.canvas.GetChild(0).GetChild(0).GetComponent<Text>().enabled = false;
+        }
+    }
     void generateNextLevels(int level, int lastActivePointGroup, string LastActivePointDistance, string objectPosition)
     {
 
