@@ -352,6 +352,7 @@ public class BodyPart
 		rb.useGravity = false;
 		rb.isKinematic = true;
 		go.AddComponent<SphereCollider> ();
+		go.GetComponent<SphereCollider>().enabled = false;
 		r = go.GetComponent<Renderer> ();
 		r.material = ObjectManager.s.coolMat;
 

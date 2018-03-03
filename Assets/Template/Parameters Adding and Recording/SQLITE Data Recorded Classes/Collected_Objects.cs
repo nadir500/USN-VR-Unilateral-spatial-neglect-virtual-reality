@@ -11,11 +11,11 @@ public class Collected_Objects
     public string obj_position { get; set; }
     public string obj_field { get; set; }
     public bool obj_recorded_on_pad { get; set; }
+    public int obj_recorded_after_attempt {get;set;}
     public bool obj_collected { get; set; }
     public string obj_collected_by_hand { get; set; }
-    public int attempts {get;set;}
 
-    public void SetValues( int gameplay_id, int obj_number, string obj_position, string obj_field, bool obj_recorded_on_pad, bool obj_collected, string obj_collected_by_hand, int attempts)
+    public void SetValues( int gameplay_id, int obj_number, string obj_position, string obj_field, bool obj_recorded_on_pad, bool obj_collected, string obj_collected_by_hand, int obj_recorded_after_attempt)
     {
         //this.collected_objects_id = collected_objects_id;
         this.gameplay_id = gameplay_id;
@@ -25,7 +25,7 @@ public class Collected_Objects
         this.obj_recorded_on_pad = obj_recorded_on_pad;
         this.obj_collected = obj_collected;
         this.obj_collected_by_hand = obj_collected_by_hand;
-        this.attempts = attempts;
+        this.obj_recorded_after_attempt = obj_recorded_after_attempt;
     }
 
 

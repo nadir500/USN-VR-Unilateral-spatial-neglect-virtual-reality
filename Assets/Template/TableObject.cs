@@ -15,7 +15,7 @@ public class TableObject : MonoBehaviour
     public bool obj_collected;
     public string obj_caollected_by_hand;
     public Collected_Objects collected_Objects = null;
-    public bool finishedRecord = false;
+    public bool finishedRecordOnAttempt = false;
     public int attempts;
 
     void Start()
@@ -26,7 +26,7 @@ public class TableObject : MonoBehaviour
     {
         this.id = id;
         this.level = level;
-        this.attempts =1 ;
+        this.attempts = 0;
         this.objectPosition = objectPosition;
         canvas = transform.Find("Canvas");
 
@@ -49,8 +49,8 @@ public class TableObject : MonoBehaviour
         this.collected_Objects.obj_collected = obj_collected;
         this.collected_Objects.obj_collected_by_hand = obj_collected_by_hand;
     }
-    public void SetAttempts(int attempts)
+    public void SetAttempts(int obj_recorded_after_attempt)
     {
-        this.collected_Objects.attempts = attempts;
+        this.collected_Objects.obj_recorded_after_attempt = obj_recorded_after_attempt;
     }
 }

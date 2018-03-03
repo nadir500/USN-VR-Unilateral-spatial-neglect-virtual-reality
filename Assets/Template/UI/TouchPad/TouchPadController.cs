@@ -53,7 +53,7 @@ public class TouchPadController : MonoBehaviour
     private float cameraRotationX = 0.0f;
     void Update()
     {
-        if (leapMotionCameraTracking)
+      if (leapMotionCameraTracking)
         {
             cameraRotationX = leapMotionCamera.transform.eulerAngles.x;
             Debug.Log("camera x = " + cameraRotationX);
@@ -61,7 +61,7 @@ public class TouchPadController : MonoBehaviour
             {
                 Show();
             }
-            else if (((cameraRotationX < 0.0f) && (cameraRotationX > 330.0f) || (cameraRotationX > 357f) && (cameraRotationX < 359.0f)) && (Active))
+            else if (((cameraRotationX > 0.0f) && (cameraRotationX < 330.0f) || (cameraRotationX > 357.0f) && (cameraRotationX < 359.0f)) && (Active))
             {
                 Hide();
             }
@@ -138,7 +138,7 @@ public class TouchPadController : MonoBehaviour
         {
             Debug.Log("green");
             addButton.transform.GetChild(0).GetComponent<Image>().color = new Color32(0, 162, 0, 147);
-            addButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = new Color32(37, 37, 37, 255);
+            addButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = new Color32(204, 197, 197, 255);
             turnLeapMotionUiButton(addButton, true);
         }
 
@@ -184,7 +184,7 @@ public class TouchPadController : MonoBehaviour
         audioController.playAudioClip("TableSounds/Add", 0, 0.8f);
 
         addButton.transform.GetChild(0).GetComponent<Image>().color = new Color32(13, 13, 13, 255);
-        addButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = new Color32(99, 99, 99, 255);
+        addButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = new Color32(218, 218, 218, 255);
         tableController.tableObjectSelectedByCalculator(numbersPad.text, objectPosition);
 
         Clear();
