@@ -11,7 +11,7 @@ public class FingerTouchTrigger : MonoBehaviour
     bool isHoldingOnObject = false;
     GameObject ToyObject;
     AudioController audioController;
-     string parentFinger ;
+    string parentFinger;
     void Start()
     {
         audioController = GameObject.Find("AudioController").GetComponent<AudioController>();
@@ -20,10 +20,10 @@ public class FingerTouchTrigger : MonoBehaviour
     void OnTriggerEnter(Collider hitToy)
     {
 
-         parentFinger = this.transform.parent.transform.parent.gameObject.name;
-        parentFinger = parentFinger[parentFinger.Length-1].ToString();
+        parentFinger = this.transform.parent.transform.parent.transform.parent.gameObject.name;
+        parentFinger = parentFinger[parentFinger.Length - 1].ToString();
 
-        if (hitToy.tag.Equals(value: "ObjectGrab")&& hitToy.GetComponent<TableObject>() != null &&  CheckGrabbedHandWithObject(parentFinger,hitToy.GetComponent<TableObject>().objectPosition))
+        if (hitToy.tag.Equals(value: "ObjectGrab") && hitToy.GetComponent<TableObject>() != null && CheckGrabbedHandWithObject(parentFinger, hitToy.GetComponent<TableObject>().objectPosition))
         //do something 
         {
             Debug.Log("LeapFinger Crossed Enter");
@@ -35,7 +35,15 @@ public class FingerTouchTrigger : MonoBehaviour
         }
         else
         {
-        audioController.playAudioClip("TableSounds/errorTyping",0,0.41f);
+            if (hitToy.gameObject.layer == 5 || hitToy.gameObject.name[0].Equals("R") || hitToy.gameObject.name.Equals("LeapFingerSphere"))
+            {
+                //ignore and don't do a thing
+            }
+            else
+            {
+                Debug.Log("Sphere Collided " + hitToy.gameObject.name);
+                audioController.playAudioClip("TableSounds/errorTyping", 0, 0.41f);
+            }
         }
 
     }
@@ -49,7 +57,7 @@ public class FingerTouchTrigger : MonoBehaviour
     }
     void PlayBeep()
     {
-        audioController.playAudioClip("TableSounds/Beep", 0.0f,-1);
+        audioController.playAudioClip("TableSounds/Beep", 0.0f, -1);
         beepCounter++;
         if (beepCounter == 3)
         {
@@ -72,14 +80,14 @@ public class FingerTouchTrigger : MonoBehaviour
         yield return new WaitForSeconds(0.8f);
         TableObject tempTableObject = ToyObject.GetComponent<TableObject>();
         tempTableObject.finishedRecord = true;
-        
+
         tempTableObject.SetHandHoldObject(true, parentFinger);
 
         ToyObject.transform.GetChild(0).gameObject.SetActive(false);
         ToyObject.transform.GetChild(1).gameObject.SetActive(false);
     }
 
-    private bool CheckGrabbedHandWithObject(string fingerSide,string objectSide)
+    private bool CheckGrabbedHandWithObject(string fingerSide, string objectSide)
     {
         if (fingerSide.Equals(objectSide.ToUpper()[0].ToString()))
         {

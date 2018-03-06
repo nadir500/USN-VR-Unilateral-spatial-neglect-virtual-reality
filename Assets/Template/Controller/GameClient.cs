@@ -67,7 +67,7 @@ public class GameClient : MonoBehaviour, INetEventListener
         Debug.Log("is CROSS " + isCross );
         if (isCross == 0)
         {
-            audioController.playAudioClip("Congrats_Midwalk",0,-1);
+            audioController.playAudioClip("DRSounds/Congrats_Midwalk",0,-1);
              isCross =1;
         }
    

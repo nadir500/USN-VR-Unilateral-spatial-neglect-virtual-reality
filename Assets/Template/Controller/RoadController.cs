@@ -109,6 +109,6 @@ public class RoadController : MonoBehaviour
                 yellowArrowsSecondPath.SetActive(false);
             yield return new WaitForSeconds(0.5f);
         }
-        //audioController.playAudioClip("Go");
+        audioController.playAudioClip("DRSounds/Go");
     }
 }

@@ -26,10 +26,7 @@ public class Collected_Objects
         this.obj_collected = obj_collected;
         this.obj_collected_by_hand = obj_collected_by_hand;
     }
-    public void SetAttempts(int attempts)
-    {
-        this.attempts=attempts;
-    }
+
 
 
 

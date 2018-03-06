@@ -23,9 +23,9 @@ public class CarParentOnRoad : MonoBehaviour
             carRefernces[i] = this.transform.GetChild(i).gameObject;
         }
         if(this.gameObject.name.Split(' ')[1].Equals("1"))   //making some distance between each car in different lanes
-        InvokeRepeating("SpawnCar", 3, ExperementParameters.distanceBetweenCars);
+        InvokeRepeating("SpawnCar", 5, ExperementParameters.distanceBetweenCars);
         else
-         InvokeRepeating("SpawnCar", 1, ExperementParameters.distanceBetweenCars);
+         InvokeRepeating("SpawnCar",1, ExperementParameters.distanceBetweenCars);
     }
     //entering this method in a loop for spawning cars using setActive for effectiveness  
     void SpawnCar()

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TableObject : MonoBehaviour {
+public class TableObject : MonoBehaviour
+{
 
     public TableController tableController;
     public Transform canvas;
@@ -13,18 +14,19 @@ public class TableObject : MonoBehaviour {
     public bool obj_recorded_on_pad;
     public bool obj_collected;
     public string obj_caollected_by_hand;
-    public Collected_Objects collected_Objects =null;
-    public bool finishedRecord=false;
-    public int attempts = 1 ;
+    public Collected_Objects collected_Objects = null;
+    public bool finishedRecord = false;
+    public int attempts = 0;
 
     void Start()
     {
-        
+
     }
     public void setValues(string id, string level, string objectPosition)
     {
         this.id = id;
         this.level = level;
+        
         this.objectPosition = objectPosition;
         canvas = transform.Find("Canvas");
 
@@ -41,10 +43,14 @@ public class TableObject : MonoBehaviour {
     {
         this.collected_Objects = collected_Objects;
     }
-    
-    public void SetHandHoldObject(bool obj_collected, string  obj_collected_by_hand)
+
+    public void SetHandHoldObject(bool obj_collected, string obj_collected_by_hand)
     {
         this.collected_Objects.obj_collected = obj_collected;
         this.collected_Objects.obj_collected_by_hand = obj_collected_by_hand;
+    }
+    public void SetAttempts(int attempts)
+    {
+        this.collected_Objects.attempts = attempts;
     }
 }
