@@ -138,17 +138,15 @@ public class MainMenu : MonoBehaviour
         checkPointsController.StartAfterMainMenu();
         roadController.generateRoads();
         VRSettings.enabled = true;
-
-
     }
     public void testGame()
     {
-        Debug.Log("PLAY GAME ()");
+       // Debug.Log("PLAY GAME ()");
         playMode = 0;
         _sqlite_connection_gamoplay.CreateGameplay();
         ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         PlayerPrefs.SetString("gameplay_id", ExperementParameters.gameplay_id.ToString());
-        Debug.Log("Gameplay ID Changed To = " + ExperementParameters.gameplay_id);
+//        Debug.Log("Gameplay ID Changed To = " + ExperementParameters.gameplay_id);
 
         uiMainCanvas.enabled = false;
         checkPointsController.StartAfterMainMenu();

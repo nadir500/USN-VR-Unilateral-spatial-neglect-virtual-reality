@@ -153,7 +153,7 @@ public class CheckPointsController : MonoBehaviour
         Debug.Log("reachedToOtherSide");
         isHitByCar = false;
         checkPoints[3].SetActive(false);
-        KVR.SetActive(false);
+        //KVR.SetActive(false);
         serverNetworkController.SetActive(true);
         UIEventSystem.SetActive(false);
         Invoke("EnableLeapEventSystem", 2);

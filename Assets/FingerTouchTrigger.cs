@@ -23,21 +23,17 @@ public class FingerTouchTrigger : MonoBehaviour
         parentFinger = this.transform.parent.transform.parent.transform.parent.gameObject.name;
         parentFinger = parentFinger[parentFinger.Length - 1].ToString();
 
-        if (hitToy.tag.Equals(value: "ObjectGrab") && hitToy.GetComponent<TableObject>() != null && CheckGrabbedHandWithObject(parentFinger, hitToy.GetComponent<TableObject>().objectPosition))
-        //do something 
+        if (hitToy.tag.Equals(value: "ObjectGrab") && hitToy.GetComponent<TableObject>() != null)
         {
-            Debug.Log("LeapFinger Crossed Enter");
-
-            isHoldingOnObject = true;
-            ToyObject = hitToy.gameObject;
-
-            InvokeRepeating("PlayBeep", 0, 1);
-        }
-        else
-        {
-            if (hitToy.gameObject.layer == 5 || hitToy.gameObject.name[0].Equals("R") || hitToy.gameObject.name.Equals("LeapFingerSphere"))
+            if(CheckGrabbedHandWithObject(parentFinger, hitToy.GetComponent<TableObject>().objectPosition))      
+            //do something 
             {
-                //ignore and don't do a thing
+                Debug.Log("LeapFinger Crossed Enter");
+
+                isHoldingOnObject = true;
+                ToyObject = hitToy.gameObject;
+
+                InvokeRepeating("PlayBeep", 0, 1);
             }
             else
             {
@@ -45,13 +41,12 @@ public class FingerTouchTrigger : MonoBehaviour
                 audioController.playAudioClip("TableSounds/errorTyping", 0, 0.41f);
             }
         }
-
     }
 
     void OnTriggerExit(Collider hitToy)
     {
         isHoldingOnObject = false;
-        Debug.Log("LeapFinger Crossed Exit");
+      //  Debug.Log("LeapFinger Crossed Exit");
         CancelInvoke("PlayBeep");
         beepCounter = 0;
     }
@@ -79,7 +74,7 @@ public class FingerTouchTrigger : MonoBehaviour
         audioController.playAudioClip("TableSounds/Add", 0, -1);
         yield return new WaitForSeconds(0.8f);
         TableObject tempTableObject = ToyObject.GetComponent<TableObject>();
-        tempTableObject.finishedRecord = true;
+       // tempTableObject.finishedRecord = true;
 
         tempTableObject.SetHandHoldObject(true, parentFinger);
 
@@ -91,12 +86,12 @@ public class FingerTouchTrigger : MonoBehaviour
     {
         if (fingerSide.Equals(objectSide.ToUpper()[0].ToString()))
         {
-            Debug.Log("Hand And Object Suceeded ");
+           // Debug.Log("Hand And Object Suceeded ");
             return false;
         }
         else
         {
-            Debug.Log("Hand And Object NOT Suceeded!! ");
+          //  Debug.Log("Hand And Object NOT Suceeded!! ");
             return true;
         }
     }
