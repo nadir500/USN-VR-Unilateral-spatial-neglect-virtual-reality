@@ -162,6 +162,8 @@ public class CheckPointsController : MonoBehaviour
         //sending the actual value to the server
 
         gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);
+        //set reference of fade canvas group 
+        
         //fadeController.BeginFade(0);
 
         if (otherSideCheckPointReachedEvent != null)
