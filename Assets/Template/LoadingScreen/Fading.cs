@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Fading : MonoBehaviour
 {
-
+    public CheckPointsController checkPointsController;
     //making the fade screen effect 
     public CanvasGroup fadecanvas;  //fade canvas 
     public GameObject fadeGB;
@@ -18,26 +18,54 @@ public class Fading : MonoBehaviour
     LayerMask everythingMask = -1;
     AudioSource audioSource;
     GameObject fakefadechild;
+    GameObject kinectCamera;
+    float lastX;
+    float lastY;
+    float lastZ;
     void Start()
     {
+
+        checkPointsController.backToOtherSideCheckPointReachedEvent += backToOtherSideRemoveFade;
+        kinectCamera = Camera.main.gameObject;
+        fakefadechild = GameObject.Find("FadeFakeChildKinect") as GameObject;
         darkRedColor = new Color32(38, 20, 20, 255); //by default 
         fadeImage = GameObject.Find("FadeImage") as GameObject;
         loadingImage = GameObject.Find("LoadingImage") as GameObject;
         loadingImage.SetActive(false);
-        fakefadechild = GameObject.Find("FadeFakeChild") as GameObject;
 
     }
 
-    public void SetCanvasFadeReference(CanvasGroup fadecanvas  )
+    private void backToOtherSideRemoveFade()
+    {
+        lastKinektCamera = kinectCamera;
+        InvokeRepeating("SearchKineckCamera", 0, 0.09f);
+    }
+
+    GameObject lastKinektCamera;
+    private void SearchKineckCamera()
+    {
+
+        GameObject tempKinectCamera = GameObject.Find("CenterEyeAnchor") as GameObject;
+        kinectCamera = (tempKinectCamera != null) ? tempKinectCamera : kinectCamera;
+
+        GameObject fakeFadeChildTemp = GameObject.Find("FadeFakeChildLeap") as GameObject;
+        fakefadechild = (fakeFadeChildTemp != null) ? fakeFadeChildTemp : fakefadechild;
+
+        if (lastKinektCamera != kinectCamera && fakefadechild != fakeFadeChildTemp)
+            CancelInvoke("SearchKineckCamera");
+    }
+    public void SetCanvasFadeReference(CanvasGroup fadecanvas)
     {
         this.fadecanvas = fadecanvas;
     }
     void Update()
     {
-        fadeGB.transform.position=Camera.main.transform.TransformPoint(fakefadechild.transform.localPosition);
-              Quaternion From = fadeGB.transform.rotation;
-            Quaternion To= Camera.main.transform.rotation;
-            fadeGB.transform.rotation = Quaternion.Lerp(From, To,1);
+        Debug.Log("Camera Current Parent " + fakefadechild.transform.parent.transform.parent.gameObject.name);
+       fadeGB.transform.position = kinectCamera.transform.TransformPoint(fakefadechild.transform.localPosition);
+        
+        Quaternion From = fadeGB.transform.rotation;
+        Quaternion To = kinectCamera.transform.rotation;
+        fadeGB.transform.rotation = Quaternion.Lerp(From, To, 1);
     }
     void OnGUI()
     {
@@ -61,6 +89,7 @@ public class Fading : MonoBehaviour
                 fadecanvas.alpha = alpha;  //fading entirly 
                 if (!RoadController.fadeout_after_crossing) //if the server sent the false value to the client 
                 {
+                    Debug.Log("RoadController condition");
                     darkRedColor = new Color32(38, 20, 20, 255); //return to red by default 
                     loadingImage.SetActive(false);
                     //reverse fading

@@ -76,7 +76,7 @@ public class ExperimentObserves : MonoBehaviour
         playerHeadRotations[frameIndex] = angle;
         traffic_towards_flow[frameIndex] = current_traffic_towards_flow;
         current_time_span[frameIndex] = Mathf.Abs(Mathf.Round((Time.time - timeSinceReachTheFirstYelloePoint) * 1000) / 1000);
-        Debug.Log(current_time_span[frameIndex]);
+//        Debug.Log(current_time_span[frameIndex]);
         isLookingAtCar[frameIndex] = CarMove.numberOfRenderdCars > 0;
         is_hit_by_car[frameIndex] = checkPointsController.isHitByCar;
 

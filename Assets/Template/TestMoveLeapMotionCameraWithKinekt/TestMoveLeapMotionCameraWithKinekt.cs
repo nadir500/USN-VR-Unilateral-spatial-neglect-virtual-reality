@@ -12,27 +12,31 @@ public class TestMoveLeapMotionCameraWithKinekt : MonoBehaviour
     private bool startTracking = false;
     void Start()
     {
-        checkPointsController.otherSideCheckPointReachedEvent += Initilize;
-		//Debug.Log("start tablePosition = " + tableWarrper.position.ToString());
+        checkPointsController.backToOtherSideCheckPointReachedEvent += Initilize;
+        //Debug.Log("start tablePosition = " + tableWarrper.position.ToString());
     }
     // Use this for initialization
     void Initilize()
     {
-        kinectHead.GetChild(0).GetComponent<Camera>().enabled = false;
+        DisableKinectCamera();
         lastX = kinectHead.localPosition.x;
         lastY = kinectHead.localPosition.y;
         lastZ = kinectHead.localPosition.z;
-//		Debug.Log("start tablePosition = " + kinectHead.localPosition.ToString());
+        //		Debug.Log("start tablePosition = " + kinectHead.localPosition.ToString());
         startTracking = true;
 
     }
-
+    void DisableKinectCamera()
+    {
+        Debug.Log("KINECt HEAD " + kinectHead.gameObject.name);
+        kinectHead.GetChild(0).gameObject.SetActive(false);
+    }
     // Update is called once per frame
 
     float lastX;
     float lastY;
     float lastZ;
-    float movementRatio = 0.2f;
+    float movementRatio = 0.1f;
     void Update()
     {
         if (startTracking)
@@ -47,7 +51,7 @@ public class TestMoveLeapMotionCameraWithKinekt : MonoBehaviour
             deltaX = (headX - lastX) * movementRatio;
             deltaY = (headY - lastY) * movementRatio;
             deltaZ = (headZ - lastZ) * movementRatio;
-        	/* Debug.Log("headX = " + headX);
+            /* Debug.Log("headX = " + headX);
             Debug.Log("headY = " + headY);
             Debug.Log("headZ = " + headZ);
             Debug.Log("lastX = " + lastX);
@@ -59,7 +63,7 @@ public class TestMoveLeapMotionCameraWithKinekt : MonoBehaviour
             Debug.Log("head position = " + kinectHead.position.ToString());
 		*/
             tableWarrper.localPosition = new Vector3(tableWarrper.localPosition.x + deltaX, tableWarrper.localPosition.y + deltaY, tableWarrper.localPosition.z/* - deltaZ*/);
-           // Debug.Log("tablePosition = " + tableWarrper.position.ToString());
+            // Debug.Log("tablePosition = " + tableWarrper.position.ToString());
 
             lastX = headX;
             lastY = headY;
