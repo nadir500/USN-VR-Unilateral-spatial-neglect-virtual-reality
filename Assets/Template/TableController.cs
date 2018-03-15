@@ -125,7 +125,7 @@ public class TableController : MonoBehaviour
         //Debug.Log(name);
         Transform parent = points.transform.Find(name);
         int childIndex = Random.Range(0, parent.childCount);
-        GameObject newTableObject = Instantiate(tablePrefabs[shuffeledNumbers[shuffeledNumbersIndex++]], parent.GetChild(childIndex).position, Quaternion.identity) as GameObject;
+        GameObject newTableObject = Instantiate(tablePrefabs[0], parent.GetChild(childIndex).position, Quaternion.identity) as GameObject;
         newTableObject.transform.SetParent(tableWrapper.transform);
         if (!active)
         {
