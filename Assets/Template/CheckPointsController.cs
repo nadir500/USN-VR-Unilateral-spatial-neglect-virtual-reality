@@ -116,7 +116,7 @@ public class CheckPointsController : MonoBehaviour
         Debug.Log("reachedToTheMidWalk");
         isHitByCar = false; //intializing the after_collision_frame again when i reach the midwalk  
 
-        audioController.playAudioClip("DRSounds/Stop", 0, -1);
+        audioController.playAudioClip("DRSounds/StepBackward", 0, -1);
         checkPoints[1].SetActive(false);
         //Begin the Phase 2 fade 
         //now fade and show the loading screen
@@ -139,6 +139,8 @@ public class CheckPointsController : MonoBehaviour
     {
         Debug.Log("backToMidWalk");
         checkPoints[2].SetActive(false);
+        audioController.playAudioClip("DRSounds/Stop", 0, -1);
+        
         //سلوك
         checkPoints[3].SetActive(true);
         RoadController.fadeout_after_crossing = true;
@@ -155,6 +157,7 @@ public class CheckPointsController : MonoBehaviour
         //RoadController.fadeout_after_crossing = true;
          //seeing the JUST the UI From Camera 
         Camera.main.cullingMask = uiMask;
+        audioController.playAudioClip("DRSounds/StepBackward", 0, -1);
 
         Debug.Log("reachedToOtherSide");
         isHitByCar = false;
@@ -172,6 +175,7 @@ public class CheckPointsController : MonoBehaviour
     public void BackToTheOtherSide()
     {
         serverNetworkController.SetActive(true);
+        audioController.playAudioClip("DRSounds/Stop", 0, -1);
 
         checkPoints[3].SetActive(false);
         //do not make any fade (not until our phase 3)
