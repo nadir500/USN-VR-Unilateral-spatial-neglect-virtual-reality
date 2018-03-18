@@ -26,7 +26,7 @@ public class Fading : MonoBehaviour
     {
 
         checkPointsController.backToOtherSideCheckPointReachedEvent += backToOtherSideRemoveFade;
-        kinectCamera = Camera.main.gameObject;
+        kinectCamera = GameObject.Find("Camera") as GameObject;//Camera.main.gameObject;
         fakefadechild = GameObject.Find("FadeFakeChildKinect") as GameObject;
         darkRedColor = new Color32(38, 20, 20, 255); //by default 
         fadeImage = GameObject.Find("FadeImage") as GameObject;
@@ -61,8 +61,8 @@ public class Fading : MonoBehaviour
     void LateUpdate()
     {
         Debug.Log("Camera Current Parent " + fakefadechild.transform.parent.transform.parent.gameObject.name);
-       fadeGB.transform.position = kinectCamera.transform.TransformPoint(new Vector3(fakefadechild.transform.localPosition.x,fakefadechild.transform.localPosition.y,fakefadechild.transform.localPosition.z));
-        
+       fadeGB.transform.position = kinectCamera.transform.TransformPoint(new Vector3(fakefadechild.transform.localPosition.x,fakefadechild.transform.localPosition.y,fakefadechild.transform.localPosition.z+0.02f));
+
         Quaternion From = fadeGB.transform.rotation;
         Quaternion To = kinectCamera.transform.rotation;
         fadeGB.transform.rotation = Quaternion.Lerp(From, To, 1);

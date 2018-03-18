@@ -31,7 +31,7 @@ public class TouchPadController : MonoBehaviour
         turnLeapMotionUiButton(addButton, false);
         objectPosition = "none";
         calculatorAnimator = this.GetComponent<Animator>();
-        InvokeRepeating("SearchForLeapMotionCamera", 1, 1);
+        InvokeRepeating("SearchForLeapMotionCamera", 4, 1);
     }
     void SearchForLeapMotionCamera()
     {
