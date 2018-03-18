@@ -58,10 +58,10 @@ public class Fading : MonoBehaviour
     {
         this.fadecanvas = fadecanvas;
     }
-    void Update()
+    void LateUpdate()
     {
         Debug.Log("Camera Current Parent " + fakefadechild.transform.parent.transform.parent.gameObject.name);
-       fadeGB.transform.position = kinectCamera.transform.TransformPoint(fakefadechild.transform.localPosition);
+       fadeGB.transform.position = kinectCamera.transform.TransformPoint(new Vector3(fakefadechild.transform.localPosition.x,fakefadechild.transform.localPosition.y,fakefadechild.transform.localPosition.z));
         
         Quaternion From = fadeGB.transform.rotation;
         Quaternion To = kinectCamera.transform.rotation;
