@@ -76,20 +76,21 @@ public class ExperimentObserves : MonoBehaviour
         playerHeadRotations[frameIndex] = angle;
         traffic_towards_flow[frameIndex] = current_traffic_towards_flow;
         current_time_span[frameIndex] = Mathf.Abs(Mathf.Round((Time.time - timeSinceReachTheFirstYelloePoint) * 1000) / 1000);
-//        Debug.Log(current_time_span[frameIndex]);
         isLookingAtCar[frameIndex] = CarMove.numberOfRenderdCars > 0;
         is_hit_by_car[frameIndex] = checkPointsController.isHitByCar;
 
         frameIndex++;
         if (frameIndex == 2)   // you can use this as the index of the lists
         {
-         //   observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow, current_time_span, is_hit_by_car);
+            observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow, current_time_span, is_hit_by_car);
             //connection to database in a thread 
-           // Thread connectionDBThread = new Thread(() => ConnectionToDB());
+            Thread connectionDBThread = new Thread(() => ConnectionToDB());
 
-          //  connectionDBThread.Start();
-        //    if (!connectionDBThread.IsAlive)
-         //       connectionDBThread.Abort();
+            connectionDBThread.Start();
+            if (!connectionDBThread.IsAlive)
+            {
+                connectionDBThread.Abort();
+            }
             frameIndex = 0;     // back to zero after each send
         }
 
