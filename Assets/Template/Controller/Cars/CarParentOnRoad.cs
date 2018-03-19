@@ -12,16 +12,19 @@ public class CarParentOnRoad : MonoBehaviour
     public int index = 0; //index of the car we're trying to generate in every lane from the array above
     private CheckPointsController checkPointsController;  //helping us in detecting if the car hit the player or not 
     private bool hitByCar = false;  //determine weather you hit a car or not 
+    private GameObject[] carHandlerPool;
     void Start()
     {
         //intialize the array 
         carRefernces = new GameObject[this.transform.childCount];
+        carHandlerPool = new GameObject[ExperementParameters.lanes_per_direction * 10 *2];
         //intialize chackpoint controller 
         checkPointsController= GameObject.Find("CheckPointController").GetComponent<CheckPointsController>();
         for (int i = 0; i < carRefernces.Length; i++)  //reference every child to the array 
         {
             carRefernces[i] = this.transform.GetChild(i).gameObject;
         }
+        
         if(this.gameObject.name.Split(' ')[1].Equals("1"))   //making some distance between each car in different lanes
         InvokeRepeating("SpawnCar", 5, ExperementParameters.distanceBetweenCars);
         else
@@ -44,16 +47,21 @@ public class CarParentOnRoad : MonoBehaviour
         if(RoadController.fadeout_after_crossing)
         {
             hitByCar=false;
+        
         }
      
     }   
     //making all cars disappear except the one that hit the player SetActive(true)
     public void StopAllCarsAfterAccident(int carIndex)
     {
-        for (int i = 0; i < carRefernces.Length; i++)
+        carHandlerPool = GameObject.Find("CarController").GetComponent<CarController>().carObjectHandler.Pool;
+        for (int i = 0; i < carHandlerPool.Length; i++)
         {
             if (i != carIndex)
-                carRefernces[i].SetActive(false);
+            {
+                carHandlerPool[i].SetActive(false);
+                Debug.Log("Done car referncing set active false ");
+            }
         }
         hitByCar = true;
     }

@@ -23,7 +23,7 @@ public class RoadController : MonoBehaviour
     public const float sidewalkWidth = 5f;         //  the width of sidewalk
     public const float midwalkWidth = 1.36f;       //  the width of midwalk
 
-    public static bool fadeout_after_crossing;       // if it's true then fade entire screen | if it's false don't do that  (to nadir)
+    public static bool fadeout_after_crossing = false ;       // if it's true then fade entire screen | if it's false don't do that  (to nadir)
     string[] streetsDirections;                             // defining the street directions | manage to generate a road and Arrows (to nadir)
     private GameObject yellowArrowsFirstPath = null;
     private GameObject yellowArrowsSecondPath = null;
