@@ -60,7 +60,7 @@ public class DataService
         var dbPath = filepath;
 #endif
         _connection = new SQLiteConnection(dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-        Debug.Log("Final PATH: " + dbPath);
+//        Debug.Log("Final PATH: " + dbPath);
 
     }
     //create gameplay row in the db 
@@ -77,8 +77,8 @@ public class DataService
             player_height = (double)ExperementParameters.lengthOfPatient
         };
 
-        Debug.Log("CREATED GAMEPLAY TO SQLITE DB");
-        return _connection.Insert(gamePlay);
+        //Debug.Log("CREATED GAMEPLAY TO SQLITE DB");
+      return _connection.Insert(gamePlay);
     }
     //create a crossingroaddata row in the db
     public void CreateRoadCrossingData(ObservedData observedData)
@@ -102,18 +102,21 @@ public class DataService
                 head_rotation_y = (double)observedData.playerHeadRotations[i]
             };
             _connection.Insert(streetCrossingData);
-           // Debug.Log("CREATED SCD TO SQLITE DB");
+            // Debug.Log("CREATED SCD TO SQLITE DB");
         }
     }
     //getting the current gameplay id 
     public int GetGameplayIDFromDatabase()  //stored in playerPref 
     {
-        Debug.Log("GET  GAMEPLAY ID FROM SQLITE DB");
-        return _connection.Table<Gameplay>().Select(x => x.gameplay_id).Count();
-        //return  _connection.Table<Gameplay>().Where(x => x.gameplay_id == gameplay_id_last).First();
-
+       // Debug.Log("GET  GAMEPLAY ID FROM SQLITE DB");
+        int rows = _connection.Table<Gameplay>().Select(x => x.gameplay_id).Count();
+        if(rows == 0 )
+        {
+            return 0;
+        }
+        else
+            return rows;
     }
-
     /*******************************************return table in array form so we can extract it using foreach************************************/
     public IEnumerable<Gameplay> GetGameplayTable()
     {
@@ -123,8 +126,39 @@ public class DataService
     {
         return _connection.Table<StreetCrossingData>();
     }
-    public IEnumerable<GrabbedObjects> GetGrabbedObjectDataTable()
+    //recording objects collecting data from hands 
+    public void CreateCollectedObjectsRow(Collected_Objects collected_Objects)
     {
-        return _connection.Table<GrabbedObjects>();
+      //  Debug.Log("Collected objects created ");
+        Collected_Objects collected_ = new Collected_Objects {
+                gameplay_id = ExperementParameters.gameplay_id,
+                obj_number = collected_Objects.obj_number,
+                obj_position = collected_Objects.obj_position,
+                obj_field = collected_Objects.obj_field,
+                obj_recorded_on_pad = collected_Objects.obj_recorded_on_pad,
+                obj_recorded_after_attempt = collected_Objects.obj_recorded_after_attempt,
+                obj_collected = collected_Objects.obj_collected,
+                obj_collected_by_hand = collected_Objects.obj_collected_by_hand
+        };
+        _connection.Insert(collected_);
+
     }
+
+    public void UpdateCollectedObjectOnPad(int id , bool recorded_on_pad)
+    {
+        Collected_Objects temp_collected_Objects = _connection.Table<Collected_Objects>().Where(x => x.obj_number == id).First();
+        temp_collected_Objects.obj_recorded_on_pad = recorded_on_pad;
+        _connection.Insert(temp_collected_Objects);
+      //  Debug.Log("Updated the recorded on Pad Object in the database ^_^ ");
+    }
+    public void UpdateCollectedObjectByClicking(int id, bool obj_collected,char obj_collected_by_hand)
+    {
+        Collected_Objects temp_collected_Objects = _connection.Table<Collected_Objects>().Where(x => x.obj_number == id).First();
+      //  Debug.Log("Object's in DB Updating " + temp_collected_Objects.collected_objects_id);
+        temp_collected_Objects.obj_collected = obj_collected;
+        temp_collected_Objects.obj_collected_by_hand = obj_collected_by_hand.ToString();
+        _connection.Update(temp_collected_Objects);
+      //  Debug.Log("Updated the recorded By Clicking  Object in the database ^_^ ");
+    }
+
 }

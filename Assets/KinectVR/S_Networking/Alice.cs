@@ -112,7 +112,7 @@ public class Alice{
     }
     public void Destroy()
     {
-        Debug.Log("Alice destroyed");
+//        Debug.Log("Alice destroyed");
         using (this.client)
         {
             if (client != null)

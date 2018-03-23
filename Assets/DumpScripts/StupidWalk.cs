@@ -20,15 +20,12 @@ public class StupidWalk : MonoBehaviour {
     
 	void Start () {
       //  cc = GetComponent<CharacterController>();
-
-        spanTime = Time.time;
-        Debug.Log("TIIIIIIIIIIIIME " + spanTime);
+    Debug.Log("Size " +  this.gameObject.GetComponent<Renderer>().bounds.size);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        threads();
-        Debug.Log("TIME IN GAME " + result); 
+      
 	/*	if(vrCamera.eulerAngles.x >= -20.0f && vrCamera.eulerAngles.x <= 20.0f)
         {
             moveForward = true;

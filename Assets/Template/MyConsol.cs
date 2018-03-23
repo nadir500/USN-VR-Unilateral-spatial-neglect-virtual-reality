@@ -7,7 +7,7 @@ public class MyConsol : MonoBehaviour {
     static Text consolText;
     static Scrollbar scroll;
 	// Use this for initialization
-	void Start () {
+	/*void Start () {
         consolText = this.gameObject.GetComponent<Text>();
         scroll = this.transform.parent.GetChild(1).GetComponent<Scrollbar>();
         InvokeRepeating("clearConsol", 1f, 1f);
@@ -24,5 +24,5 @@ public class MyConsol : MonoBehaviour {
     void clearConsol()
     {
         consolText.text = "";
-    }
+    }*/
 }

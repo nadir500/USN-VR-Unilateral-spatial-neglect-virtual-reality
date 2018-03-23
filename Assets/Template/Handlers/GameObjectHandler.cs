@@ -76,6 +76,7 @@ public class GameObjectHandler
     {
         for (int i = 0; i < _poolSize; i++)
         {
+            Debug.Log("pool size "+ _poolSize + " and game object car " +  _pool[i].name);
             _pool[i].SetActive(false);
         }
     }

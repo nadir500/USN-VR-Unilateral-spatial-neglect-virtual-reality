@@ -38,10 +38,10 @@ public class GameClient : MonoBehaviour, INetEventListener
     public void SendDataToServer(bool fadeCondition)
     {
         NetDataWriter _dataWriter = new NetDataWriter();
-        if(_serverPeer!=null)
+        if (_serverPeer != null)
         {
-        _dataWriter.Put(fadeCondition);
-        _serverPeer.Send(_dataWriter,DeliveryMethod.Sequenced);
+            _dataWriter.Put(fadeCondition);
+            _serverPeer.Send(_dataWriter, DeliveryMethod.Sequenced);
         }
     }
 
@@ -50,7 +50,7 @@ public class GameClient : MonoBehaviour, INetEventListener
         if (_netClient != null)
             _netClient.Stop();
     }
-/**********************************Here is the interface functions we use when receiving data/lost connection/on connected with server *********************************/
+    /**********************************Here is the interface functions we use when receiving data/lost connection/on connected with server *********************************/
     public void OnPeerConnected(NetPeer peer)
     {
         Debug.Log("[CLIENT] We connected to " + peer.EndPoint);
@@ -64,13 +64,18 @@ public class GameClient : MonoBehaviour, INetEventListener
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader, DeliveryMethod deliveryMethod)
     {
         RoadController.fadeout_after_crossing = reader.GetBool();
-        Debug.Log("is CROSS " + isCross );
+        Debug.Log("is CROSS " + isCross);
         if (isCross == 0)
         {
-            audioController.playAudioClip("Congrats_Midwalk",0,-1);
-             isCross =1;
+            audioController.playAudioClip("DRSounds/Congrats_Midwalk", 0, -1);
+            isCross = 1;
         }
-   
+        else
+        {
+            audioController.playAudioClip("DRSounds/TouchpadInstructions", 0, 15);
+
+        }
+
 
     }
 

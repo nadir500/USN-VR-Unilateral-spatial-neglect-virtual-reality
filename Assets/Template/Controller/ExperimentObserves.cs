@@ -76,7 +76,6 @@ public class ExperimentObserves : MonoBehaviour
         playerHeadRotations[frameIndex] = angle;
         traffic_towards_flow[frameIndex] = current_traffic_towards_flow;
         current_time_span[frameIndex] = Mathf.Abs(Mathf.Round((Time.time - timeSinceReachTheFirstYelloePoint) * 1000) / 1000);
-        Debug.Log(current_time_span[frameIndex]);
         isLookingAtCar[frameIndex] = CarMove.numberOfRenderdCars > 0;
         is_hit_by_car[frameIndex] = checkPointsController.isHitByCar;
 
@@ -89,7 +88,9 @@ public class ExperimentObserves : MonoBehaviour
 
             connectionDBThread.Start();
             if (!connectionDBThread.IsAlive)
+            {
                 connectionDBThread.Abort();
+            }
             frameIndex = 0;     // back to zero after each send
         }
 
@@ -109,7 +110,7 @@ public class ExperimentObserves : MonoBehaviour
                 {
                     onFrameWorking = false;
 
-                    CancelInvoke("onFramh,reWorking");
+                    CancelInvoke("OnFrame");
                 }
                 if (onlineBodyView.transform.GetChild(0) != null)
                 {
@@ -120,7 +121,7 @@ public class ExperimentObserves : MonoBehaviour
             }
             else if (!onFrameWorking)
             {
-                InvokeRepeating("onFrame", 0.0f, observeFrameRate);
+                InvokeRepeating("OnFrame", 0.0f, observeFrameRate);
                 onFrameWorking = true;
             }
         }

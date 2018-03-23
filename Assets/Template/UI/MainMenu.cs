@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.VR;
 
-public class MainMenu : MonoBehaviour {
+public class MainMenu : MonoBehaviour
+{
     private Animator mainMenuAnimator;
     private bool active;
     private Canvas myCanvas;
@@ -18,8 +19,12 @@ public class MainMenu : MonoBehaviour {
     public Button startGameButton;
     public Button testGameButton;
     public static int playMode;         // 0 => test ; 1 => full
+    private         DataService _sqlite_connection_gamoplay ;
+
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
+        _sqlite_connection_gamoplay= new DataService("USN_Simulation.db");
         VRSettings.enabled = false;
         active = true;
         myCanvas = this.gameObject.GetComponent<Canvas>();
@@ -28,7 +33,7 @@ public class MainMenu : MonoBehaviour {
         uiMainCanvas.enabled = true;
         setExperementParametersToLastSavedOnes();
 
-        
+
         if (PlayerPrefs.HasKey("isSettingsChanged")) // 1 => the settings have been changed
         {
             if (PlayerPrefs.GetInt("isSettingsChanged") == 1)
@@ -45,7 +50,7 @@ public class MainMenu : MonoBehaviour {
             PlayerPrefs.SetInt("isSettingsChanged", 0);
             PlayerPrefs.Save();
         }
-            
+
     }
 
     public void setExperementParametersToLastSavedOnes()
@@ -63,32 +68,41 @@ public class MainMenu : MonoBehaviour {
             ExperementParameters.lengthOfPatient = float.Parse(PlayerPrefs.GetString("PatientHeight"));
 
         if (PlayerPrefs.HasKey("soundsDirection") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("soundsDirection"))))
-            ExperementParameters.soundDirections =PlayerPrefs.GetString("soundsDirection");
+            ExperementParameters.soundDirections = PlayerPrefs.GetString("soundsDirection");
 
         if (PlayerPrefs.HasKey("observeFrameRate") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("observeFrameRate"))))
             ExperementParameters.observeFrameRate = PlayerPrefs.GetString("observeFrameRate");
 
         if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
         {
-            ExperementParameters.gameplay_id = int.Parse(PlayerPrefs.GetString("gameplay_id"));
-            Debug.Log("Latest Gameplay_id " + ExperementParameters.gameplay_id);
+            if (CheckGamplayID())
+            {
+                ExperementParameters.gameplay_id = int.Parse(PlayerPrefs.GetString("gameplay_id"));
+
+                Debug.Log("Latest Gameplay_id " + ExperementParameters.gameplay_id);
+            }
+            else
+            {
+                ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
+                Debug.Log("GamePlay ID Not Matched and the new one is " + ExperementParameters.gameplay_id);
+            }
+            
         }
         else
+
         {
-         //   ExperementParameters.gameplay_id = 1;
             Debug.Log("NOT FOUND gameplay_id ");
         }
 
 
 
-        
+
     }
-    
+
     public bool CheckGamplayID() //check if PlayerPrefs gameplay_id is the same as the latest row in the table 
     {
-        DataService _connect_db = new DataService("USN_Simulation");
 
-        return _connect_db.GetGameplayIDFromDatabase()==ExperementParameters.gameplay_id;
+        return _sqlite_connection_gamoplay.GetGameplayIDFromDatabase() == ExperementParameters.gameplay_id;
     }
     public void hide()
     {
@@ -99,7 +113,7 @@ public class MainMenu : MonoBehaviour {
     {
         active = true;
         mainMenuAnimator.SetBool("Active", active);
-                                                                                                    
+
         if (PlayerPrefs.HasKey("isSettingsChanged")) // 1 => the settings have been changed
         {
             if (PlayerPrefs.GetInt("isSettingsChanged") == 1)
@@ -119,24 +133,20 @@ public class MainMenu : MonoBehaviour {
     {
         Debug.Log("newGame()");
         playMode = 1;
-        DataService _sqlite_connection_gamoplay = new DataService("USN_Simulation.db");
         ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         uiMainCanvas.enabled = false;
         checkPointsController.StartAfterMainMenu();
         roadController.generateRoads();
         VRSettings.enabled = true;
-
-
     }
     public void testGame()
     {
-        Debug.Log("PLAY GAME ()");
+       // Debug.Log("PLAY GAME ()");
         playMode = 0;
-        DataService _sqlite_connection_gamoplay = new DataService("USN_Simulation.db");
         _sqlite_connection_gamoplay.CreateGameplay();
         ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         PlayerPrefs.SetString("gameplay_id", ExperementParameters.gameplay_id.ToString());
-        Debug.Log("Gameplay ID Changed To = " + ExperementParameters.gameplay_id);
+//        Debug.Log("Gameplay ID Changed To = " + ExperementParameters.gameplay_id);
 
         uiMainCanvas.enabled = false;
         checkPointsController.StartAfterMainMenu();
@@ -144,7 +154,7 @@ public class MainMenu : MonoBehaviour {
         VRSettings.enabled = true;
         PlayerPrefs.SetInt("isSettingsChanged", 0);
         PlayerPrefs.Save();
-        
+
     }
     public void settings()
     {

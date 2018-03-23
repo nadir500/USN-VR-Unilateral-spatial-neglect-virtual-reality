@@ -7,6 +7,9 @@ TagManager:
   - Car
   - CheckPoint
   - PlayerTag
+  - POINT
+  - Child
+  - ObjectGrab
   layers:
   - Default
   - TransparentFX

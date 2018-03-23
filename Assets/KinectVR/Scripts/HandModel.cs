@@ -11,6 +11,7 @@ public class HandModel : MonoBehaviour {
 	void Start () {
 
 		handModel = Instantiate (ObjectManager.s.kinectHand, transform.position, transform.rotation) as Transform;
+        handModel.gameObject.GetComponent<MeshRenderer>().enabled = false;
 		anim = handModel.GetComponent<Animation> ();
 		handModel.parent = transform;
 

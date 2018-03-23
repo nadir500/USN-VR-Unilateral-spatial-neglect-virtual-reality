@@ -60,7 +60,7 @@ public class SettingsParameter : MonoBehaviour {
         if (isIterativeValues)
         {
             values = new string[numberOfValues];
-            Debug.Log("count = " + values.Length);
+//            Debug.Log("count = " + values.Length);
             for (int i = 0; i < numberOfValues; i++)
                 values[i] = System.Math.Round((startValue + IterationStepValue * i), 2).ToString();
         }

@@ -37,6 +37,7 @@ public class CrossingRoad : MonoBehaviour
             //getting the parent and make all cars dissappear except the one is collided with the player
             carParentOnRoadController = parentCar.transform.parent.GetComponent<CarParentOnRoad>(); 
             //getting the index of the car object collided by the player and not making it disappear with the others
+            Debug.Log("Sibling " + parentCar.transform.GetSiblingIndex());
             carParentOnRoadController.StopAllCarsAfterAccident(parentCar.transform.GetSiblingIndex());
         }
     }
@@ -53,7 +54,6 @@ public class CrossingRoad : MonoBehaviour
                 parentCar.GetComponent<CarMove>().RemoveBrakeSound();
                 // CrashSound();  //here to add additional sound effects whhen hit the car 
                 CarHornSound();
-                Camera.main.GetComponent<CameraShake>().shakeDuration = 0.5f;  //put shake camera effect to the car 
                 rb = null;
             }
         }
