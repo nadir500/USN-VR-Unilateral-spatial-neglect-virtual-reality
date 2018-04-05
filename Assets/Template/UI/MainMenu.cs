@@ -55,25 +55,28 @@ public class MainMenu : MonoBehaviour
 
     public void setExperementParametersToLastSavedOnes()
     {
-        if (PlayerPrefs.HasKey("numberOfPathsPerStreet") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("numberOfPathsPerStreet"))))
+        if (PlayerPrefs.HasKey("numberOfPathsPerStreet")    &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("numberOfPathsPerStreet"))))
             ExperementParameters.lanes_per_direction = int.Parse(PlayerPrefs.GetString("numberOfPathsPerStreet"));
-        if (PlayerPrefs.HasKey("streetsDirections") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("streetsDirections"))))
+
+        if (PlayerPrefs.HasKey("streetsDirections")         &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("streetsDirections"))))
             ExperementParameters.streetsDirections = PlayerPrefs.GetString("streetsDirections");
-        if (PlayerPrefs.HasKey("carsSpeed") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("carsSpeed"))))
+
+        if (PlayerPrefs.HasKey("carsSpeed")                 &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("carsSpeed"))))
             ExperementParameters.carsSpeed = int.Parse(PlayerPrefs.GetString("carsSpeed"));
-        if (PlayerPrefs.HasKey("distanceBetweenCars") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("distanceBetweenCars"))))
+
+        if (PlayerPrefs.HasKey("distanceBetweenCars")       &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("distanceBetweenCars"))))
             ExperementParameters.distanceBetweenCars = int.Parse(PlayerPrefs.GetString("distanceBetweenCars"));
 
-        if (PlayerPrefs.HasKey("PatientHeight") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("PatientHeight"))))
+        if (PlayerPrefs.HasKey("PatientHeight")             &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("PatientHeight"))))
             ExperementParameters.lengthOfPatient = float.Parse(PlayerPrefs.GetString("PatientHeight"));
 
-        if (PlayerPrefs.HasKey("soundsDirection") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("soundsDirection"))))
+        if (PlayerPrefs.HasKey("soundsDirection")           &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("soundsDirection"))))
             ExperementParameters.soundDirections = PlayerPrefs.GetString("soundsDirection");
 
-        if (PlayerPrefs.HasKey("observeFrameRate") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("observeFrameRate"))))
+        if (PlayerPrefs.HasKey("observeFrameRate")          &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("observeFrameRate"))))
             ExperementParameters.observeFrameRate = PlayerPrefs.GetString("observeFrameRate");
 
-        if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
+        if (PlayerPrefs.HasKey("gameplay_id")               &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
         {
             if (CheckGamplayID())
             {
@@ -141,13 +144,10 @@ public class MainMenu : MonoBehaviour
     }
     public void testGame()
     {
-       // Debug.Log("PLAY GAME ()");
         playMode = 0;
         _sqlite_connection_gamoplay.CreateGameplay();
         ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         PlayerPrefs.SetString("gameplay_id", ExperementParameters.gameplay_id.ToString());
-//        Debug.Log("Gameplay ID Changed To = " + ExperementParameters.gameplay_id);
-
         uiMainCanvas.enabled = false;
         checkPointsController.StartAfterMainMenu();
         roadController.generateRoads();

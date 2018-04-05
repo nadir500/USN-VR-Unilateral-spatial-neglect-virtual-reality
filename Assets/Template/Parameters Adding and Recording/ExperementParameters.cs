@@ -9,9 +9,9 @@ public class ExperementParameters  {
     public static string streetsDirections = "Left";
     public static int distanceBetweenCars = 10;
     public static int carsSpeed = 20;
-    public static float lengthOfPatient;
-    public static string soundDirections;
-    public static string observeFrameRate;
+    public static float lengthOfPatient = 170;
+    public static string soundDirections = "Off";
+    public static string observeFrameRate = "30";
 
 
     

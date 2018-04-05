@@ -65,17 +65,14 @@ public class Settings : MonoBehaviour
         soundDirectionsParameterWrapper.OnVariableChange += enableSaveChanges;
         observeFrameRateParameterWrapper.OnVariableChange += enableSaveChanges;
     }
+
     public void saveParameters()
     {
         setExperementParameters();
         saveButton.interactable = false;
-
-        //if (PlayerPrefs.HasKey("isSettingsChanged"))
-        //{
-            PlayerPrefs.SetInt("isSettingsChanged", 1);
-        //    Debug.Log("save parameters isSettingsChanged, 1");
-        //}
+        PlayerPrefs.SetInt("isSettingsChanged", 1);
     }
+
     public void hide()
     {
         if (saveButton.interactable)
@@ -92,7 +89,6 @@ public class Settings : MonoBehaviour
         saveParameters();
         saveWindow.GetComponent<Canvas>().enabled = false;
         hide();
-
     }
     public void discardButtonInSaveWindow()
     {
