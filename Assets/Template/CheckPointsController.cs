@@ -22,7 +22,7 @@ public class CheckPointsController : MonoBehaviour
     public checkPointsReached backToMidWalkCheckPointReachedEvent;
     public checkPointsReached otherSideCheckPointReachedEvent;
     public checkPointsReached backToOtherSideCheckPointReachedEvent;
-
+    public checkPointsReached crossingRoadPhaseFinishedEvnet;
     public bool isHitByCar = false;
     public AudioController audioController;
     public GameObject serverNetworkController;
@@ -57,28 +57,40 @@ public class CheckPointsController : MonoBehaviour
         checkPoints[0].GetComponent<CheckPoints>().behaviorEvent += startTheGame;
         checkPoints[0].SetActive(true);
         //  checkPoints[1] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
+        Debug.Log(ExperementParameters.streetsDirections);
+        string[] streetsDirections = ExperementParameters.streetsDirections.Split(' ');
+        if (streetsDirections.Length > 1)
+        {
+            Debug.Log("Parameters Condition Exceeds Length ");
+            checkPoints[1] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction / 2) - 0.35f, -0.5f, -8.98f), Quaternion.identity);
+            checkPoints[1].GetComponent<CheckPoints>().behaviorEvent += reachedToTheMidWalk;
+            checkPoints[1].SetActive(false);
 
-        checkPoints[1] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction / 2) - 0.35f, -0.5f, -8.98f), Quaternion.identity);
-        checkPoints[1].GetComponent<CheckPoints>().behaviorEvent += reachedToTheMidWalk;
-        checkPoints[1].SetActive(false);
+            // checkPoints[2] = Instantiate(yellowPoint,  new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
+            checkPoints[2] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction / 2) + 0.35f, -0.5f, -8.98f), Quaternion.identity);
 
-        // checkPoints[2] = Instantiate(yellowPoint,  new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
-        checkPoints[2] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction / 2) + 0.35f, -0.5f, -8.98f), Quaternion.identity);
-
-        checkPoints[2].GetComponent<CheckPoints>().behaviorEvent += backToMidWalk;
-        checkPoints[2].SetActive(false);
+            checkPoints[2].GetComponent<CheckPoints>().behaviorEvent += backToMidWalk;
+            checkPoints[2].SetActive(false);
 
 
-        //the sidewalk 1st ball
+            //the sidewalk 1st ball
 
-        //checkPoints[3] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
-        checkPoints[3] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction) + 0.25f, -0.5f, -8.98f), Quaternion.identity);
+            //checkPoints[3] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
+            checkPoints[3] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction) + 0.25f, -0.5f, -8.98f), Quaternion.identity);
 
-        checkPoints[3].GetComponent<CheckPoints>().behaviorEvent += reachedToOtherSide;
+            checkPoints[3].GetComponent<CheckPoints>().behaviorEvent += reachedToOtherSide;
+            checkPoints[3].SetActive(false);
 
-        serverNetworkController.transform.position = checkPoints[3].transform.position;
+        }
+        else    // single direction experement
+        {
+            checkPoints[1] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + (RoadController.midwalkWidth / 2) + RoadController.streetPathWidth * (ExperementParameters.lanes_per_direction / 2) + 0.35f, -0.5f, -8.98f), Quaternion.identity);
 
-        checkPoints[3].SetActive(false);
+            checkPoints[1].GetComponent<CheckPoints>().behaviorEvent += crossingRoadPhaseFinished;
+            checkPoints[1].SetActive(false);
+        }
+        // serverNetworkController.transform.position = checkPoints[3].transform.position;
+
 
 
     }
@@ -91,20 +103,31 @@ public class CheckPointsController : MonoBehaviour
     // turn of the first sidewalk checkpoint
     // turn on the second side checkpoint
     // TODO(0): start generating the cars after calling this event
+    public void crossingRoadPhaseFinished()
+    {
+        isHitByCar = false;
+
+        if (crossingRoadPhaseFinishedEvnet != null)
+        {
+            crossingRoadPhaseFinishedEvnet();
+            
+        }
+        Application.LoadLevel(0);
+    }
 
     public void startTheGame()
     {
         Debug.Log("startTheGame");
         checkPoints[0].SetActive(false);
         checkPoints[1].SetActive(true);  //changed it :p 
-        checkPoints[3].SetActive(false);
         //do not fade By default
-        RoadController.fadeout_after_crossing = false;
-        gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);  //Intialize the bool Value To the Button Server
+        // RoadController.fadeout_after_crossing = false;
+        // gameClientController.SendDataToServer(RoadController.fadeout_after_crossing);  //Intialize the bool Value To the Button Server
 
         if (startTheGameCheckPointReachedEvent != null)
         {
             startTheGameCheckPointReachedEvent();
+            // Application.LoadLevel(0);
         }
     }
 
@@ -140,7 +163,7 @@ public class CheckPointsController : MonoBehaviour
         Debug.Log("backToMidWalk");
         checkPoints[2].SetActive(false);
         audioController.playAudioClip("DRSounds/Stop", 0, -1);
-        
+
         //سلوك
         checkPoints[3].SetActive(true);
         RoadController.fadeout_after_crossing = true;
@@ -154,8 +177,8 @@ public class CheckPointsController : MonoBehaviour
     {
         RoadController.fadeout_after_crossing = true;
         fadeController.BeginFade(2);  //fade entirely and wait for re-positioning 
-        //RoadController.fadeout_after_crossing = true;
-         //seeing the JUST the UI From Camera 
+                                      //RoadController.fadeout_after_crossing = true;
+                                      //seeing the JUST the UI From Camera 
         Camera.main.cullingMask = uiMask;
         audioController.playAudioClip("DRSounds/StepBackward", 0, -1);
 

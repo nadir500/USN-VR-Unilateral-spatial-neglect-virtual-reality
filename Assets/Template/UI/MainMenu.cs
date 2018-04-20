@@ -12,8 +12,8 @@ public class MainMenu : MonoBehaviour
 
     public GameObject settingsWrapper;
     public GameObject creditsWrapper;
-    public RoadController roadController;
-    public CheckPointsController checkPointsController;
+    
+    
     public Canvas uiMainCanvas;
 
     public Button startGameButton;
@@ -50,7 +50,7 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.SetInt("isSettingsChanged", 0);
             PlayerPrefs.Save();
         }
-
+        
     }
 
     public void setExperementParametersToLastSavedOnes()
@@ -138,9 +138,11 @@ public class MainMenu : MonoBehaviour
         playMode = 1;
         ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         uiMainCanvas.enabled = false;
-        checkPointsController.StartAfterMainMenu();
-        roadController.generateRoads();
-        VRSettings.enabled = true;
+        //checkPointsController.StartAfterMainMenu();
+       // roadController.generateRoads();
+       // VRSettings.enabled = true;
+        
+        Application.LoadLevel(1);
     }
     public void testGame()
     {
@@ -149,12 +151,12 @@ public class MainMenu : MonoBehaviour
         ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         PlayerPrefs.SetString("gameplay_id", ExperementParameters.gameplay_id.ToString());
         uiMainCanvas.enabled = false;
-        checkPointsController.StartAfterMainMenu();
-        roadController.generateRoads();
-        VRSettings.enabled = true;
+        //checkPointsController.StartAfterMainMenu();
+       // roadController.generateRoads();
+       // VRSettings.enabled = true;
         PlayerPrefs.SetInt("isSettingsChanged", 0);
         PlayerPrefs.Save();
-
+    Application.LoadLevel(1);
     }
     public void settings()
     {
