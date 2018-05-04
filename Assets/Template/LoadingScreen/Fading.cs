@@ -33,25 +33,6 @@ public class Fading : MonoBehaviour
         loadingImage = GameObject.Find("LoadingImage") as GameObject;
         loadingImage.SetActive(false);
     }
-  /*  private void backToOtherSideRemoveFade()
-    {
-        lastKinektCamera = kinectCamera;
-        InvokeRepeating("SearchKineckCamera", 0, 0.09f);
-    }
-
-    GameObject lastKinektCamera;
-    private void SearchKineckCamera()
-    {
-
-        GameObject tempKinectCamera = GameObject.Find("CenterEyeAnchor") as GameObject;
-        kinectCamera = (tempKinectCamera != null) ? tempKinectCamera : kinectCamera;
-
-        GameObject fakeFadeChildTemp = GameObject.Find("FadeFakeChildLeap") as GameObject;
-        fakefadechild = (fakeFadeChildTemp != null) ? fakeFadeChildTemp : fakefadechild;
-
-        if (lastKinektCamera != kinectCamera && fakefadechild != fakeFadeChildTemp)
-            CancelInvoke("SearchKineckCamera");
-    }*/
     public void SetCanvasFadeReference(CanvasGroup fadecanvas)
     {
         this.fadecanvas = fadecanvas;
@@ -69,7 +50,7 @@ public class Fading : MonoBehaviour
     {
         if (fadecanvas != null)
         {
-            if (fadeDirection == 1) //fading continously 
+            if (fadeDirection == 1) //fading continuously 
             {
                 fadeImage.GetComponent<Image>().color = darkRedColor;
                 double dd = (Mathf.Sin(Time.time * 5) + 1.0) / 2.0;
@@ -102,7 +83,7 @@ public class Fading : MonoBehaviour
     //the trigger to begin fade 
     public void BeginFade(int direction)
     {
-        if (direction == 2) //fade entirly 
+        if (direction == 2) //fade entirely 
         {
             //changing the UI Color for phase 2 Fade
             fadeImage.GetComponent<Image>().color = Color.black;

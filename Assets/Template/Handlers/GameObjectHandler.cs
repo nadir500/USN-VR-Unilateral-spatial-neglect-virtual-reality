@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class GameObjectHandler  
 {
-    //we use this class to manage and objectpool method for more effeciency to the memory resources
-    //plus managing the behaviour of those instantiated objects in the memory 
+    //we use this class to manage and objectpool method for more efficiency to the memory resources
+    //plus managing the behavior of those instantiated objects in the memory 
     private bool _isDoneLoading;
     private GameObject _prefab;
     private GameObject[] _pool;
