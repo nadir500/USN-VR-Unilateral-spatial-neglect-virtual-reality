@@ -13,6 +13,6 @@ public class ExperementParameters  {
     public static string soundDirections = "Off";
     public static string observeFrameRate = "30";
 
-
-    
+    public static string carType = "car";
+    public static string player_name = "Default";
 }

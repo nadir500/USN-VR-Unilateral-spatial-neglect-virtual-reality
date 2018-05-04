@@ -58,7 +58,7 @@ public class ExperimentObserves : MonoBehaviour
         timeSinceReachTheFirstYelloePoint = Time.time;
         Debug.Log(timeSinceReachTheFirstYelloePoint);
         //invoke the method
-        InvokeRepeating("searchOnPlayer", 1f, observeFrameRate);
+        InvokeRepeating("OnFrame", 1f, observeFrameRate);
     }
 
     /*****temp varialbes****/
@@ -72,7 +72,8 @@ public class ExperimentObserves : MonoBehaviour
     {
         //recording the data 
         angle = mainCamera.transform.localRotation.eulerAngles.y;
-        playerPositions[frameIndex] = SpineMid.position;
+//        playerPositions[frameIndex] = SpineMid.position;
+        playerPositions[frameIndex] = Vector3.zero;
         playerHeadRotations[frameIndex] = angle;
         traffic_towards_flow[frameIndex] = current_traffic_towards_flow;
         current_time_span[frameIndex] = Mathf.Abs(Mathf.Round((Time.time - timeSinceReachTheFirstYelloePoint) * 1000) / 1000);
@@ -82,6 +83,7 @@ public class ExperimentObserves : MonoBehaviour
         frameIndex++;
         if (frameIndex == 2)   // you can use this as the index of the lists
         {
+            Debug.Log("ON FRAME ");
             observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow, current_time_span, is_hit_by_car);
             //connection to database in a thread 
             Thread connectionDBThread = new Thread(() => ConnectionToDB());

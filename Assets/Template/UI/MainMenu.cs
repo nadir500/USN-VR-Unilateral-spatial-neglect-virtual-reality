@@ -12,19 +12,21 @@ public class MainMenu : MonoBehaviour
 
     public GameObject settingsWrapper;
     public GameObject creditsWrapper;
-    
-    
+
+
     public Canvas uiMainCanvas;
 
     public Button startGameButton;
     public Button testGameButton;
+    public InputField player_name_InputField;
     public static int playMode;         // 0 => test ; 1 => full
-    private         DataService _sqlite_connection_gamoplay ;
+    private DataService _sqlite_connection_gamoplay;
 
     // Use this for initialization
     void Start()
     {
-        _sqlite_connection_gamoplay= new DataService("USN_Simulation.db");
+         player_name_InputField.onValueChange.AddListener(delegate {InputFieldChangedValue(); });
+        _sqlite_connection_gamoplay = new DataService("USN_Simulation.db");
         VRSettings.enabled = false;
         active = true;
         myCanvas = this.gameObject.GetComponent<Canvas>();
@@ -50,33 +52,37 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.SetInt("isSettingsChanged", 0);
             PlayerPrefs.Save();
         }
-        
+
     }
 
     public void setExperementParametersToLastSavedOnes()
     {
-        if (PlayerPrefs.HasKey("numberOfPathsPerStreet")    &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("numberOfPathsPerStreet"))))
+        if (PlayerPrefs.HasKey("numberOfPathsPerStreet") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("numberOfPathsPerStreet"))))
             ExperementParameters.lanes_per_direction = int.Parse(PlayerPrefs.GetString("numberOfPathsPerStreet"));
 
-        if (PlayerPrefs.HasKey("streetsDirections")         &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("streetsDirections"))))
+        if (PlayerPrefs.HasKey("streetsDirections") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("streetsDirections"))))
             ExperementParameters.streetsDirections = PlayerPrefs.GetString("streetsDirections");
 
-        if (PlayerPrefs.HasKey("carsSpeed")                 &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("carsSpeed"))))
+        if (PlayerPrefs.HasKey("carsSpeed") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("carsSpeed"))))
             ExperementParameters.carsSpeed = int.Parse(PlayerPrefs.GetString("carsSpeed"));
 
-        if (PlayerPrefs.HasKey("distanceBetweenCars")       &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("distanceBetweenCars"))))
+        if (PlayerPrefs.HasKey("distanceBetweenCars") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("distanceBetweenCars"))))
             ExperementParameters.distanceBetweenCars = int.Parse(PlayerPrefs.GetString("distanceBetweenCars"));
 
-        if (PlayerPrefs.HasKey("PatientHeight")             &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("PatientHeight"))))
+        if (PlayerPrefs.HasKey("PatientHeight") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("PatientHeight"))))
             ExperementParameters.lengthOfPatient = float.Parse(PlayerPrefs.GetString("PatientHeight"));
 
-        if (PlayerPrefs.HasKey("soundsDirection")           &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("soundsDirection"))))
+        if (PlayerPrefs.HasKey("soundsDirection") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("soundsDirection"))))
             ExperementParameters.soundDirections = PlayerPrefs.GetString("soundsDirection");
 
-        if (PlayerPrefs.HasKey("observeFrameRate")          &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("observeFrameRate"))))
+        if (PlayerPrefs.HasKey("observeFrameRate") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("observeFrameRate"))))
             ExperementParameters.observeFrameRate = PlayerPrefs.GetString("observeFrameRate");
 
-        if (PlayerPrefs.HasKey("gameplay_id")               &&  (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
+        if (PlayerPrefs.HasKey("VehicleType") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("VehicleType"))))
+            ExperementParameters.carType = PlayerPrefs.GetString("VehicleType");
+
+
+        if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
         {
             if (CheckGamplayID())
             {
@@ -89,7 +95,7 @@ public class MainMenu : MonoBehaviour
                 ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
                 Debug.Log("GamePlay ID Not Matched and the new one is " + ExperementParameters.gameplay_id);
             }
-            
+
         }
         else
 
@@ -139,9 +145,9 @@ public class MainMenu : MonoBehaviour
         ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         uiMainCanvas.enabled = false;
         //checkPointsController.StartAfterMainMenu();
-       // roadController.generateRoads();
-       // VRSettings.enabled = true;
-        
+        // roadController.generateRoads();
+        // VRSettings.enabled = true;
+
         Application.LoadLevel(1);
     }
     public void testGame()
@@ -152,11 +158,11 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetString("gameplay_id", ExperementParameters.gameplay_id.ToString());
         uiMainCanvas.enabled = false;
         //checkPointsController.StartAfterMainMenu();
-       // roadController.generateRoads();
-       // VRSettings.enabled = true;
+        // roadController.generateRoads();
+        // VRSettings.enabled = true;
         PlayerPrefs.SetInt("isSettingsChanged", 0);
         PlayerPrefs.Save();
-    Application.LoadLevel(1);
+        Application.LoadLevel(1);
     }
     public void settings()
     {
@@ -168,13 +174,22 @@ public class MainMenu : MonoBehaviour
     public void credits()
     {
         Debug.Log("credits()");
-        this.hide();
-        creditsWrapper.GetComponent<Canvas>().enabled = true;
-        creditsWrapper.GetComponent<Animator>().SetBool("Active", true);
+        uiMainCanvas.enabled = false;
+
+        Application.LoadLevel(2);
+        //this.hide();
+        //  creditsWrapper.GetComponent<Canvas>().enabled = true;
+        //  creditsWrapper.GetComponent<Animator>().SetBool("Active", true);
     }
     public void exit()
     {
         Debug.Log("exit()");
         Application.Quit();
+    }
+
+    public void InputFieldChangedValue()
+    {
+       ExperementParameters.player_name = player_name_InputField.text;
+       Debug.Log("Value Name " + ExperementParameters.player_name); 
     }
 }

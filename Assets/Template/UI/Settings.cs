@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
-
+        
     private Animator settingsAnimator;
     private bool active;
     private Canvas myCanvas;
@@ -37,6 +37,8 @@ public class Settings : MonoBehaviour
     public SettingsParameter observeFrameRateParameterWrapper;
     public float observeFrameRateValue { get { return float.Parse(observeFrameRateParameterWrapper.parameterValue); } set { observeFrameRateParameterWrapper.parameterValue = value.ToString(); } }
 
+    public SettingsParameter carsTypeParameterWrapper;
+    public string carsTypeParameterWrappeValue { get { return carsTypeParameterWrapper.parameterValue; } set { carsTypeParameterWrapper.parameterValue = value; } }
 
     // Use this for initialization
     void Start()
@@ -64,6 +66,7 @@ public class Settings : MonoBehaviour
         lengthOfPatientParameterWrapper.OnVariableChange += enableSaveChanges;
         soundDirectionsParameterWrapper.OnVariableChange += enableSaveChanges;
         observeFrameRateParameterWrapper.OnVariableChange += enableSaveChanges;
+        carsTypeParameterWrapper.OnVariableChange += enableSaveChanges;
     }
 
     public void saveParameters()
@@ -152,7 +155,8 @@ public class Settings : MonoBehaviour
             (ExperementParameters.distanceBetweenCars != distanceBetweenCarsValue)          ||
             (ExperementParameters.lengthOfPatient != lengthOfPatientValue)                  ||
             (ExperementParameters.soundDirections != soundDirectionsValue)                  ||
-            (ExperementParameters.observeFrameRate != observeFrameRateValue.ToString())
+            (ExperementParameters.observeFrameRate != observeFrameRateValue.ToString())     ||
+            (ExperementParameters.carType != carsTypeParameterWrappeValue)
           )
         {
             saveButton.interactable = true;
@@ -174,13 +178,14 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetString("PatientHeight", this.lengthOfPatientValue.ToString());
         PlayerPrefs.SetString("soundsDirection", this.soundDirectionsValue);
         PlayerPrefs.SetString("observeFrameRate", this.observeFrameRateValue.ToString());
-
+        PlayerPrefs.SetString("VehicleType", this.carsTypeParameterWrappeValue);
         ExperementParameters.lanes_per_direction = this.numberOfPathsPerStreetValue;
         ExperementParameters.streetsDirections = this.streetsDirectionsValue;
         ExperementParameters.carsSpeed = this.carsSpeedValue;
         ExperementParameters.distanceBetweenCars = this.distanceBetweenCarsValue;
         ExperementParameters.lengthOfPatient = this.lengthOfPatientValue;
         ExperementParameters.soundDirections = this.soundDirectionsValue;
+        ExperementParameters.carType = this.carsTypeParameterWrappeValue;
        // _sqlite_dataServices.CreateGameplay();
        // ExperementParameters.gameplay_id = _sqlite_dataServices.GetGameplayIDFromDatabase();
         ExperementParameters.observeFrameRate = this.observeFrameRateValue.ToString();

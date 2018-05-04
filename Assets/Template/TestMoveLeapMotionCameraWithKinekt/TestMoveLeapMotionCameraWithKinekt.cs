@@ -5,14 +5,13 @@ using UnityEngine;
 public class TestMoveLeapMotionCameraWithKinekt : MonoBehaviour
 {
 
-    public CheckPointsController checkPointsController;
     public Transform kinectHead;
     public Transform tableWarrper;
 
     private bool startTracking = false;
     void Start()
     {
-        checkPointsController.backToOtherSideCheckPointReachedEvent += Initilize;
+         Initilize();
         //Debug.Log("start tablePosition = " + tableWarrper.position.ToString());
     }
     // Use this for initialization

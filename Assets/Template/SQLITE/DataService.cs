@@ -73,7 +73,7 @@ public class DataService
             car_speed_km = ExperementParameters.carsSpeed,
             car_span_second = ExperementParameters.distanceBetweenCars,
             sound_mode = ExperementParameters.soundDirections,
-            player_name = "Omar",
+            player_name = ExperementParameters.player_name,
             player_height = (double)ExperementParameters.lengthOfPatient
         };
 
