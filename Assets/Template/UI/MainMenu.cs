@@ -6,33 +6,44 @@ using UnityEngine.VR;
 
 public class MainMenu : MonoBehaviour
 {
-    private Animator mainMenuAnimator;
-    private bool active;
-    private Canvas myCanvas;
+    private Animator mainMenuAnimator;      // reference the the Animator on main menu ui
+    private bool active;                    // boolean to tell if the main menu ui is shown or not
+    private Canvas myCanvas;                // reference to the main menu ui canvas
 
-    public GameObject settingsWrapper;
-    public GameObject creditsWrapper;
+    public GameObject settingsWrapper;      // reference to the settings ui game object (settingsWrapper), assigned in the inspector
+    public GameObject creditsWrapper;       // reference to the settings ui game object (settingsWrapper), assigned in the inspector
 
 
-    public Canvas uiMainCanvas;
+    public Canvas uiMainCanvas;             // reference to the main canvas that contains main menu - settings - credit, assigned in the inspector to "uiMainCanvas" game object
 
-    public Button startGameButton;
-    public Button testGameButton;
-    public InputField player_name_InputField;
-    public static int playMode;         // 0 => test ; 1 => full
-    private DataService _sqlite_connection_gamoplay;
+    public Button startGameButton;          // reference to the start game button on the main menu (to disable )
+    public Button testGameButton;           // reference to the test game button on the main menu
+    public InputField player_name_InputField;               //Nadir
+    public static int playMode;         // 0 => test ; 1 => full boolean to check if the game mode is testing or full experement
+    private DataService _sqlite_connection_gamoplay;        //Nadir
 
     // Use this for initialization
+    /*
+        1- we should ti disable the vr mode to let the researcher could use the 2d UIs to set the settings
+        2- get the animator by assign the mainMenuAnimator reference to the Animator component on (mainMenuWrapper/this.gameObject) game object
+        3- Enable UI canvas (uiMainCanvas)
+        4- assing the myCanvas reference to the canvas reference on (mainMenuWrapper/this.gameObject) game object and Enable it
+        5- set the exoerement parameters to the last saved one in player prefs
+        6- if check if the The last settings have set was tested or not
+        6-1- if it have tested then the startGameButton will be enabled
+        6-2- else it will be disabled until the test game is done
+        7- if this is the first use then isSettingsChanged key is not exist and 
+     */
     void Start()
     {
          player_name_InputField.onValueChange.AddListener(delegate {InputFieldChangedValue(); });
         _sqlite_connection_gamoplay = new DataService("USN_Simulation.db");
         VRSettings.enabled = false;
-        active = true;
-        myCanvas = this.gameObject.GetComponent<Canvas>();
-        mainMenuAnimator = this.gameObject.GetComponent<Animator>();
-        myCanvas.enabled = true;
         uiMainCanvas.enabled = true;
+        myCanvas = this.gameObject.GetComponent<Canvas>();
+        myCanvas.enabled = true;
+        mainMenuAnimator = this.gameObject.GetComponent<Animator>();
+        active = true;
         setExperementParametersToLastSavedOnes();
 
 
@@ -54,7 +65,13 @@ public class MainMenu : MonoBehaviour
         }
 
     }
-
+    /*
+        Parameters:
+        Returns: void
+        Objective: get the saved data from the playerPrefs and assign it to the ExperementParam
+        check if it exist (because the first time we open the game the key will be not Exist)
+        //Nadir talk aboud the gameplay id
+     */
     public void setExperementParametersToLastSavedOnes()
     {
         if (PlayerPrefs.HasKey("numberOfPathsPerStreet") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("numberOfPathsPerStreet"))))
@@ -107,7 +124,7 @@ public class MainMenu : MonoBehaviour
 
 
     }
-
+    //Nadir
     public bool CheckGamplayID() //check if PlayerPrefs gameplay_id is the same as the latest row in the table 
     {
 
@@ -118,6 +135,14 @@ public class MainMenu : MonoBehaviour
         active = false;
         mainMenuAnimator.SetBool("Active", active);
     }
+    /*
+        Parameters:
+        Returns: void
+        Objective: activate the main menu ui
+        if check if the The last settings have set was tested or not
+        if it have tested then the startGameButton will be enabled
+        else it will be disabled until the test game is done
+     */
     public void show()
     {
         active = true;
@@ -138,10 +163,20 @@ public class MainMenu : MonoBehaviour
         else
             Debug.Log("has not key or null or empty");
     }
+
+    /*
+        Parameters:
+        Returns: void
+        Objective:
+            start the experement of crossing streets
+            set the playMode to 1 to tell the other scripts that this is a full experement game (not just testing) (some times we used the isSettingsChanged key)
+            remove the UIs
+            go the street crossing scene
+     */
     public void newGame()
     {
         Debug.Log("newGame()");
-        playMode = 1;
+        playMode = 1;               //// 0 => test ; 1 => full  
         ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         uiMainCanvas.enabled = false;
         //checkPointsController.StartAfterMainMenu();
@@ -150,6 +185,17 @@ public class MainMenu : MonoBehaviour
 
         Application.LoadLevel(1);
     }
+
+    /*
+        Parameters:
+        Returns: void
+        Objective:
+            start the testing mode of crossing streets experement, players are forced to do it after changeing the settings to be sure that the new settings are fine 
+            remove the ui canvas
+            go the street crossing scene
+
+
+     */
     public void testGame()
     {
         playMode = 0;
@@ -160,7 +206,6 @@ public class MainMenu : MonoBehaviour
         //checkPointsController.StartAfterMainMenu();
         // roadController.generateRoads();
         // VRSettings.enabled = true;
-        PlayerPrefs.SetInt("isSettingsChanged", 0);
         PlayerPrefs.Save();
         Application.LoadLevel(1);
     }

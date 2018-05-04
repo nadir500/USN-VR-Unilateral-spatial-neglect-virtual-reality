@@ -25,10 +25,9 @@ public class RoadController : MonoBehaviour
 
     public static bool fadeout_after_crossing = false ;       // if it's true then fade entire screen | if it's false don't do that  (to nadir)
     string[] streetsDirections;                             // defining the street directions | manage to generate a road and Arrows (to nadir)
-    private GameObject yellowArrowsFirstPath = null;
-    private GameObject yellowArrowsSecondPath = null;
+    private GameObject yellowArrowsFirstPath = null;        // reference to the yellow arrows that show the walk directions on the first road
+    private GameObject yellowArrowsSecondPath = null;       // reference to the yellow arrows that show the walk directions on the second road if exist
 
-    AudioSource audioSource;
 
 
     public List<GameObject> carsReferences;
@@ -37,6 +36,17 @@ public class RoadController : MonoBehaviour
     {
         checkPointsController.startTheGameCheckPointReachedEvent += TurnOnAndOfYellowArrowsThenSayGo;
     }
+    
+    /*
+        Parameters:
+        Returns: void
+        Objective:
+            generate the streets and the mid-walk/side-walk and set the buildings in the other side ot the street
+            generate the yellow direction arrows
+            if street direction from one word (left write) then it will generate the streets in one direction
+            else if the street direction from more than one word then it will generate two roads
+
+     */
     public void generateRoads()
     {
         //Assigning number of paths from the UI
