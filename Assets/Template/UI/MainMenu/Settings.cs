@@ -5,16 +5,47 @@ using UnityEngine.UI;
 public class Settings : MonoBehaviour
 {
         
-    private Animator settingsAnimator;
-    private bool active;
-    private Canvas myCanvas;
+    private Animator settingsAnimator;      // reference to the Animator component of Settings ui game object
+    private bool active;                    // boolean to know if the settings ui is shown or not
+    private Canvas myCanvas;                // reference to the settings ui canvas
 
-    public GameObject mainMenuWrapper;
-    public Button saveButton;
-    public Canvas saveWindow;
+    public GameObject mainMenuWrapper;      // reference to the main menu ui game object (mainMenuWrapper), assigned in the inspector
+    public Button saveButton;               // reference to the save button in settings ui to enable is it there is something to to saved
+    public Canvas saveWindow;               // reference to the save warning window to show it if the settings is close button pressed and settings not saved
 
-    public SettingsParameter mode;
+    public SettingsParameter mode;          // reference to the mode parameter in the settings ui
     public string modeValue { get { return mode.parameterValue; } }
+
+    /*
+        reference to each settings parameter in the settings ui and a proprety to facilitate dealing with them
+        references are assigned in the inspector to the paremeters in : settingsWrapper -> MainUI -> Main -> ScrollView -> Content-> (same parameter name)
+        
+        the parameters are :
+        number of paths per street
+        steets directions
+        distance beteen car
+        cars speed
+        langth of patient
+        sound directions
+        observe frame rate
+        cars type
+
+        each parameter have
+        - values : array of values (strings - numbers)
+        - unit of paramter value : (km - sec ...)
+        - parameter key : to use it in playerPrefs
+        - link to resouces : if the values is presented as images (like in streets directions)
+        - Index: the index of defalut value in the values array
+        - parameter text : reference to the text that show the value of the parameter (assigned in the inspector)
+        - plus button : referene to the plus button of this parameter (assigned in the inspector)
+        - minus button : referene to the minus button of this parameter (assigned in the inspector)
+        - OnVariableChange : an event to link the parameter to more method if needed (look at link events method)
+
+        the proprites are used to set and get the value of each parameter
+        
+
+
+     */
 
     public SettingsParameter numberOfPathsPerStreetParameterWrapper;
     public int numberOfPathsPerStreetValue { get { return int.Parse(numberOfPathsPerStreetParameterWrapper.parameterValue); } set { numberOfPathsPerStreetParameterWrapper.parameterValue = value.ToString(); } }
@@ -57,25 +88,66 @@ public class Settings : MonoBehaviour
     public void linkEvents()
     {
         mode.OnVariableChange += changeModeHandler;
-        mode.OnVariableChange += enableSaveChanges;
 
-        streetsDirectionsparameterWrapper.OnVariableChange += enableSaveChanges;
+        mode.OnVariableChange                                   += enableSaveChanges;
+        streetsDirectionsparameterWrapper.OnVariableChange      += enableSaveChanges;
         numberOfPathsPerStreetParameterWrapper.OnVariableChange += enableSaveChanges;
-        carsSpeedParameterWrapper.OnVariableChange += enableSaveChanges;
-        distanceBetweenCarsParameterWrapper.OnVariableChange += enableSaveChanges;
-        lengthOfPatientParameterWrapper.OnVariableChange += enableSaveChanges;
-        soundDirectionsParameterWrapper.OnVariableChange += enableSaveChanges;
-        observeFrameRateParameterWrapper.OnVariableChange += enableSaveChanges;
-        carsTypeParameterWrapper.OnVariableChange += enableSaveChanges;
+        carsSpeedParameterWrapper.OnVariableChange              += enableSaveChanges;
+        distanceBetweenCarsParameterWrapper.OnVariableChange    += enableSaveChanges;
+        lengthOfPatientParameterWrapper.OnVariableChange        += enableSaveChanges;
+        soundDirectionsParameterWrapper.OnVariableChange        += enableSaveChanges;
+        observeFrameRateParameterWrapper.OnVariableChange       += enableSaveChanges;
+        carsTypeParameterWrapper.OnVariableChange               += enableSaveChanges;
     }
-
+    /*
+        Parameters:
+        Returns: void
+        Callers:  Button componenet in the save button in the SettingsUI (assingd in code in start method)
+        Objective:
+            call setExperementParameters methd thats set all the parameters value to ExpermentParamters class to use it in the other classes and to playerPrefs to save it to next time
+            make the saveButton uninteractable after saving the values
+            set the isSettingsChanged value in playerPrefs to true to tell the others that the settings have been changed
+     */
     public void saveParameters()
     {
         setExperimentParameters();
         saveButton.interactable = false;
         PlayerPrefs.SetInt("isSettingsChanged", 1);
     }
+    /*
+        Parameters:
+        Returns: void
+        Callers: save button in "save worning" 
+        Objective:
+            call save paramters method from the 
+            hide "save worning" window
+            hide settings ui
 
+     */
+    public void saveButtonInSaveWindow()
+    {
+        saveParameters();
+        saveWindow.GetComponent<Canvas>().enabled = false;
+        hide();
+    }
+    /*
+        Parameters:
+        Returns: void
+        Callers:  Button componenet in the discard button in the SettingsUI (assingd in code in start method)
+        Objective:
+            call setExperementParameters methd thats set all the parameters value to ExpermentParamters class to use it in the other classes and to playerPrefs to save it to next time
+            make the saveButton uninteractable after saving the values
+            set the isSettingsChanged value in playerPrefs to true to tell the others that the settings have been changed
+     */
+    public void discardButtonInSaveWindow()
+    {
+        saveButton.interactable = false;
+        hide();
+    }
+    public void hideInSaveWindow()
+    {
+        saveWindow.GetComponent<Canvas>().enabled = false;
+    }
     public void hide()
     {
         if (saveButton.interactable)
@@ -87,26 +159,21 @@ public class Settings : MonoBehaviour
         settingsAnimator.SetBool("Active", active);
         mainMenuWrapper.GetComponent<MainMenu>().show();
     }
-    public void saveButtonInSaveWindow()
-    {
-        saveParameters();
-        saveWindow.GetComponent<Canvas>().enabled = false;
-        hide();
-    }
-    public void discardButtonInSaveWindow()
-    {
-        saveButton.interactable = false;
-        hide();
-    }
-    public void hideInSaveWindow()
-    {
-        saveWindow.GetComponent<Canvas>().enabled = false;
-    }
     public IEnumerator turnOffCanvas()
     {
         yield return new WaitForSeconds(0.3f);
         myCanvas.enabled = false;
     }
+    /*
+        Parameters:
+        Returns: void
+        Callers:  in mode parameters in settings ui this method is subscriped OnVariableChange event (mode.OnVariableChange += changeModeHandler)
+        Objective:
+            change all the settings value according to the mode value
+            to add new mode you shoud add it in the mode parameters values array and add new case in the switch-case below
+            note: the paramters are in the setModeParameters moethd signature parameters in order
+            note: if you wan't to add new paramters don't forget to add it to the setModeParameters signeture in the same order
+     */
     private void changeModeHandler()
     {
         Debug.Log("changeModeHandler");
@@ -128,10 +195,13 @@ public class Settings : MonoBehaviour
                 break;
         }
     }
-    private void setParameterIndex(SettingsParameter parameter)
-    {
-        parameter.index = System.Array.IndexOf(parameter.values, parameter.parameterValue);
-    }
+    /*
+        Parameters:
+        Returns: void
+        Callers:  changeModeHandler method
+        Objective:
+            set the mode values to the parameters and update the index in the SettingsParamter class for each parameter
+     */
     private void setModeParameters(int numberOfPathsPerStreet, string streetsDirections, int carsSpeed, int distanceBetweenCars)
     {
         this.numberOfPathsPerStreetValue = numberOfPathsPerStreet;
@@ -146,6 +216,27 @@ public class Settings : MonoBehaviour
         this.distanceBetweenCarsValue = distanceBetweenCars;
         this.setParameterIndex(distanceBetweenCarsParameterWrapper);
     }
+    /*
+        Parameters:
+        Returns: void
+        Callers:  setModeParameters method
+        Objective:
+            find the index of the new value that assigned to the parameter where we changed the mode and update it in SettingsParameter class for this parameter
+     */
+    private void setParameterIndex(SettingsParameter parameter)
+    {
+        parameter.index = System.Array.IndexOf(parameter.values, parameter.parameterValue);
+    }
+
+    /*
+        Parameters:
+        Returns: void
+        Callers:  any change in any parameter that this method is linked ot the OnVariableChanges event (parameter.OnVariableChanges += enableSaveChanges;)
+        Objective:
+            check if there is any change in the parameters value 
+            if there as any change then the saveButton will be activated
+            else deactivate the save button if it was enabled
+     */
     private void enableSaveChanges()
     {
         if (
