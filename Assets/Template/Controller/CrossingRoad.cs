@@ -37,6 +37,7 @@ public class CrossingRoad : MonoBehaviour
             //getting the parent and make all cars dissappear except the one is collided with the player
             carParentOnRoadController = parentCar.transform.parent.GetComponent<CarParentOnRoad>(); 
             //getting the index of the car object collided by the player and not making it disappear with the others
+            Debug.Log("Sibling " + parentCar.transform.GetSiblingIndex());
             carParentOnRoadController.StopAllCarsAfterAccident(parentCar.transform.GetSiblingIndex());
         }
     }

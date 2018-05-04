@@ -15,6 +15,7 @@ public class CarController : MonoBehaviour
     int numberOfPathsInSingleRoad;
     public CheckPointsController checkPointsController;  //reaching chackpoint controller for event subscribe when generate at the start of the game 
 
+    public GameObjectHandler carObjectHandler;
     void Start()
     {
         IntializeCars();
@@ -29,13 +30,35 @@ public class CarController : MonoBehaviour
     {
         if (MainMenu.playMode == 1)
         {
-        numberOfPathsInSingleRoad = ExperementParameters.lanes_per_direction;
-        GameObjectHandler carObjectHandler =
-                 new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, //pooling from the prefab with copies that is like the number of paths in each street
-                                 numberOfPathsInSingleRoad * 10 *2, true, "");          //making a prefab copy with a number enough to coer a whole one path 
-        InstantiateCarsFastRoad(carObjectHandler); 
-        carObjectHandler.DeactivateAll(); //deactivate all the cars after putting ecery component we want 
-         }
+            numberOfPathsInSingleRoad = ExperementParameters.lanes_per_direction;
+            //switch cases 
+            switch (ExperementParameters.carType)
+            {
+
+                case "car":
+                    carObjectHandler =
+                        new GameObjectHandler(Resources.Load("Prefabs/Car") as GameObject, //pooling from the prefab with copies that is like the number of paths in each street
+                                        numberOfPathsInSingleRoad * 10 * 2, true, "");          //making a prefab copy with a number enough to coer a whole one path 
+
+                    break;
+                case "truck":
+                  carObjectHandler =
+                        new GameObjectHandler(Resources.Load("Prefabs/Truck") as GameObject, //pooling from the prefab with copies that is like the number of paths in each street
+                                        numberOfPathsInSingleRoad * 10 * 2, true, "");          //making a prefab copy with a number enough to coer a whole one path 
+
+                    break;
+                case "bus":
+                  carObjectHandler =
+                        new GameObjectHandler(Resources.Load("Prefabs/Bus") as GameObject, //pooling from the prefab with copies that is like the number of paths in each street
+                                        numberOfPathsInSingleRoad * 10 * 2, true, "");          //making a prefab copy with a number enough to coer a whole one path 
+
+                    break;
+            }
+
+
+            InstantiateCarsFastRoad(carObjectHandler);
+            carObjectHandler.DeactivateAll(); //deactivate all the cars after putting ecery component we want 
+        }
 
     }
     /*we need to instantiate the cars in the scene with the perfect positions on the road when generating it */

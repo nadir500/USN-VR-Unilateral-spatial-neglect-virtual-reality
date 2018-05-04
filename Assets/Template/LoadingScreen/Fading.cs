@@ -25,17 +25,15 @@ public class Fading : MonoBehaviour
     void Start()
     {
 
-        checkPointsController.backToOtherSideCheckPointReachedEvent += backToOtherSideRemoveFade;
+        //checkPointsController.backToOtherSideCheckPointReachedEvent += backToOtherSideRemoveFade;
         kinectCamera = GameObject.Find("Camera") as GameObject;//Camera.main.gameObject;
         fakefadechild = GameObject.Find("FadeFakeChildKinect") as GameObject;
         darkRedColor = new Color32(38, 20, 20, 255); //by default 
         fadeImage = GameObject.Find("FadeImage") as GameObject;
         loadingImage = GameObject.Find("LoadingImage") as GameObject;
         loadingImage.SetActive(false);
-
     }
-
-    private void backToOtherSideRemoveFade()
+  /*  private void backToOtherSideRemoveFade()
     {
         lastKinektCamera = kinectCamera;
         InvokeRepeating("SearchKineckCamera", 0, 0.09f);
@@ -53,14 +51,14 @@ public class Fading : MonoBehaviour
 
         if (lastKinektCamera != kinectCamera && fakefadechild != fakeFadeChildTemp)
             CancelInvoke("SearchKineckCamera");
-    }
+    }*/
     public void SetCanvasFadeReference(CanvasGroup fadecanvas)
     {
         this.fadecanvas = fadecanvas;
     }
     void LateUpdate()
     {
-        Debug.Log("Camera Current Parent " + fakefadechild.transform.parent.transform.parent.gameObject.name);
+//        Debug.Log("Camera Current Parent " + fakefadechild.transform.parent.transform.parent.gameObject.name);
        fadeGB.transform.position = kinectCamera.transform.TransformPoint(new Vector3(fakefadechild.transform.localPosition.x,fakefadechild.transform.localPosition.y,fakefadechild.transform.localPosition.z+0.02f));
 
         Quaternion From = fadeGB.transform.rotation;

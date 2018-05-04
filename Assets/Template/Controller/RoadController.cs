@@ -23,7 +23,7 @@ public class RoadController : MonoBehaviour
     public const float sidewalkWidth = 5f;         //  the width of sidewalk
     public const float midwalkWidth = 1.36f;       //  the width of midwalk
 
-    public static bool fadeout_after_crossing;       // if it's true then fade entire screen | if it's false don't do that  (to nadir)
+    public static bool fadeout_after_crossing = false ;       // if it's true then fade entire screen | if it's false don't do that  (to nadir)
     string[] streetsDirections;                             // defining the street directions | manage to generate a road and Arrows (to nadir)
     private GameObject yellowArrowsFirstPath = null;
     private GameObject yellowArrowsSecondPath = null;
@@ -51,18 +51,25 @@ public class RoadController : MonoBehaviour
    
         //Road #1
         createDirection(sidewalkWidth + (streetPathWidth / 2), ref pathGenerateIndex, 0);
-
-        if (ExperementParameters.streetsDirections.Length > 1)
+        Debug.Log("after generate the first road");
+        Debug.Log(ExperementParameters.streetsDirections);
+        streetsDirections = ExperementParameters.streetsDirections.Split(' ');
+        if (streetsDirections.Length > 1)
         {
+            Debug.Log("generate the second road");
             Instantiate(midWalk, new Vector3(sidewalkWidth + (midwalkWidth / 2) + streetPathWidth * (numberOfPathsInSingleRoad / 2), -2.0f, 0.0f), Quaternion.identity);
             yellowArrowsSecondPath = Instantiate(yellowArrows, new Vector3(lastPosition, -1.99f, -8.98f), Quaternion.identity);
            
             //Road #2
             createDirection(sidewalkWidth + (streetPathWidth / 2) + midwalkWidth + (streetPathWidth * (numberOfPathsInSingleRoad / 2)), ref pathGenerateIndex, 2);
-        }
         Instantiate(sidewalk, new Vector3((sidewalkWidth) + (midwalkWidth) + streetPathWidth * (numberOfPathsInSingleRoad), -0.0012f, 0.0f), Quaternion.identity);
+        }
+        else
+        Instantiate(sidewalk, new Vector3((sidewalkWidth)  + streetPathWidth * (numberOfPathsInSingleRoad/2), -0.0012f, 0.0f), Quaternion.identity);
+        
+        Debug.Log("generate side walk");
 
-        BuildingsWrapper.transform.position = new Vector3((sidewalkWidth * 2) + (midwalkWidth) + streetPathWidth * (numberOfPathsInSingleRoad), 0, 0);
+        BuildingsWrapper.transform.position = new Vector3((sidewalkWidth * 2) + streetPathWidth * (numberOfPathsInSingleRoad/2), 0, 0);
     }
 
     public void createDirection(float startPositionAtX, ref int pathGenerateIndex, int indexOfDirection)
@@ -83,9 +90,9 @@ public class RoadController : MonoBehaviour
             //i'll take each road generated (the cars are from left to right movement) and rename it into a specific name
             //i used string builder for the performance issues
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("Road ");
-            stringBuilder.Append(streetsDirections[indexOfDirection] + " ");
-            stringBuilder.Append(i + 1);
+            stringBuilder.Append("Road " + i);
+           // stringBuilder.Append(streetsDirections[indexOfDirection] + " ");
+           // stringBuilder.Append(i + 1);
             generatedRoad.name = stringBuilder.ToString();
         }
     }
