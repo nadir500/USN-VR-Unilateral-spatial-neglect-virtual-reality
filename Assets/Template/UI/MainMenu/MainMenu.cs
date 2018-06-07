@@ -42,14 +42,9 @@ public class MainMenu : MonoBehaviour
         uiMainCanvas.enabled = true;
         myCanvas = this.gameObject.GetComponent<Canvas>();
         myCanvas.enabled = true;
-<<<<<<< HEAD:Assets/Template/UI/MainMenu/MainMenu.cs
-        uiMainCanvas.enabled = true;
-        setExperimentParametersToLastSavedOnes();
-=======
         mainMenuAnimator = this.gameObject.GetComponent<Animator>();
         active = true;
-        setExperementParametersToLastSavedOnes();
->>>>>>> 45df9d2c5a06d0efc114b60c12d3035f2e79474e:Assets/Template/UI/MainMenu.cs
+        setExperimentParametersToLastSavedOnes();
 
 
         if (PlayerPrefs.HasKey("isSettingsChanged")) // 1 => the settings have been changed
@@ -65,16 +60,11 @@ public class MainMenu : MonoBehaviour
         else
         {
             Debug.Log("main menu start create new settings changed 0");
-            PlayerPrefs.SetInt("isSettingsChanged", 1);
-            startGameButton.interactable = false; 
+            PlayerPrefs.SetInt("isSettingsChanged", 0);
             PlayerPrefs.Save();
         }
 
     }
-<<<<<<< HEAD:Assets/Template/UI/MainMenu/MainMenu.cs
-
-    public void setExperimentParametersToLastSavedOnes()
-=======
     /*
         Parameters:
         Returns: void
@@ -82,8 +72,7 @@ public class MainMenu : MonoBehaviour
         check if it exist (because the first time we open the game the key will be not Exist)
         //Nadir talk aboud the gameplay id
      */
-    public void setExperementParametersToLastSavedOnes()
->>>>>>> 45df9d2c5a06d0efc114b60c12d3035f2e79474e:Assets/Template/UI/MainMenu.cs
+    public void setExperimentParametersToLastSavedOnes()
     {
         if (PlayerPrefs.HasKey("numberOfPathsPerStreet") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("numberOfPathsPerStreet"))))
             ExperimentParameters.lanes_per_direction = int.Parse(PlayerPrefs.GetString("numberOfPathsPerStreet"));
@@ -187,13 +176,8 @@ public class MainMenu : MonoBehaviour
     public void newGame()
     {
         Debug.Log("newGame()");
-<<<<<<< HEAD:Assets/Template/UI/MainMenu/MainMenu.cs
-        playMode = 1;
-        ExperimentParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
-=======
         playMode = 1;               //// 0 => test ; 1 => full  
-        ExperementParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
->>>>>>> 45df9d2c5a06d0efc114b60c12d3035f2e79474e:Assets/Template/UI/MainMenu.cs
+        ExperimentParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         uiMainCanvas.enabled = false;
         //checkPointsController.StartAfterMainMenu();
         // roadController.generateRoads();
@@ -222,10 +206,6 @@ public class MainMenu : MonoBehaviour
         //checkPointsController.StartAfterMainMenu();
         // roadController.generateRoads();
         // VRSettings.enabled = true;
-<<<<<<< HEAD:Assets/Template/UI/MainMenu/MainMenu.cs
-        
-=======
->>>>>>> 45df9d2c5a06d0efc114b60c12d3035f2e79474e:Assets/Template/UI/MainMenu.cs
         PlayerPrefs.Save();
         Application.LoadLevel(1);
     }
@@ -236,7 +216,7 @@ public class MainMenu : MonoBehaviour
         settingsWrapper.GetComponent<Canvas>().enabled = true;
         settingsWrapper.GetComponent<Animator>().SetBool("Active", true);
     }
-    public void GrabObjectsSession()
+    public void credits()
     {
         Debug.Log("credits()");
         uiMainCanvas.enabled = false;
