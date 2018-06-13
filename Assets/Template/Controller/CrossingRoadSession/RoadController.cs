@@ -35,7 +35,7 @@ public class RoadController : MonoBehaviour
 
     void Start()
     {
-        VRSettings.enabled = true;
+        UnityEngine.XR.XRSettings.enabled = true;
         checkPointsController.startTheGameCheckPointReachedEvent += TurnOnAndOfYellowArrowsThenSayGo;
     }
     

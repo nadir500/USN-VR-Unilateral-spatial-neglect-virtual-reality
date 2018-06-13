@@ -114,7 +114,7 @@ public class ExperimentObserves : MonoBehaviour
                 }
                 if (onlineBodyView.transform.GetChild(0) != null)
                 {
-                    SpineMid = onlineBodyView.transform.GetChild(0).transform.Find("SpineMid");
+                    SpineMid = GameObject.Find("SpineMid").transform;
                     onlineBodyView.transform.GetChild(0).name = "Player";
                 }
 

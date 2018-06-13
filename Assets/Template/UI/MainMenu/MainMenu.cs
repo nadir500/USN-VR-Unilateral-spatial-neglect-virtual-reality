@@ -38,7 +38,7 @@ public class MainMenu : MonoBehaviour
     {
          player_name_InputField.onValueChange.AddListener(delegate {InputFieldChangedValue(); });
         _sqlite_connection_gamoplay = new DataService("USN_Simulation.db");
-        VRSettings.enabled = false;
+        UnityEngine.XR.XRSettings.enabled = false;
         uiMainCanvas.enabled = true;
         myCanvas = this.gameObject.GetComponent<Canvas>();
         myCanvas.enabled = true;

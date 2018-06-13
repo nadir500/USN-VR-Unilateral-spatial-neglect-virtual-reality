@@ -13,7 +13,7 @@ public class TableGrabSceneController : MonoBehaviour
 
     void Start()
     {
-        VRSettings.enabled = true;
+        UnityEngine.XR.XRSettings.enabled = true;
         kinectCamera = GameObject.Find("Camera") as GameObject;//Camera.main.gameObject;
         fakefadechild = GameObject.Find("FadeFakeChildKinect") as GameObject;
         backToOtherSideRemoveFade();

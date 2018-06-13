@@ -12,7 +12,7 @@ public class RoadCrossingController : MonoBehaviour
      {
          checkPointsController.StartAfterMainMenu();
          roadController.generateRoads();
-         VRSettings.enabled = true;
+         UnityEngine.XR.XRSettings.enabled = true;
      }
 }
         

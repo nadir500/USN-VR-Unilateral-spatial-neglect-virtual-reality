@@ -26,7 +26,7 @@ public class Fading : MonoBehaviour
     {
 
         //checkPointsController.backToOtherSideCheckPointReachedEvent += backToOtherSideRemoveFade;
-        kinectCamera = GameObject.Find("Camera") as GameObject;//Camera.main.gameObject;
+        kinectCamera =  Camera.main.gameObject;
         fakefadechild = GameObject.Find("FadeFakeChildKinect") as GameObject;
         darkRedColor = new Color32(38, 20, 20, 255); //by default 
         fadeImage = GameObject.Find("FadeImage") as GameObject;
@@ -68,7 +68,7 @@ public class Fading : MonoBehaviour
                 fadecanvas.alpha = alpha;  //fading entirly 
                 if (!RoadController.fadeout_after_crossing) //if the server sent the false value to the client 
                 {
-                    Debug.Log("RoadController condition");
+//                    Debug.Log("RoadController condition");
                     darkRedColor = new Color32(38, 20, 20, 255); //return to red by default 
                     loadingImage.SetActive(false);
                     //reverse fading

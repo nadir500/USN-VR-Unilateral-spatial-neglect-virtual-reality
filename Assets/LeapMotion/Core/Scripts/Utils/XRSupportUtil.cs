@@ -11,41 +11,41 @@ namespace Leap.Unity {
   public static class XRSupportUtil {
 
     public static bool IsXREnabled() {
-      return VRSettings.enabled;
+      return UnityEngine.XR.XRSettings.enabled;
   
     }
 
     public static bool IsXRDevicePresent() {
-      return VRDevice.isPresent;
+      return UnityEngine.XR.XRDevice.isPresent;
      
     }
 
     public static Vector3 GetXRNodeCenterEyeLocalPosition() {
-      return InputTracking.GetLocalPosition(UnityEngine.VR.VRNode.CenterEye);
+      return UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.CenterEye);
     
     }
 
     public static Quaternion GetXRNodeCenterEyeLocalRotation() {
-      return InputTracking.GetLocalRotation(VRNode.CenterEye);
+      return UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.CenterEye);
     
     }
 
     public static Vector3 GetXRNodeHeadLocalPosition() {
-      return InputTracking.GetLocalPosition(VRNode.Head);
+      return UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.Head);
     
     }
 
     public static Quaternion GetXRNodeHeadLocalRotation() {
-      return InputTracking.GetLocalRotation(VRNode.Head);
+      return UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.Head);
      
     }
 
     public static void Recenter() {
-      InputTracking.Recenter();
+      UnityEngine.XR.InputTracking.Recenter();
     }
 
     public static string GetLoadedDeviceName() {
-      return VRSettings.loadedDeviceName;
+      return UnityEngine.XR.XRSettings.loadedDeviceName;
      
     }
 

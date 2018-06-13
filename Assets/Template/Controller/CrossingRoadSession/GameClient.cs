@@ -7,11 +7,11 @@ public class GameClient : MonoBehaviour, INetEventListener
     //a class to manage a udp connection (very smooth) to the server || sending and receiving data from it 
     //you can make a hotspot network and connect the server plus a client to it and it will automatically send recieve data through udp  
     //using of course Litenet Lib from github https://github.com/RevenantX/LiteNetLib and manage it to work perfectly with the project 
+    public string result="No Command";
 
     private NetManager _netClient; //the client peer 
     private NetPeer _serverPeer; //the server peer 
-    private int isCross = 0; //to manage the congrats audio by the DR 
-    private AudioController audioController;  //audio controller from the scene 
+     private AudioController audioController;  //audio controller from the scene 
     void Start()
     {
         audioController = GameObject.Find("AudioController").GetComponent<AudioController>();
@@ -63,20 +63,12 @@ public class GameClient : MonoBehaviour, INetEventListener
 
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader, DeliveryMethod deliveryMethod)
     {
-        RoadController.fadeout_after_crossing = reader.GetBool();
-        Debug.Log("is CROSS " + isCross);
-        if (isCross == 0)
-        {
-            audioController.playAudioClip("DRSounds/Congrats_Midwalk", 0, -1);
-            isCross = 1;
-        }
-        else
-        {
-            audioController.playAudioClip("DRSounds/TouchpadInstructions", 0, 15);
-
-        }
-
-
+        result = reader.GetString();
+         Debug.Log("Command Result = " +  result);
+        //GET YOUR STRINGS FROM HERE 
+        //
+        //
+        //
     }
 
     public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader,
