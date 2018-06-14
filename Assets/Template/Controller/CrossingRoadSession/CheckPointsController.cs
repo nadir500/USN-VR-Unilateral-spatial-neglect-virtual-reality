@@ -54,7 +54,7 @@ public class CheckPointsController : MonoBehaviour
     private void initializeCheckPoints()
     {
         //the comments in this method represents the test units of the checkpoints events (it's for fast testing if everything works fine)
-        checkPoints[0] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth + 0.5f, -0.5f, -8.98f), Quaternion.identity);
+        checkPoints[0] = Instantiate(yellowPoint, new Vector3(RoadController.sidewalkWidth - 0.45f, -0.5f, -8.98f), Quaternion.identity);
         checkPoints[0].GetComponent<CheckPoints>().behaviorEvent += startTheGame;
         checkPoints[0].SetActive(true);
         

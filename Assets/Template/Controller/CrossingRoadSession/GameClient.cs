@@ -4,14 +4,73 @@ using LiteNetLib.Utils;
 
 public class GameClient : MonoBehaviour, INetEventListener
 {
+    public TouchPadController touchPadController;
     //a class to manage a udp connection (very smooth) to the server || sending and receiving data from it 
     //you can make a hotspot network and connect the server plus a client to it and it will automatically send recieve data through udp  
     //using of course Litenet Lib from github https://github.com/RevenantX/LiteNetLib and manage it to work perfectly with the project 
-    public string result="No Command";
+    //public string result = "No Command";
+    private string defaultResult = "No Command";
+    public string result
+    {
+        get
+        {
+            return defaultResult;
+        }
+        set
+        {
+            Debug.Log("initialized");
+            switch (value)
+            {
+                case "0":
+                case "1":
+                case "2":
+                case "3":
+                case "4":
+                case "5":
+                case "6":
+                case "7":
+                case "8":
+                case "9":
+                    {
+                        Debug.Log("Numbers");
+                        touchPadController.putNumber(value);
+                    break;
+                    }
+                case "done":
+                    {
+                        touchPadController.Done();
+                    break;
+                    }
+                case "add":
+                    {
+                        touchPadController.Add();
+                    break;
+                    }
+                case "clear":
+                    {
+                        touchPadController.Clear();
+                    break;
+                    }
+                case "left":
+                case "right":
+                    {
+                        touchPadController.SelectObjectPosition(value);
+                    break;
+                    }
+                default:
+                    {
+                        defaultResult = value;
+                        break;
+                    }
+            }
+
+        }
+
+    }
 
     private NetManager _netClient; //the client peer 
     private NetPeer _serverPeer; //the server peer 
-     private AudioController audioController;  //audio controller from the scene 
+    private AudioController audioController;  //audio controller from the scene 
     void Start()
     {
         audioController = GameObject.Find("AudioController").GetComponent<AudioController>();
@@ -64,7 +123,7 @@ public class GameClient : MonoBehaviour, INetEventListener
     public void OnNetworkReceive(NetPeer peer, NetDataReader reader, DeliveryMethod deliveryMethod)
     {
         result = reader.GetString();
-         Debug.Log("Command Result = " +  result);
+        Debug.Log("Command Result = " + result);
         //GET YOUR STRINGS FROM HERE 
         //
         //

@@ -216,7 +216,7 @@ public class MainMenu : MonoBehaviour
         settingsWrapper.GetComponent<Canvas>().enabled = true;
         settingsWrapper.GetComponent<Animator>().SetBool("Active", true);
     }
-    public void credits()
+    public void GrabObjectsScene()
     {
         Debug.Log("credits()");
         uiMainCanvas.enabled = false;

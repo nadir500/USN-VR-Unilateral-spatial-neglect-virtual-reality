@@ -56,7 +56,7 @@ public class TouchPadController : MonoBehaviour
       if (leapMotionCameraTracking)
         {
             cameraRotationX = leapMotionCamera.transform.eulerAngles.x;
-            Debug.Log("camera x = " + cameraRotationX);
+//            Debug.Log("camera x = " + cameraRotationX);
             if (((cameraRotationX <= 357.0f) && (cameraRotationX >= 330.0f)) && (!Active))
             {
                 Show();
@@ -117,7 +117,7 @@ public class TouchPadController : MonoBehaviour
     public void SelectObjectPosition(string objectPosition)
     {
         this.objectPosition = objectPosition;
-        if (objectPosition.Equals("left"))
+        if (objectPosition.ToUpper().Equals("left".ToUpper()))
         {
             Debug.Log("num = " + numbersPad.text + " dir = " + objectPosition);
             Debug.Log("add = " + addButton.interactable + "  right = " + rightButton.interactable + "  left =" + leftButton.interactable);
@@ -165,7 +165,7 @@ public class TouchPadController : MonoBehaviour
 
     public void Add()
     {
-
+            
         if (objectPosition.Equals("none"))
         {
             Debug.Log("ObjectPosition is none");

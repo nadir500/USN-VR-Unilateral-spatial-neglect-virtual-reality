@@ -101,15 +101,15 @@ public class TableController : MonoBehaviour
     }
     void LeapCameraInitialize()
     {
-        leapMotionCamera = GameObject.Find("GearVRCameraRigTEST") as GameObject;
+        leapMotionCamera = GameObject.Find("GearVRCameraRigTEST(Clone)") as GameObject;
         if (leapMotionCamera != null)
         {
-            leapMotionCamera.transform.position = new Vector3(cameraPositionXZ.transform.position.x, ExperimentParameters.lengthOfPatient / 100 - 1.5f, cameraPositionXZ.transform.position.z);
+            leapMotionCamera.transform.position = new Vector3(cameraPositionXZ.transform.position.x,-0.53f, cameraPositionXZ.transform.position.z);
             CancelInvoke("LeapCameraInitialize");
         }
         else
         {
-            Debug.Log("not found CAMERA");
+             Debug.Log("not found CAMERA");
         }
     }
     void generateTableObject(int level, string dist, string objectPosition, int group, bool active)

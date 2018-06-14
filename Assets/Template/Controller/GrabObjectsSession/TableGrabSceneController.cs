@@ -14,7 +14,7 @@ public class TableGrabSceneController : MonoBehaviour
     void Start()
     {
         UnityEngine.XR.XRSettings.enabled = true;
-        kinectCamera = GameObject.Find("Camera") as GameObject;//Camera.main.gameObject;
+        kinectCamera = Camera.main.gameObject;
         fakefadechild = GameObject.Find("FadeFakeChildKinect") as GameObject;
         backToOtherSideRemoveFade();
 
@@ -36,10 +36,6 @@ public class TableGrabSceneController : MonoBehaviour
         if (lastKinektCamera != kinectCamera && fakefadechild != fakeFadeChildTemp)
             CancelInvoke("SearchKineckCamera");
     }
-    void LateUpdate()
-    {
-        Debug.Log("Camera Current Parent " + fakefadechild.transform.parent.transform.parent.gameObject.name);
-
-    }
+  
 }
 
