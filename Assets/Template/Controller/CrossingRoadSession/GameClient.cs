@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using LiteNetLib;
 using LiteNetLib.Utils;
-
+using System;
 public class GameClient : MonoBehaviour, INetEventListener
 {
     public TouchPadController touchPadController;
+    
     //a class to manage a udp connection (very smooth) to the server || sending and receiving data from it 
     //you can make a hotspot network and connect the server plus a client to it and it will automatically send recieve data through udp  
     //using of course Litenet Lib from github https://github.com/RevenantX/LiteNetLib and manage it to work perfectly with the project 
     //public string result = "No Command";
-    private string defaultResult = "No Command";
+    private string defaultResult = "";
+    private string[] numbers=new string[9]{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
     public string result
     {
         get
@@ -21,27 +23,27 @@ public class GameClient : MonoBehaviour, INetEventListener
             Debug.Log("initialized");
             switch (value)
             {
-                case "0":
-                case "1":
-                case "2":
-                case "3":
-                case "4":
-                case "5":
-                case "6":
-                case "7":
-                case "8":
-                case "9":
+                 case "one":
+                case "two":
+                case "three":
+                case "four":
+                case "five":
+                case "six":
+                case "seven":
+                case "eight":
+                case "nine":
                     {
+                        value = (Array.IndexOf(numbers,value) + 1 ).ToString();
                         Debug.Log("Numbers");
                         touchPadController.putNumber(value);
                     break;
                     }
-                case "done":
+                case "finish":
                     {
                         touchPadController.Done();
                     break;
                     }
-                case "add":
+                case "append":
                     {
                         touchPadController.Add();
                     break;
@@ -77,6 +79,7 @@ public class GameClient : MonoBehaviour, INetEventListener
         _netClient = new NetManager(this);
         _netClient.Start();
         _netClient.UpdateTime = 50;
+        Application.targetFrameRate = 30;
     }
 
     void Update()

@@ -8,7 +8,8 @@ using System.Collections.Generic;
 
 public class DataService
 {
-    private SQLiteConnection _connection;
+     private SQLiteConnection _connection;
+
     public DataService(string DatabaseName)
     {
 
@@ -70,14 +71,15 @@ public class DataService
         {
             street_direction = ExperimentParameters.streetsDirections,
             lanes_per_direction = ExperimentParameters.lanes_per_direction,
-            car_speed_km = ExperimentParameters.carsSpeed,
+            // car_speed_km = ExperimentParameters.carsSpeed,
+            car_speed_km = 0,
             car_span_second = ExperimentParameters.distanceBetweenCars,
             sound_mode = ExperimentParameters.soundDirections,
             player_name = ExperimentParameters.player_name,
             player_height = (double)ExperimentParameters.lengthOfPatient
         };
-     
-      return _connection.Insert(gamePlay);
+
+        return _connection.Insert(gamePlay);
     }
     //create a crossingroaddata row in the db
     public void CreateRoadCrossingData(ObservedData observedData)
@@ -100,15 +102,16 @@ public class DataService
                 person_z = (double)observedData.playerPositions[i].z,
                 head_rotation_y = (double)observedData.playerHeadRotations[i]
             };
-           
+
             _connection.Insert(streetCrossingData);
         }
     }
     //getting the current gameplay id 
+   
     public int GetGameplayIDFromDatabase()  //stored in playerPref 
     {
         int rows = _connection.Table<Gameplay>().Select(x => x.gameplay_id).Count();
-        if(rows == 0 )
+        if (rows == 0)
         {
             return 0;
         }
@@ -126,37 +129,58 @@ public class DataService
     //recording objects collecting data from hands 
     public void CreateCollectedObjectsRow(Collected_Objects collected_Objects)
     {
-        Collected_Objects collected_ = new Collected_Objects {
-                gameplay_id = ExperimentParameters.gameplay_id,
-                obj_number = collected_Objects.obj_number,
-                obj_position = collected_Objects.obj_position,
-                obj_field = collected_Objects.obj_field,
-                obj_recorded_on_pad = collected_Objects.obj_recorded_on_pad,
-                obj_recorded_after_attempt = collected_Objects.obj_recorded_after_attempt,
-                obj_collected = collected_Objects.obj_collected,
-                obj_collected_by_hand = collected_Objects.obj_collected_by_hand
+        Collected_Objects collected_ = new Collected_Objects
+        {
+            gameplay_id = ExperimentParameters.gameplay_id,
+            obj_number = collected_Objects.obj_number,
+            obj_position = collected_Objects.obj_position,
+            obj_field = collected_Objects.obj_field,
+            obj_recorded_on_pad = collected_Objects.obj_recorded_on_pad,
+            obj_recorded_after_attempt = collected_Objects.obj_recorded_after_attempt,
+            obj_collected = collected_Objects.obj_collected,
+            obj_collected_by_hand = collected_Objects.obj_collected_by_hand
         };
-      
+
         _connection.Insert(collected_);
     }
-    
-    public void UpdateCollectedObjectByClicking(int id, bool obj_collected,char obj_collected_by_hand)
+
+    public void UpdateCollectedObjectByClicking(int id, bool obj_collected, char obj_collected_by_hand)
     {
         Collected_Objects temp_collected_Objects = _connection.Table<Collected_Objects>().Where(x => x.obj_number == id).First();
         temp_collected_Objects.obj_collected = obj_collected;
         temp_collected_Objects.obj_collected_by_hand = obj_collected_by_hand.ToString();
-      
+
         _connection.Update(temp_collected_Objects);
     }
 
 
     /* JUNK CODE */
-    public void UpdateCollectedObjectOnPad(int id , bool recorded_on_pad)
+    public void UpdateCollectedObjectOnPad(int id, bool recorded_on_pad)
     {
         Collected_Objects temp_collected_Objects = _connection.Table<Collected_Objects>().Where(x => x.obj_number == id).First();
         temp_collected_Objects.obj_recorded_on_pad = recorded_on_pad;
-      
+
         _connection.Insert(temp_collected_Objects);
+    }
+
+    public void UpdateGameplayCrossingStatus(int number_of_accidents_per_player, int gameplayID)
+    {
+        Gameplay tempGameplayObject = _connection.Table<Gameplay>().Where(x => x.gameplay_id == gameplayID).First();
+        if (PlayerPrefs.GetString("CrossingChoice") == "1")
+        {
+            if (number_of_accidents_per_player != 0)
+            {
+                tempGameplayObject.number_of_accidents_per_player += number_of_accidents_per_player;
+
+            }
+            else
+            {
+                tempGameplayObject.number_of_successful_crossing_per_player++;
+            }
+        }
+        _connection.Update(tempGameplayObject);
+
+
     }
 
 }

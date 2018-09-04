@@ -11,6 +11,7 @@ Material:
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -22,10 +23,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AO: 0.35
-    - _BaseLight: 0.239
-    - _Cutoff: 0.29642856
-    - _Occlusion: 0.4
+    - _AO: 0.42
+    - _BaseLight: 0.082
+    - _Cutoff: 0.441
+    - _Occlusion: 0.8
     - _ShadowStrength: 1
     - _Shininess: 0.078125
     - _SquashAmount: 1

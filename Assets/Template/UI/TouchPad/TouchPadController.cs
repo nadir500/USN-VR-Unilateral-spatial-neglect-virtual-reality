@@ -122,6 +122,11 @@ public class TouchPadController : MonoBehaviour
             Debug.Log("num = " + numbersPad.text + " dir = " + objectPosition);
             Debug.Log("add = " + addButton.interactable + "  right = " + rightButton.interactable + "  left =" + leftButton.interactable);
 
+            //coloring the buttons
+            leftButton.transform.GetChild(0).GetComponent<Image>().color = new Color32(0, 162, 0, 147);
+            leftButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = new Color32(204, 197, 197, 255);
+
+
             turnLeapMotionUiButton(leftButton, false);
             turnLeapMotionUiButton(rightButton, true);
         }
@@ -129,6 +134,11 @@ public class TouchPadController : MonoBehaviour
         {
             Debug.Log("num = " + numbersPad.text + " dir = " + objectPosition);
             Debug.Log("add = " + addButton.interactable + "  right = " + rightButton.interactable + "  left =" + leftButton.interactable);
+
+
+             //coloring the buttons
+            rightButton.transform.GetChild(0).GetComponent<Image>().color = new Color32(0, 162, 0, 147);
+            rightButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = new Color32(204, 197, 197, 255);
 
             turnLeapMotionUiButton(leftButton, true);
             turnLeapMotionUiButton(rightButton, false);
@@ -185,6 +195,14 @@ public class TouchPadController : MonoBehaviour
 
         addButton.transform.GetChild(0).GetComponent<Image>().color = new Color32(13, 13, 13, 255);
         addButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = new Color32(218, 218, 218, 255);
+        
+        leftButton.transform.GetChild(0).GetComponent<Image>().color = new Color32(13, 13, 13, 255);
+        leftButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = new Color32(218, 218, 218, 255);
+
+
+        rightButton.transform.GetChild(0).GetComponent<Image>().color = new Color32(13, 13, 13, 255);
+        rightButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = new Color32(218, 218, 218, 255);
+
         tableController.tableObjectSelectedByCalculator(numbersPad.text, objectPosition);
 
         Clear();

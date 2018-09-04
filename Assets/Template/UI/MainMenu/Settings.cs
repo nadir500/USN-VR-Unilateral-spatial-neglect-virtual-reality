@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
-        
+
     private Animator settingsAnimator;      // reference to the Animator component of Settings ui game object
     private bool active;                    // boolean to know if the settings ui is shown or not
     private Canvas myCanvas;                // reference to the settings ui canvas
@@ -57,7 +57,7 @@ public class Settings : MonoBehaviour
     public int distanceBetweenCarsValue { get { return int.Parse(distanceBetweenCarsParameterWrapper.parameterValue.Split(' ')[0].ToString()); } set { distanceBetweenCarsParameterWrapper.parameterValue = value.ToString(); } }
 
     public SettingsParameter carsSpeedParameterWrapper;
-    public int carsSpeedValue { get { return int.Parse(carsSpeedParameterWrapper.parameterValue.Split(' ')[0].ToString()); } set { carsSpeedParameterWrapper.parameterValue = value.ToString(); } }
+    public string carsSpeedValue { get { return carsSpeedParameterWrapper.parameterValue.Split(' ')[0].ToString(); } set { carsSpeedParameterWrapper.parameterValue = value.ToString(); } }
 
     public SettingsParameter lengthOfPatientParameterWrapper;
     public float lengthOfPatientValue { get { return float.Parse(lengthOfPatientParameterWrapper.parameterValue); } set { lengthOfPatientParameterWrapper.parameterValue = value.ToString(); } }
@@ -71,6 +71,14 @@ public class Settings : MonoBehaviour
     public SettingsParameter carsTypeParameterWrapper;
     public string carsTypeParameterWrappeValue { get { return carsTypeParameterWrapper.parameterValue; } set { carsTypeParameterWrapper.parameterValue = value; } }
 
+    public SettingsParameter colorsChoiceWrapper;
+    public string colorsChoiceWrapperValue { get { return colorsChoiceWrapper.parameterValue; } set { colorsChoiceWrapper.parameterValue = value; } }
+
+    public SettingsParameter numberOfRoadsWrapper;
+    public int numberOfRoadsWrapperValue { get { return int.Parse(numberOfRoadsWrapper.parameterValue); } set { numberOfRoadsWrapper.parameterValue = value.ToString(); } }
+
+    public SettingsParameter afterAccidentEventWrapper;
+    public string afterAccidentEventWrapperValue { get { return afterAccidentEventWrapper.parameterValue; } set { afterAccidentEventWrapper.parameterValue = value; } }
     // Use this for initialization
     void Start()
     {
@@ -89,15 +97,18 @@ public class Settings : MonoBehaviour
     {
         mode.OnVariableChange += changeModeHandler;
 
-        mode.OnVariableChange                                   += enableSaveChanges;
-        streetsDirectionsparameterWrapper.OnVariableChange      += enableSaveChanges;
+        mode.OnVariableChange += enableSaveChanges;
+        streetsDirectionsparameterWrapper.OnVariableChange += enableSaveChanges;
         numberOfPathsPerStreetParameterWrapper.OnVariableChange += enableSaveChanges;
-        carsSpeedParameterWrapper.OnVariableChange              += enableSaveChanges;
-        distanceBetweenCarsParameterWrapper.OnVariableChange    += enableSaveChanges;
-        lengthOfPatientParameterWrapper.OnVariableChange        += enableSaveChanges;
-        soundDirectionsParameterWrapper.OnVariableChange        += enableSaveChanges;
-        observeFrameRateParameterWrapper.OnVariableChange       += enableSaveChanges;
-        carsTypeParameterWrapper.OnVariableChange               += enableSaveChanges;
+        carsSpeedParameterWrapper.OnVariableChange += enableSaveChanges;
+        distanceBetweenCarsParameterWrapper.OnVariableChange += enableSaveChanges;
+        lengthOfPatientParameterWrapper.OnVariableChange += enableSaveChanges;
+        soundDirectionsParameterWrapper.OnVariableChange += enableSaveChanges;
+        observeFrameRateParameterWrapper.OnVariableChange += enableSaveChanges;
+        carsTypeParameterWrapper.OnVariableChange += enableSaveChanges;
+        colorsChoiceWrapper.OnVariableChange += enableSaveChanges;
+        numberOfRoadsWrapper.OnVariableChange += enableSaveChanges;
+        afterAccidentEventWrapper.OnVariableChange += enableSaveChanges;
     }
     /*
         Parameters:
@@ -210,7 +221,7 @@ public class Settings : MonoBehaviour
         this.streetsDirectionsValue = streetsDirections;
         this.setParameterIndex(streetsDirectionsparameterWrapper);
 
-        this.carsSpeedValue = carsSpeed;
+        this.carsSpeedValue = carsSpeed.ToString();
         this.setParameterIndex(carsSpeedParameterWrapper);
 
         this.distanceBetweenCarsValue = distanceBetweenCars;
@@ -240,14 +251,18 @@ public class Settings : MonoBehaviour
     private void enableSaveChanges()
     {
         if (
-            (ExperimentParameters.lanes_per_direction != numberOfPathsPerStreetValue)    ||
-            (ExperimentParameters.streetsDirections != streetsDirectionsValue)              ||
-            (ExperimentParameters.carsSpeed != carsSpeedValue)                              ||
-            (ExperimentParameters.distanceBetweenCars != distanceBetweenCarsValue)          ||
-            (ExperimentParameters.lengthOfPatient != lengthOfPatientValue)                  ||
-            (ExperimentParameters.soundDirections != soundDirectionsValue)                  ||
-            (ExperimentParameters.observeFrameRate != observeFrameRateValue.ToString())     ||
-            (ExperimentParameters.carType != carsTypeParameterWrappeValue)
+            (ExperimentParameters.lanes_per_direction != numberOfPathsPerStreetValue) ||
+            (ExperimentParameters.streetsDirections != streetsDirectionsValue) ||
+            (ExperimentParameters.carsSpeed != carsSpeedValue) ||
+            (ExperimentParameters.distanceBetweenCars != distanceBetweenCarsValue) ||
+            (ExperimentParameters.lengthOfPatient != lengthOfPatientValue) ||
+            (ExperimentParameters.soundDirections != soundDirectionsValue) ||
+            (ExperimentParameters.observeFrameRate != observeFrameRateValue.ToString()) ||
+            (ExperimentParameters.carType != carsTypeParameterWrappeValue) ||
+            (ExperimentParameters.colorChoice != colorsChoiceWrapperValue) ||
+            (ExperimentParameters.numberOfRoads != numberOfRoadsWrapperValue) ||
+            (ExperimentParameters.afterAccidentEvent != afterAccidentEventWrapperValue)
+
           )
         {
             saveButton.interactable = true;
@@ -255,13 +270,11 @@ public class Settings : MonoBehaviour
         else
             saveButton.interactable = false;
 
-          
-        
+
+
     }
     private void setExperimentParameters()
     {
-        //DataService _sqlite_dataServices = new DataService("USN_Simulation.db");
-
         PlayerPrefs.SetString("numberOfPathsPerStreet", this.numberOfPathsPerStreetValue.ToString());
         PlayerPrefs.SetString("streetsDirections", this.streetsDirectionsValue.ToString());
         PlayerPrefs.SetString("carsSpeed", this.carsSpeedValue.ToString());
@@ -270,6 +283,10 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetString("soundsDirection", this.soundDirectionsValue);
         PlayerPrefs.SetString("observeFrameRate", this.observeFrameRateValue.ToString());
         PlayerPrefs.SetString("VehicleType", this.carsTypeParameterWrappeValue);
+        PlayerPrefs.SetString("ColorsChoice", this.colorsChoiceWrapperValue);
+        PlayerPrefs.SetString("NumberOfRoads", this.numberOfRoadsWrapperValue.ToString());
+        PlayerPrefs.SetString("AfterAccidentEvent", this.afterAccidentEventWrapperValue);
+
         ExperimentParameters.lanes_per_direction = this.numberOfPathsPerStreetValue;
         ExperimentParameters.streetsDirections = this.streetsDirectionsValue;
         ExperimentParameters.carsSpeed = this.carsSpeedValue;
@@ -277,9 +294,13 @@ public class Settings : MonoBehaviour
         ExperimentParameters.lengthOfPatient = this.lengthOfPatientValue;
         ExperimentParameters.soundDirections = this.soundDirectionsValue;
         ExperimentParameters.carType = this.carsTypeParameterWrappeValue;
-       // _sqlite_dataServices.CreateGameplay();
-       // ExperimentParameters.gameplay_id = _sqlite_dataServices.GetGameplayIDFromDatabase();
+        ExperimentParameters.numberOfRoads = this.numberOfRoadsWrapperValue;
+        // _sqlite_dataServices.CreateGameplay();
+        // ExperimentParameters.gameplay_id = _sqlite_dataServices.GetGameplayIDFromDatabase();
         ExperimentParameters.observeFrameRate = this.observeFrameRateValue.ToString();
+        ExperimentParameters.colorChoice = this.colorsChoiceWrapperValue;
+        ExperimentParameters.afterAccidentEvent = this.afterAccidentEventWrapperValue;
+
         //Debug.Log("Saved id gamplay in player prefs" + ExperimentParameters.gameplay_id);
         //PlayerPrefs.SetString("gameplay_id", ExperimentParameters.gameplay_id.ToString());  //storing gameplay_id for SQL SERVER Later :D
         PlayerPrefs.Save();

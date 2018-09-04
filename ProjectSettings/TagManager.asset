@@ -10,6 +10,7 @@ TagManager:
   - POINT
   - Child
   - ObjectGrab
+  - Midwalk
   layers:
   - Default
   - TransparentFX

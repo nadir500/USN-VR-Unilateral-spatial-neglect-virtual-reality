@@ -8,38 +8,43 @@ public class CharacterMechanism : MonoBehaviour
     public float speed = 6.0F;
     public float jumpSpeed = 8.0F;
     public float gravity = 20.0F;
-	public GameClient clientReceiverCommand;
+    public GameClient clientReceiverCommand;
+    public Vector3 currentCharacterPosition;
+    public bool playerCurrentState = false;  //false means standing and true means walking for the player
     private Vector3 moveDirection = Vector3.zero;
-    CharacterController controller;
+    private Rigidbody controllerRB;
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
+        currentCharacterPosition = this.transform.position;
+
+        controllerRB = GetComponent<Rigidbody>();
 
     }
     void Update()
     {
-		if(clientReceiverCommand.result == "go")
-		{		
-        if (controller.isGrounded)
+         if (clientReceiverCommand.result == "go")
         {
-            moveDirection = new Vector3(1, 0, 0);
-            moveDirection = transform.TransformDirection(moveDirection);
-            moveDirection *= speed;
-            if (Input.GetButton("Jump"))
-                moveDirection.y = jumpSpeed;
+
+            controllerRB.velocity = Vector3.right * speed;
+            playerCurrentState = true;
+
         }
-		else
-		if (clientReceiverCommand.result == "stop")
-		{
-			moveDirection*=0;
-		}
-        moveDirection.y -= gravity * Time.deltaTime;
-        controller.Move(moveDirection * Time.deltaTime);
-		}
+        else
+        if (clientReceiverCommand.result == "stop")
+        {
+          controllerRB.velocity = Vector3.zero;
+          playerCurrentState = false;
+
+        }
     }
 
-
-
-
+    public void SetCurrentPositionForX_Axis(float newPositionForX)
+    {
+        currentCharacterPosition.x = newPositionForX;
+    }
+    public void ResetPositionToStartPoint()
+    {
+        this.transform.position = currentCharacterPosition;
+    }
 }

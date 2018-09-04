@@ -9,9 +9,9 @@ public class Fading : MonoBehaviour
     public CanvasGroup fadecanvas;  //fade canvas 
     public GameObject fadeGB;
     public float fadeSpeed = 0.8f;
+    public int fadeDirection = -1;
     private int drawDepth = -1000;
     private float alpha = 0.0f;
-    private int fadeDirection = -1;
     private Color darkRedColor;
     GameObject fadeImage;
     GameObject loadingImage;

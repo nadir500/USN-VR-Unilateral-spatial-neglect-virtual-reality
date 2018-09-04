@@ -16,7 +16,8 @@
 // with adaptive sampling by enabling the macro below. Although the
 // differences are not noticeable in most cases, it may provide preferable
 // results with some special usage (e.g. NPR without textureing).
-// #define BLUR_HIGH_QUALITY
+// #define BLUR_HIGH_
+
 
 // By default, a fixed sampling pattern is used in the AO estimator. Although
 // this gives preferable results in most cases, a completely random sampling

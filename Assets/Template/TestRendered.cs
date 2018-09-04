@@ -10,8 +10,7 @@ public class TestRendered : MonoBehaviour
     void Start()
     {
         mr = this.GetComponent<MeshRenderer>();
-        Application.targetFrameRate=30;
-        QualitySettings.vSyncCount=30;
+ 
     }
 
 

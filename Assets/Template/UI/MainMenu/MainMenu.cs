@@ -36,7 +36,7 @@ public class MainMenu : MonoBehaviour
      */
     void Start()
     {
-         player_name_InputField.onValueChange.AddListener(delegate {InputFieldChangedValue(); });
+        player_name_InputField.onValueChange.AddListener(delegate { InputFieldChangedValue(); });
         _sqlite_connection_gamoplay = new DataService("USN_Simulation.db");
         UnityEngine.XR.XRSettings.enabled = false;
         uiMainCanvas.enabled = true;
@@ -81,7 +81,7 @@ public class MainMenu : MonoBehaviour
             ExperimentParameters.streetsDirections = PlayerPrefs.GetString("streetsDirections");
 
         if (PlayerPrefs.HasKey("carsSpeed") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("carsSpeed"))))
-            ExperimentParameters.carsSpeed = int.Parse(PlayerPrefs.GetString("carsSpeed"));
+            ExperimentParameters.carsSpeed = PlayerPrefs.GetString("carsSpeed");
 
         if (PlayerPrefs.HasKey("distanceBetweenCars") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("distanceBetweenCars"))))
             ExperimentParameters.distanceBetweenCars = int.Parse(PlayerPrefs.GetString("distanceBetweenCars"));
@@ -97,6 +97,19 @@ public class MainMenu : MonoBehaviour
 
         if (PlayerPrefs.HasKey("VehicleType") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("VehicleType"))))
             ExperimentParameters.carType = PlayerPrefs.GetString("VehicleType");
+
+        if (PlayerPrefs.HasKey("NumberOfRoads") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("NumberOfRoads"))))
+        {
+            ExperimentParameters.numberOfRoads = int.Parse(PlayerPrefs.GetString("NumberOfRoads"));
+        }
+        if (PlayerPrefs.HasKey("ColorsChoice") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("ColorsChoice"))))
+        {
+            ExperimentParameters.colorChoice = PlayerPrefs.GetString("ColorsChoice");
+        }
+        if (PlayerPrefs.HasKey("AfterAccidentEvent") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("AfterAccidentEvent"))))
+        {
+            ExperimentParameters.afterAccidentEvent = PlayerPrefs.GetString("AfterAccidentEvent");
+        }
 
 
         if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
@@ -177,6 +190,8 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("newGame()");
         playMode = 1;               //// 0 => test ; 1 => full  
+        PlayerPrefs.SetString("CrossingChoice", playMode.ToString());
+
         ExperimentParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         uiMainCanvas.enabled = false;
         //checkPointsController.StartAfterMainMenu();
@@ -199,6 +214,8 @@ public class MainMenu : MonoBehaviour
     public void testGame()
     {
         playMode = 0;
+        PlayerPrefs.SetString("CrossingChoice", playMode.ToString());
+
         _sqlite_connection_gamoplay.CreateGameplay();
         ExperimentParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         PlayerPrefs.SetString("gameplay_id", ExperimentParameters.gameplay_id.ToString());
@@ -234,7 +251,7 @@ public class MainMenu : MonoBehaviour
 
     public void InputFieldChangedValue()
     {
-       ExperimentParameters.player_name = player_name_InputField.text;
-       Debug.Log("Value Name " + ExperimentParameters.player_name); 
+        ExperimentParameters.player_name = player_name_InputField.text;
+        Debug.Log("Value Name " + ExperimentParameters.player_name);
     }
 }

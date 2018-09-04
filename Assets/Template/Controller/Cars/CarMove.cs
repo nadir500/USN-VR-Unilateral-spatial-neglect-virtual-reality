@@ -8,11 +8,11 @@ public class CarMove : MonoBehaviour
     //we can move the car in the direction specified by this script  
     public static int numberOfRenderedCars = 0;      //??? need abdalla
 
-    public float speed;  //speed of the car 
+    public float speed = 0;  //speed of the car 
     public string carDirection;  //knowing which direction is the car 
     public bool hasToStop = false;
     private Vector3 _start_car_position;  //we will use it when we fade the screen and colliding with the player 
-
+    private CarParentOnRoad carParentOnRoad;
     AudioSource carEngineAudio;  //audio source reference to Engine Audio Source from Car Prefab
     AudioSource carCrashSound;  //audio source reference to Crash Audio Source from Car Prefab (deleted in the latest feedback)
     AudioSource carBrakeSound;  //audio source reference to Brake Audio Source from Car Prefab
@@ -26,7 +26,9 @@ public class CarMove : MonoBehaviour
     void Start()
     {
         renderer = GetComponent<Renderer>();
-        speed = ExperimentParameters.carsSpeed; //Getting the speed value from static variables in ExperimentParameters Class which is assigned from the UI and Player Prefs 
+        carParentOnRoad = this.transform.parent.GetComponent<CarParentOnRoad>();
+        InvokeRepeating("GetSpeedCarFromParent", 0, 0.001f);
+
         _start_car_position = this.transform.position; //taking the prev position 
         //getting audio source references from the each Car Prefab after instantiating it from Car Controller
         carEngineAudio = this.GetComponent<AudioSource>();
@@ -34,8 +36,16 @@ public class CarMove : MonoBehaviour
         carCrashSound = this.transform.GetChild(2).GetComponent<AudioSource>();
         carHornSound = this.transform.GetChild(3).GetComponent<AudioSource>();
         InitializeCarSounds(); //initialize the state of the sounds from  Experiment Parameters by soundDirections variable
-    }
 
+    }
+    void GetSpeedCarFromParent()
+    {
+        if (carParentOnRoad != null)
+            speed = carParentOnRoad.carSpeed; //Getting the speed value from static variables in ExperimentParameters Class which is assigned from the UI and Player Prefs 
+        if(speed !=0)
+            CancelInvoke("GetSpeedCarFromParent");
+    }
+     
     private void InitializeCarSounds()
     {
         switch (ExperimentParameters.soundDirections)
@@ -123,7 +133,7 @@ public class CarMove : MonoBehaviour
         if (this.transform.position == _start_car_position) //initializing after the car triggered the player or after the screen faded out 
         {
             //when we hit a car the is kinematic will be true thus we need to initialize the car values after the screen faded out or when colliding with the player 
-            rb.isKinematic = false; 
+            rb.isKinematic = false;
             rb.drag = 1;
         }
 
@@ -157,6 +167,12 @@ public class CarMove : MonoBehaviour
     public void CarHorn()
     {
         carHornSound.Play();
+    }
+
+    public void resetCarsPositions()
+    {
+        Debug.Log("Reset Cars Positions");
+        this.transform.position = _start_car_position;
     }
     /****************************************************END*******************************************************/
 
