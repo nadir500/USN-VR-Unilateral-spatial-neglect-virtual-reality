@@ -110,7 +110,10 @@ public class MainMenu : MonoBehaviour
         {
             ExperimentParameters.afterAccidentEvent = PlayerPrefs.GetString("AfterAccidentEvent");
         }
-
+        if (PlayerPrefs.HasKey("CarsAlign") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("CarsAlign"))))
+        {
+            ExperimentParameters.carsAlign = PlayerPrefs.GetString("CarsAlign");
+        }
 
         if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
         {

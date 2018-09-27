@@ -29,6 +29,7 @@ public class CheckPointsController : MonoBehaviour
     public GameObject LeapEventSystem;
     public GameObject UIEventSystem;
     public RoadController roadController;
+    public bool isFinishedCrossing = false;
     private int number_of_accidents_per_player = 0;
     private DataService _sqlite_connection_gamoplay;
     CrossingRoad crossingRoad;
@@ -53,7 +54,6 @@ public class CheckPointsController : MonoBehaviour
         gameClientController = GameObject.Find("GameClient").GetComponent<GameClient>();  //for sending Data to server
         crossingRoad = GameObject.Find("PlayerTrigger").GetComponent<CrossingRoad>();  //for making an event to it with its trigger
         fadeController = GameObject.Find("FadeController").GetComponent<Fading>();
-        _sqlite_connection_gamoplay = new DataService("USN_Simulation.db");
 
     }
     private void initializeCheckPoints()
@@ -115,7 +115,7 @@ public class CheckPointsController : MonoBehaviour
     public void crossingRoadPhaseFinished()
     {
         isHitByCar = false;
-
+        isFinishedCrossing = true;
         if (crossingRoadPhaseFinishedEvent != null)
         {
             crossingRoadPhaseFinishedEvent();
@@ -123,11 +123,14 @@ public class CheckPointsController : MonoBehaviour
         //    UnityEngine.PlayerPrefs.SetInt("isSettingsChanged", 0);
 
         //connect to DB 
+        _sqlite_connection_gamoplay = new DataService("USN_Simulation.db");
+
         _sqlite_connection_gamoplay.UpdateGameplayCrossingStatus(number_of_accidents_per_player, ExperimentParameters.gameplay_id);
 
         Application.LoadLevel(0);
     }
 
+    
     public void startTheGame()
     {
         Debug.Log("startTheGame");

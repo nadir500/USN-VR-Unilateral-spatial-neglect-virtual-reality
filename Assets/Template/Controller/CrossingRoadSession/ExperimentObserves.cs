@@ -20,7 +20,8 @@ public class ExperimentObserves : MonoBehaviour
 
     public GameObject mainCamera;               // reference to the camira in the hierarchy
     public GameObject onlineBodyView;           // reference to onlineBodyVew (just used to find the spineMid at his grandsons
-    private Transform SpineMid = null;          // reference to spineMid (Kinect creates it at runtime)
+
+    public GameObject SpineMid = null;          // reference to spineMid (Kinect creates it at runtime)
     private bool onFrameWorking;        // true => the 30 frame per second method is working after finding the spineMid | false  => the 30 frame per second method is NOT working
     private float observeFrameRate;  //the framerate from experimental parameters 
     private float timeSinceReachTheFirstYellowPoint;  //to calculate the start point of executing OnFrame in invoke 
@@ -33,6 +34,7 @@ public class ExperimentObserves : MonoBehaviour
     void Start()
     {
         onFrameWorking = false;
+        SpineMid = onlineBodyView;
         _crossing_road_connection = new DataService("USN_Simulation.db");
         checkPointsController.startTheGameCheckPointReachedEvent += Initialize;
         checkPointsController.backToMidWalkCheckPointReachedEvent += OnChangeTrafficTowardsFlow;
@@ -41,7 +43,7 @@ public class ExperimentObserves : MonoBehaviour
     {
         //initialize the framerate value (i made it like this cuz i want to reduce some operations :) )
         float frameRateInitialize = float.Parse(ExperimentParameters.observeFrameRate);
-        observeFrameRate = 1 / frameRateInitialize; //now getting the invoke reapeting rate 
+        observeFrameRate = frameRateInitialize / 30; //now getting the invoke reapeting rate 
 
         //those arrays are here for recording the data to DB every 2 invokes (performance matter) 
         playerPositions = new Vector3[3];  //player position array for recording 
@@ -70,7 +72,7 @@ public class ExperimentObserves : MonoBehaviour
     {
         //recording the data 
         angle = mainCamera.transform.localRotation.eulerAngles.y;
-        playerPositions[frameIndex] = SpineMid.position;
+        playerPositions[frameIndex] = SpineMid.transform.position;
         playerHeadRotations[frameIndex] = angle;
         traffic_towards_flow[frameIndex] = current_traffic_towards_flow;
         current_time_span[frameIndex] = Mathf.Abs(Mathf.Round((Time.time - timeSinceReachTheFirstYellowPoint) * 1000) / 1000);
@@ -80,22 +82,34 @@ public class ExperimentObserves : MonoBehaviour
         frameIndex++;
         if (frameIndex == 2)   // you can use this as the index of the lists
         {
-            Debug.Log("ON FRAME ");
+            //            Debug.Log("ON FRAME ");
             observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow, current_time_span, is_hit_by_car);
             //connection to database in a thread 
+            Debug.Log("OnFRAME");
+            //StartCoroutine(ConnectToDB());
             Thread connectionDBThread = new Thread(() => ConnectionToDB());
 
             connectionDBThread.Start();
             if (!connectionDBThread.IsAlive)
             {
+                Debug.Log("ABORT THREAD");
                 connectionDBThread.Abort();
             }
+
+            // Debug.Log("thread status =" + connectionDBThread.IsAlive);
+
+            //connectionDBThread.Join();
+
+
             frameIndex = 0;     // back to zero after each send
         }
 
+
     }
+   
     private void ConnectionToDB()
     {
+        Debug.Log("ConnectionToDB METHOD HERE!!!");
         _crossing_road_connection.CreateRoadCrossingData(observedData);
     }
 
@@ -104,26 +118,37 @@ public class ExperimentObserves : MonoBehaviour
     {
         try
         {
+
+            if (checkPointsController.isFinishedCrossing)
+            {
+                SpineMid = null;
+                //_crossing_road_connection.CloseConnection();
+
+            }
             if (SpineMid == null)  //kinect failed in seeing the patient 
             {
                 if (onFrameWorking)
                 {
                     onFrameWorking = false;
-
+                    Debug.Log("Cencel Invoke On Frame");
                     CancelInvoke("OnFrame");
                 }
-                if (onlineBodyView.transform.GetChild(0) != null)
+                if (onlineBodyView != null)
                 {
-                    SpineMid = GameObject.Find("SpineMid").transform;
-                    onlineBodyView.transform.GetChild(0).name = "Player";
+                    // SpineMid = onlineBodyView;  //reference from checkpoint controller 
+                    // SpineMid = GameObject.Find("SpineMid").transform;
+                    //  onlineBodyView.transform.GetChild(0).name = "Player";
                 }
 
             }
+
             else if (!onFrameWorking) //kinect succeed otherwise 
             {
+                Debug.Log("Observe frames = " + observeFrameRate);
                 InvokeRepeating("OnFrame", 0.0f, observeFrameRate);
                 onFrameWorking = true;
             }
+
         }
         catch (System.Exception e)
         {
@@ -142,7 +167,7 @@ public class ExperimentObserves : MonoBehaviour
             this.current_traffic_towards_flow = "L";
         }
     }
-    
+
     /*************** you're entering the junk area code ^_^ ****************/
 
     /* those variables represent some of the project features that we didn't make a prefect result from it when recording our data*/

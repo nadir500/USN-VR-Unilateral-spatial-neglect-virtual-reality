@@ -19,6 +19,6 @@ public class ExperimentParameters  {
     public static string colorChoice = "Black & White";
 
     public static string afterAccidentEvent = "Reset";
-    
+    public static string carsAlign = "Distinct";
 
 }

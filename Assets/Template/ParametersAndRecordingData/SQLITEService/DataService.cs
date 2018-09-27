@@ -64,6 +64,11 @@ public class DataService
         Debug.Log("Final PATH: " + dbPath);
 
     }
+
+    public void CloseConnection()
+    {
+        _connection.Close();
+    }
     //create gameplay row in the db 
     public int CreateGameplay()
     {

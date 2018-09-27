@@ -13,6 +13,7 @@ public class CharacterMechanism : MonoBehaviour
     public bool playerCurrentState = false;  //false means standing and true means walking for the player
     private Vector3 moveDirection = Vector3.zero;
     private Rigidbody controllerRB;
+    
 
     void Start()
     {

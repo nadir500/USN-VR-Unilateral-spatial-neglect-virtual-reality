@@ -79,6 +79,12 @@ public class Settings : MonoBehaviour
 
     public SettingsParameter afterAccidentEventWrapper;
     public string afterAccidentEventWrapperValue { get { return afterAccidentEventWrapper.parameterValue; } set { afterAccidentEventWrapper.parameterValue = value; } }
+    
+    public SettingsParameter carsAlignEventWrapper;
+
+    public string carsAlignEventWrapperValue {get {return carsAlignEventWrapper.parameterValue ;} set {carsAlignEventWrapper.parameterValue = value ; } }
+   
+   
     // Use this for initialization
     void Start()
     {
@@ -109,6 +115,7 @@ public class Settings : MonoBehaviour
         colorsChoiceWrapper.OnVariableChange += enableSaveChanges;
         numberOfRoadsWrapper.OnVariableChange += enableSaveChanges;
         afterAccidentEventWrapper.OnVariableChange += enableSaveChanges;
+        carsAlignEventWrapper.OnVariableChange += enableSaveChanges;
     }
     /*
         Parameters:
@@ -261,8 +268,8 @@ public class Settings : MonoBehaviour
             (ExperimentParameters.carType != carsTypeParameterWrappeValue) ||
             (ExperimentParameters.colorChoice != colorsChoiceWrapperValue) ||
             (ExperimentParameters.numberOfRoads != numberOfRoadsWrapperValue) ||
-            (ExperimentParameters.afterAccidentEvent != afterAccidentEventWrapperValue)
-
+            (ExperimentParameters.afterAccidentEvent != afterAccidentEventWrapperValue) ||
+            (ExperimentParameters.carsAlign != carsAlignEventWrapperValue)
           )
         {
             saveButton.interactable = true;
@@ -286,6 +293,7 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetString("ColorsChoice", this.colorsChoiceWrapperValue);
         PlayerPrefs.SetString("NumberOfRoads", this.numberOfRoadsWrapperValue.ToString());
         PlayerPrefs.SetString("AfterAccidentEvent", this.afterAccidentEventWrapperValue);
+        PlayerPrefs.SetString("CarsAlign", this.carsAlignEventWrapperValue);
 
         ExperimentParameters.lanes_per_direction = this.numberOfPathsPerStreetValue;
         ExperimentParameters.streetsDirections = this.streetsDirectionsValue;
@@ -300,6 +308,7 @@ public class Settings : MonoBehaviour
         ExperimentParameters.observeFrameRate = this.observeFrameRateValue.ToString();
         ExperimentParameters.colorChoice = this.colorsChoiceWrapperValue;
         ExperimentParameters.afterAccidentEvent = this.afterAccidentEventWrapperValue;
+        ExperimentParameters.carsAlign = this.carsAlignEventWrapperValue;
 
         //Debug.Log("Saved id gamplay in player prefs" + ExperimentParameters.gameplay_id);
         //PlayerPrefs.SetString("gameplay_id", ExperimentParameters.gameplay_id.ToString());  //storing gameplay_id for SQL SERVER Later :D
