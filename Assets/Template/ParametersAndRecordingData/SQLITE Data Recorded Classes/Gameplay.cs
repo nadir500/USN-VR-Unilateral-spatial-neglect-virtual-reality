@@ -23,7 +23,7 @@ public class Gameplay
     public double player_height { get; set; }
     public int number_of_accidents_per_player { get; set; }
     public int number_of_successful_crossing_per_player { get; set; }
-
+    public string crossing_type { get; set; }
 
 
 

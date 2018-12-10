@@ -86,6 +86,24 @@ public class DataService
 
         return _connection.Insert(gamePlay);
     }
+
+    public int CreateGameplayByGameChoice(string crossingType)
+    {
+        Gameplay gamePlay = new Gameplay
+        {
+            street_direction = ExperimentParameters.streetsDirections,
+            lanes_per_direction = ExperimentParameters.lanes_per_direction,
+            // car_speed_km = ExperimentParameters.carsSpeed,
+            car_speed_km = 0,
+            car_span_second = ExperimentParameters.distanceBetweenCars,
+            sound_mode = ExperimentParameters.soundDirections,
+            player_name = ExperimentParameters.player_name,
+            player_height = (double)ExperimentParameters.lengthOfPatient,
+            crossing_type = crossingType
+        };
+
+        return _connection.Insert(gamePlay);
+    }
     //create a crossingroaddata row in the db
     public void CreateRoadCrossingData(ObservedData observedData)
     {

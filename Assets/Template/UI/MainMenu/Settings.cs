@@ -122,7 +122,7 @@ public class Settings : MonoBehaviour
         Returns: void
         Callers:  Button componenet in the save button in the SettingsUI (assingd in code in start method)
         Objective:
-            call setExperementParameters methd thats set all the parameters value to ExpermentParamters class to use it in the other classes and to playerPrefs to save it to next time
+            call setExperementParameters method thats set all the parameters value to ExpermentParamters class to use it in the other classes and to playerPrefs to save it to next time
             make the saveButton uninteractable after saving the values
             set the isSettingsChanged value in playerPrefs to true to tell the others that the settings have been changed
      */

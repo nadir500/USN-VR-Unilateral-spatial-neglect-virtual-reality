@@ -52,7 +52,7 @@ public class MainMenu : MonoBehaviour
             if (PlayerPrefs.GetInt("isSettingsChanged") == 1)
             {
                 Debug.Log("main menu start settings changed, 1");
-                startGameButton.interactable = false;
+               // startGameButton.interactable = false  ;
             }
             else
                 Debug.Log("main menu start settings changed, 0");
@@ -115,7 +115,8 @@ public class MainMenu : MonoBehaviour
             ExperimentParameters.carsAlign = PlayerPrefs.GetString("CarsAlign");
         }
 
-        if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
+       /*Junk Code */ 
+     /*   if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
         {
             if (CheckGamplayID())
             {
@@ -134,7 +135,7 @@ public class MainMenu : MonoBehaviour
 
         {
             Debug.Log("NOT FOUND gameplay_id ");
-        }
+        }*/
 
 
 
@@ -169,7 +170,7 @@ public class MainMenu : MonoBehaviour
             if (PlayerPrefs.GetInt("isSettingsChanged") == 1)
             {
                 Debug.Log("show settings changed, 1");
-                startGameButton.interactable = false;
+              //  startGameButton.interactable = false;
             }
             else
             {
@@ -193,9 +194,13 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("newGame()");
         playMode = 1;               //// 0 => test ; 1 => full  
-        PlayerPrefs.SetString("CrossingChoice", playMode.ToString());
+       PlayerPrefs.SetString("CrossingChoice", playMode.ToString());
 
+        //ExperimentParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
+        _sqlite_connection_gamoplay.CreateGameplayByGameChoice("New Game Mode");
         ExperimentParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
+        PlayerPrefs.SetString("gameplay_id", ExperimentParameters.gameplay_id.ToString());
+
         uiMainCanvas.enabled = false;
         //checkPointsController.StartAfterMainMenu();
         // roadController.generateRoads();
@@ -219,7 +224,7 @@ public class MainMenu : MonoBehaviour
         playMode = 0;
         PlayerPrefs.SetString("CrossingChoice", playMode.ToString());
 
-        _sqlite_connection_gamoplay.CreateGameplay();
+        _sqlite_connection_gamoplay.CreateGameplayByGameChoice("Test Game Mode");
         ExperimentParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         PlayerPrefs.SetString("gameplay_id", ExperimentParameters.gameplay_id.ToString());
         uiMainCanvas.enabled = false;

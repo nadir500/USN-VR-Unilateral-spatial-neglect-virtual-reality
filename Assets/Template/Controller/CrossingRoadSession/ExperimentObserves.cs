@@ -85,14 +85,14 @@ public class ExperimentObserves : MonoBehaviour
             //            Debug.Log("ON FRAME ");
             observedData = new ObservedData(playerPositions, playerHeadRotations, isLookingAtCar, traffic_towards_flow, current_time_span, is_hit_by_car);
             //connection to database in a thread 
-            Debug.Log("OnFRAME");
+          //  Debug.Log("OnFRAME");
             //StartCoroutine(ConnectToDB());
             Thread connectionDBThread = new Thread(() => ConnectionToDB());
 
             connectionDBThread.Start();
             if (!connectionDBThread.IsAlive)
             {
-                Debug.Log("ABORT THREAD");
+              //  Debug.Log("ABORT THREAD");
                 connectionDBThread.Abort();
             }
 
@@ -109,7 +109,7 @@ public class ExperimentObserves : MonoBehaviour
    
     private void ConnectionToDB()
     {
-        Debug.Log("ConnectionToDB METHOD HERE!!!");
+       // Debug.Log("ConnectionToDB METHOD HERE!!!");
         _crossing_road_connection.CreateRoadCrossingData(observedData);
     }
 
@@ -130,7 +130,7 @@ public class ExperimentObserves : MonoBehaviour
                 if (onFrameWorking)
                 {
                     onFrameWorking = false;
-                    Debug.Log("Cencel Invoke On Frame");
+                  //  Debug.Log("Cencel Invoke On Frame");
                     CancelInvoke("OnFrame");
                 }
                 if (onlineBodyView != null)
@@ -144,7 +144,7 @@ public class ExperimentObserves : MonoBehaviour
 
             else if (!onFrameWorking) //kinect succeed otherwise 
             {
-                Debug.Log("Observe frames = " + observeFrameRate);
+                //Debug.Log("Observe frames = " + observeFrameRate);
                 InvokeRepeating("OnFrame", 0.0f, observeFrameRate);
                 onFrameWorking = true;
             }

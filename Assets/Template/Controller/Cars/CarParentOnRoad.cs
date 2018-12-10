@@ -43,7 +43,7 @@ public class CarParentOnRoad : MonoBehaviour
             //  carReferences[i].name = namingCarStringBuilder.ToString();
             this.transform.GetChild(i).gameObject.SetActive(false);
         }
-        spawnInRadomNumber = Random.Range(5.0f, 15.0f);
+        spawnInRadomNumber = Random.Range(1.0f, 6.0f);
 
         InvokeRepeating("SpawnCar", spawnInRadomNumber, ExperimentParameters.distanceBetweenCars);
 

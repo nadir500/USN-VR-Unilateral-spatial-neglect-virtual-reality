@@ -20,5 +20,6 @@ public class ExperimentParameters  {
 
     public static string afterAccidentEvent = "Reset";
     public static string carsAlign = "Distinct";
+    
 
 }
