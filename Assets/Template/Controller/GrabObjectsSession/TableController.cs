@@ -192,21 +192,20 @@ public class TableController : MonoBehaviour
     }
     string BringLevelToString(int level)
     {
-        string levelInString = "";
         switch (level)
         {
             case 1:
                 {
-                    return levelInString = "Personal";
+                    return  "Personal";
                 }
             case 2:
                 {
-                    return levelInString = "PeriPersonal";
+                    return  "PeriPersonal";
 
                 }
             case 3:
                 {
-                    return levelInString = "Far";
+                    return   "Far";
                 }
             default:
                 return "";

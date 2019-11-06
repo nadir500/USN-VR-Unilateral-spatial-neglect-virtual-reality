@@ -6,7 +6,7 @@ public class FingerTouchTrigger : MonoBehaviour
 {
 
     //hold for amount of time 
-    float timer = 4;
+   //float timer = 4;
     int beepCounter = 0;
     bool isHoldingOnObject = false;
     GameObject ToyObject;

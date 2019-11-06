@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 // This class is tha manager of the check points their events
@@ -127,7 +128,8 @@ public class CheckPointsController : MonoBehaviour
 
         _sqlite_connection_gamoplay.UpdateGameplayCrossingStatus(number_of_accidents_per_player, ExperimentParameters.gameplay_id);
 
-        Application.LoadLevel(0);
+        //Application.LoadLevel(0);
+        SceneManager.LoadScene(0);
     }
 
     

@@ -72,10 +72,10 @@ public class GameClient : MonoBehaviour, INetEventListener
 
     private NetManager _netClient; //the client peer 
     private NetPeer _serverPeer; //the server peer 
-    private AudioController audioController;  //audio controller from the scene 
+   // private AudioController audioController;  //audio controller from the scene 
     void Start()
     {
-        audioController = GameObject.Find("AudioController").GetComponent<AudioController>();
+        //audioController = GameObject.Find("AudioController").GetComponent<AudioController>();
         _netClient = new NetManager(this);
         _netClient.Start();
         _netClient.UpdateTime = 50;

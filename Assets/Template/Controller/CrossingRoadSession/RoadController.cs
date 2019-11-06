@@ -39,6 +39,8 @@ public class RoadController : MonoBehaviour
     {
         UnityEngine.XR.XRSettings.enabled = true;
         checkPointsController.startTheGameCheckPointReachedEvent += TurnOnAndOfYellowArrowsThenSayGo;
+
+         Debug.Log("Date "+ System.DateTime.Now.Date);
     }
 
     /*
@@ -56,7 +58,7 @@ public class RoadController : MonoBehaviour
         //Assigning number of paths from the UI
         int pathGenerateIndex = 0;
         int numberOfPathsInSingleRoad = ExperimentParameters.lanes_per_direction;
-        int numberOfRoads_temp = numberOfPathsInSingleRoad / 2;
+//        int numberOfRoads_temp = numberOfPathsInSingleRoad / 2;
         int numberOfRoads = ExperimentParameters.numberOfRoads;
 
         Debug.Log("Number of Roads = " + numberOfRoads);
@@ -68,13 +70,12 @@ public class RoadController : MonoBehaviour
         yellowArrowsFirstPath = Instantiate(yellowArrows, new Vector3(sidewalkWidth + (streetPathWidth / 2), -1.999f, -8.98f), Quaternion.identity);
 
 
-        //Road #1
+        //Road #1 
         roadsArray = createDirection(sidewalkWidth + (streetPathWidth / 2), ref pathGenerateIndex, 0);
         Debug.Log("after generate the first road");
         Debug.Log(ExperimentParameters.streetsDirections);
         streetsDirections = ExperimentParameters.streetsDirections.Split(' ');
-
-        if (streetsDirections.Length > 1)
+        if (streetsDirections.Length > 1)  //I think we can move this code to createDirection Method section
         {
             Debug.Log("generate the second road");
 
@@ -82,16 +83,17 @@ public class RoadController : MonoBehaviour
             yellowArrowsSecondPath = Instantiate(yellowArrows, new Vector3(lastPosition, -1.99f, -8.98f), Quaternion.identity);
 
             //Road #2  TODO: needs to fix later after the edit 
-           roadsArray = createDirection(sidewalkWidth + (streetPathWidth / 2) + midwalkWidth + (streetPathWidth * (numberOfRoads)), ref pathGenerateIndex, 2);
+            roadsArray = createDirection(sidewalkWidth + (streetPathWidth / 2) + midwalkWidth + (streetPathWidth * (numberOfRoads)), ref pathGenerateIndex, 2);
             Instantiate(sidewalk, new Vector3((sidewalkWidth) + (midwalkWidth) + streetPathWidth * (numberOfPathsInSingleRoad), -0.0012f, 0.0f), Quaternion.identity);
         }
-        else
+        else //one direction
+        {
+        Debug.Log("generate side walk in else condition");
             Instantiate(sidewalk, new Vector3((sidewalkWidth) + (streetPathWidth * (offsetOnXValue / 2)) + (midwalkWidth * numberOfRoads) - midwalkWidth, -0.0012f, 0.0f), Quaternion.identity);
-
-        Debug.Log("generate side walk");
+        }
 
         BuildingsWrapper.transform.position = new Vector3((sidewalkWidth * 2) + (midwalkWidth * numberOfRoads) + (streetPathWidth * (offsetOnXValue / 2)), 0, 0);
-        
+
     }
 
     public GameObject[] createDirection(float startPositionAtX, ref int pathGenerateIndex, int indexOfDirection)
@@ -110,6 +112,7 @@ public class RoadController : MonoBehaviour
             //           Vector3 RoadMeasure = new Vector3(startPositionAtX + (streetPathWidth * i) + (midwalkWidth * i) , -2.0f, 0.0f);
 
             //TODO: REFACTOR THIS CODE PLZZZZZZ
+            //TODO: different roads special case didn't solve and needs to be solved.
             if (i != 0)
             {
                 Debug.Log("offsetOnXValue  = " + (offsetOnXValue / 2) + " AND i = " + i);
@@ -132,20 +135,27 @@ public class RoadController : MonoBehaviour
                     generatedRoad = Instantiate(streetPath, RoadMeasure, Quaternion.identity) as GameObject;
                     offsetOnXValue += 2;
                 }
-                roadsArray[(offsetOnXValue / 2) - 1] = generatedRoad;
-                
+                int offsetTotal = (offsetOnXValue / 2) - 1;
+                Debug.Log(offsetTotal+ "<--(offsetOnXValue / 2) - 1 " + "roadsArray.Length --> " + roadsArray.Length);
+                if (offsetTotal < roadsArray.Length)
+                {
+                    Debug.Log("Entered Condition");
+                    roadsArray[offsetTotal] = generatedRoad;
+                }
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append("Road " + offsetOnXValue / 2 );
+                stringBuilder.Append("Road " + offsetOnXValue / 2);
                 // stringBuilder.Append(streetsDirections[indexOfDirection] + " ");
                 // stringBuilder.Append(i + 1);
                 generatedRoad.name = stringBuilder.ToString();
 
             }
-            foreach (Transform child in generatedRoad.transform)
-            {
-                child.gameObject.name = pathGenerateIndex.ToString();
-                pathGenerateIndex++;
-            }
+            // foreach (Transform child in generatedRoad.transform)  //<<---commented for nearest distance Edit--->>
+            //   {
+            // //      child.gameObject.name = pathGenerateIndex.ToString();
+            //     pathGenerateIndex++;
+            //  }
+
+
             //i'll take each road generated (the cars are from left to right movement) and rename it into a specific name
             //i used string builder for the performance issues
             //  StringBuilder stringBuilder = new StringBuilder();

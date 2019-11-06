@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class TestRendered : MonoBehaviour
 {
-    MeshRenderer mr;
-    bool visible = false;
-    bool laseState = false;
+//    MeshRenderer mr;
+//    bool visible = false;
+  //  bool laseState = false;
     void Start()
     {
-        mr = this.GetComponent<MeshRenderer>();
+//        mr = this.GetComponent<MeshRenderer>();
  
     }
 

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 public class DataService
 {
-     private SQLiteConnection _connection;
+    private SQLiteConnection _connection;
 
     public DataService(string DatabaseName)
     {
@@ -74,13 +74,15 @@ public class DataService
     {
         Gameplay gamePlay = new Gameplay
         {
+            date = System.DateTime.Now.Date,
+            player_name = ExperimentParameters.player_name,
             street_direction = ExperimentParameters.streetsDirections,
             lanes_per_direction = ExperimentParameters.lanes_per_direction,
             // car_speed_km = ExperimentParameters.carsSpeed,
             car_speed_km = 0,
             car_span_second = ExperimentParameters.distanceBetweenCars,
             sound_mode = ExperimentParameters.soundDirections,
-            player_name = ExperimentParameters.player_name,
+
             player_height = (double)ExperimentParameters.lengthOfPatient
         };
 
@@ -91,13 +93,15 @@ public class DataService
     {
         Gameplay gamePlay = new Gameplay
         {
+            date = System.DateTime.Now.Date,
+
+            player_name = ExperimentParameters.player_name,
             street_direction = ExperimentParameters.streetsDirections,
             lanes_per_direction = ExperimentParameters.lanes_per_direction,
             // car_speed_km = ExperimentParameters.carsSpeed,
             car_speed_km = 0,
             car_span_second = ExperimentParameters.distanceBetweenCars,
             sound_mode = ExperimentParameters.soundDirections,
-            player_name = ExperimentParameters.player_name,
             player_height = (double)ExperimentParameters.lengthOfPatient,
             crossing_type = crossingType
         };
@@ -116,7 +120,7 @@ public class DataService
                 gameplay_id = ExperimentParameters.gameplay_id,  //storing from the static variable in the class
                 traffic_flow_towards = observedData.traffic_towards_flow[i],
                 current_time_span = double.Parse(observedData.current_time_span[i].ToString("F3")),
-                current_distance_nearest_car = 0, //for now 
+                current_distance_nearest_car = (double)observedData.nearest_distance_for_lane[i], //for now 
                 gazing_car = observedData.isLookingAtCar[i],
                 gazing_nearest_car = false, //for now 
                 after_collision_frame = observedData.is_hit_by_car[i],
@@ -130,7 +134,7 @@ public class DataService
         }
     }
     //getting the current gameplay id 
-   
+
     public int GetGameplayIDFromDatabase()  //stored in playerPref 
     {
         int rows = _connection.Table<Gameplay>().Select(x => x.gameplay_id).Count();

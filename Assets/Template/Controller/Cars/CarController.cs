@@ -14,8 +14,10 @@ public class CarController : MonoBehaviour
     public const float midwalkWidth = 1.36f;       //  the width of midwalk
     int numberOfPathsInSingleRoad;
     public CheckPointsController checkPointsController;  //reaching checkpoint controller for event subscribe when generate at the start of the game 
-    
+
     public GameObjectHandler[] carObjectHandlerArray;
+    public GameObject[,] parentsWithCars2DArrayRefernces;
+
     public RoadController roadsController;
     void Start()
     {
@@ -29,6 +31,7 @@ public class CarController : MonoBehaviour
 
     public void CarsOnFastRoad()
     {
+
         if (MainMenu.playMode == 1)
         {
             numberOfPathsInSingleRoad = ExperimentParameters.lanes_per_direction;
@@ -36,6 +39,7 @@ public class CarController : MonoBehaviour
             //switch cases 
             if (ExperimentParameters.carType != "All")
             {
+
                 switch (ExperimentParameters.carType)
                 {
 
@@ -71,7 +75,6 @@ public class CarController : MonoBehaviour
                 carObjectHandlerArray[2] =
                                         new GameObjectHandler(Resources.Load("Prefabs/Bus") as GameObject, //pooling from the prefab with copies that is like the number of paths in each street
                                                         ExperimentParameters.numberOfRoads * 10, true, "");          //making a prefab copy with a number enough to cover a whole one path 
-
             }
 
 
@@ -85,13 +88,14 @@ public class CarController : MonoBehaviour
     public void InstantiateCarsFastRoad(GameObjectHandler[] carObjectHandler)
     {
         //knowing which rotation and direction to instantiate the car
-        string[] carDirection = ExperimentParameters.streetsDirections.Split(' ');
+//        string[] carDirection = ExperimentParameters.streetsDirections.Split(' ');
 
         int numberOfRoads = ExperimentParameters.numberOfRoads * ExperimentParameters.lanes_per_direction / 2;
+        int numberOfChildsParent =0;
         int countingRoadsForCars = 0;
         int roadsToGenerate = ExperimentParameters.lanes_per_direction / 2; //for each Road GameObject
         int counterToGenerateNextRoadsOnMidwalk = 0;
-
+        
 
         for (int i = 0; i < numberOfRoads; i++) //2 cars each road GameObject
         {
@@ -100,7 +104,7 @@ public class CarController : MonoBehaviour
             GameObject parent1 = new GameObject("parent " + i);      //making parent object for each generated lane's cars 
             GameObject parent2 = new GameObject("ٌReverse " + i);    //making parent object for each generated lane's cars
 
-            GameObject car1, car2;
+            GameObject  car2;
             int yRotate;  //to know the rotation of the car before instantiate 
 
 
@@ -108,7 +112,7 @@ public class CarController : MonoBehaviour
             {
 
                 counterToGenerateNextRoadsOnMidwalk = 0;
-            countingRoadsForCars++;
+                countingRoadsForCars++;
 
             }
             counterToGenerateNextRoadsOnMidwalk++;
@@ -124,9 +128,9 @@ public class CarController : MonoBehaviour
                     if (carObjectHandlerArray.Length - 1 >= countingRoadsForCars)
                     {
                         //////choose cars and generate for each road 
-                         InstantiateCarsLeftLane(carObjectHandler[countingRoadsForCars], i, parent1); // ||  left in road    ||           ||  in terms of left to right road 
+                        InstantiateCarsLeftLane(carObjectHandler[countingRoadsForCars], i, parent1); // ||  left in road    ||           ||  in terms of left to right road 
 
-                         InstantiateCarsRightLane(carObjectHandler[countingRoadsForCars], i /* + 1*/, parent1);   // ||           ||   right in road        ||   in terms of left to right road 
+                        InstantiateCarsRightLane(carObjectHandler[countingRoadsForCars], i /* + 1*/, parent1);   // ||           ||   right in road        ||   in terms of left to right road 
                     }
                     else
                     {
@@ -146,26 +150,30 @@ public class CarController : MonoBehaviour
                 }
 
             }
-
+            numberOfChildsParent = parent1.transform.childCount;
+            Debug.Log("numberOfChildsParent = " +numberOfChildsParent );
             parent1.AddComponent<CarParentOnRoad>(); //adding a class to the parent (each lane) to manage the cars in the scene
-          //  parent2.AddComponent<CarParentOnRoad>(); //adding a class to the parent (each lane) to manage the cars in the scene
+                                                     //  parent2.AddComponent<CarParentOnRoad>(); //adding a class to the parent (each lane) to manage the cars in the scene
         }
+        
+      parentsWithCars2DArrayRefernces = new GameObject[numberOfRoads, numberOfChildsParent *numberOfRoads];
+      Debug.Log("length 2d array = " +parentsWithCars2DArrayRefernces.GetLength(0) +" "+parentsWithCars2DArrayRefernces.GetLength(1) );
 
 
     }
 
-    
+
     GameObject InstantiateCarsLeftLane(GameObjectHandler carHandler, int index, GameObject parent)
     {
         int yRotate;  //to know the rotation of the car before instantiate 
         float carMeasure = 0;
         yRotate = (ExperimentParameters.streetsDirections.Split()[0].Equals("Right")) ? -1 : +1;  //identify the rotation 
 
-       
-           // carMeasure = (sidewalkWidth) + (index * ((streetPathWidth))) + ((index) * midwalkWidth) + (streetPathWidth / 4);
-            carMeasure = roadsController.roadsArray[index].transform.position.x -  1.06f;
-        
-        
+
+        // carMeasure = (sidewalkWidth) + (index * ((streetPathWidth))) + ((index) * midwalkWidth) + (streetPathWidth / 4);
+        carMeasure = roadsController.roadsArray[index].transform.position.x - 1.06f;
+
+
 
         GameObject car = carHandler.RetrieveInstance(new Vector3(carMeasure,
                            -2.0f, yRotate * (190.0f + ExperimentParameters.distanceBetweenCars)),
@@ -185,12 +193,12 @@ public class CarController : MonoBehaviour
         float carMeasure = 0;
 
         yRotate = (ExperimentParameters.streetsDirections.Split()[0].Equals("Right")) ? -1 : +1;  //identify the rotation 
-       
-           /// carMeasure = (sidewalkWidth) + ((index - 1) * ((streetPathWidth))) + ((index - 1) * midwalkWidth) + (streetPathWidth * 3 / 4);
-          carMeasure = roadsController.roadsArray[index].transform.position.x + 1.06f ;
 
-      
-        
+        /// carMeasure = (sidewalkWidth) + ((index - 1) * ((streetPathWidth))) + ((index - 1) * midwalkWidth) + (streetPathWidth * 3 / 4);
+        carMeasure = roadsController.roadsArray[index].transform.position.x + 1.06f;
+
+
+
         GameObject car = carHandler.RetrieveInstance(new Vector3(carMeasure,
                      -2.0f, yRotate * (190.0f + ExperimentParameters.distanceBetweenCars)),
                                         Quaternion.Euler(new Vector3(0, yRotate * -90, 0)));

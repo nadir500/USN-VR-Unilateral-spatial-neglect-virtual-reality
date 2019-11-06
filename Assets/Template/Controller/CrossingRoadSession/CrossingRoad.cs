@@ -12,18 +12,28 @@ public class CrossingRoad : MonoBehaviour
     public CharacterMechanism characterMechanism;
     public GameClient gameClientController;
     public Fading fadeController;
+    public ExperimentObserves experimentObserves;
     private float timeleft;  //time left to stop the car
     private CarParentOnRoad carParentOnRoadController;  //the parent of the car that hit the player and we will use it in the trigger function above
     private Rigidbody rb;  //getting the car rigid body when trigger enter
     private GameObject parentCar; //getting the parent of the car when trigger enter 
                                   // private GameObject playerGB, carColliderGB; //getting the player collider and the car collider when trigger enter 
-    private CarMove carMoveController;
-    private string carDirection;
-    private bool stopCar;
+    //private CarMove carMoveController;
+//    private string carDirection;
+   // private bool stopCar;
     private bool isHit_ContinueChoice = false;
     //TODO: REFACTOR THIS CODE 
     void OnTriggerEnter(Collider hitBox)
     {
+        if (hitBox.gameObject.name == "1" || hitBox.gameObject.name == "2")
+        {
+            //summon function from experiments observe 
+            
+        }
+         
+          experimentObserves.PassingAndProcessingDistanceValues(hitBox.gameObject);
+         
+
         if (hitBox.gameObject.tag == "Midwalk")  //entering midwalk then stop automatically to be ready for the next round 
         {
 
@@ -50,9 +60,9 @@ public class CrossingRoad : MonoBehaviour
             parentCar = hitBox.transform.parent.gameObject; //bringing car game object collided with the player 
 
             rb = parentCar.GetComponent<Rigidbody>(); //car rigidbody 
-            carMoveController = parentCar.gameObject.GetComponent<CarMove>();  //getting the script 
-            carDirection = carMoveController.carDirection; //the direction of the car 
-            stopCar = carMoveController.hasToStop;  //the car needs to stop bool
+           // carMoveController = parentCar.gameObject.GetComponent<CarMove>();  //getting the script 
+//            carDirection = carMoveController.carDirection; //the direction of the car 
+           // stopCar = carMoveController.hasToStop;  //the car needs to stop bool
             rb.drag = 47; //slowing down the car 
             WhenHitByCar();
             parentCar.GetComponent<CarMove>().onBrake(); //make brake sound 
@@ -70,7 +80,7 @@ public class CrossingRoad : MonoBehaviour
                 //Doctor's Sound telling the player that he has failed
                 StartCoroutine(ResetTheGame());
                 StartCoroutine(StopCarForWhile(rb));
-                StartCoroutine(carParentOnRoadController.MakeCarsAppearAgain(ExperimentParameters.distanceBetweenCars,parentCar.transform.GetSiblingIndex(),
+                StartCoroutine(carParentOnRoadController.MakeCarsAppearAgain(ExperimentParameters.distanceBetweenCars, parentCar.transform.GetSiblingIndex(),
                                      int.Parse(parentCar.transform.parent.GetChild(0).ToString().Split(' ')[1]),
                                          int.Parse(parentCar.transform.parent.GetChild(parentCar.transform.parent.childCount - 1).ToString().Split(' ')[1])));
             }
@@ -78,7 +88,7 @@ public class CrossingRoad : MonoBehaviour
             {
                 gameClientController.result = "stop";
 
-                StartCoroutine(carParentOnRoadController.MakeCarsAppearAgain(ExperimentParameters.distanceBetweenCars,parentCar.transform.GetSiblingIndex(),
+                StartCoroutine(carParentOnRoadController.MakeCarsAppearAgain(ExperimentParameters.distanceBetweenCars, parentCar.transform.GetSiblingIndex(),
                                     int.Parse(parentCar.transform.parent.GetChild(0).ToString().Split(' ')[1]),
                                         int.Parse(parentCar.transform.parent.GetChild(parentCar.transform.parent.childCount - 1).ToString().Split(' ')[1])));
                 StartCoroutine(StopCarForWhile(rb));

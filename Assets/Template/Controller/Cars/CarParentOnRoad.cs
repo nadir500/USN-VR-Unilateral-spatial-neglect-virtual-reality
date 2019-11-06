@@ -13,29 +13,34 @@ public class CarParentOnRoad : MonoBehaviour
     public int index = 0; //index of the car we're trying to generate in every lane from the array above
     public float carSpeed;
     CarController carController;
-    private CheckPointsController checkPointsController;  //helping us in detecting if the car hit the player or not 
+    //private CheckPointsController checkPointsController;  //helping us in detecting if the car hit the player or not 
     private bool hitByCar = false;  //determine weather you hit a car or not 
     private GameObject[] carHandlerPool;  //cars object pool as reference to _pool from the object pooling class 
     private StringBuilder stringBuilder;
-    private StringBuilder namingCarStringBuilder;
+//    private StringBuilder namingCarStringBuilder;
 
     void Start()
     {
         //random spawn number
         float spawnInRadomNumber = 0.0f;
-        string[] stringSubset;
+        string stringSubset = gameObject.name.Split(' ')[1];
+        int parentNumber = int.Parse(stringSubset);
         //initialize the array 
         carReferences = new GameObject[this.transform.childCount];
         //getting the reference ready 
         carHandlerPool = new GameObject[ExperimentParameters.numberOfRoads * 10 * 2];
         //initialize checkpoint controller 
-        checkPointsController = GameObject.Find("CheckPointController").GetComponent<CheckPointsController>();
+        //checkPointsController = GameObject.Find("CheckPointController").GetComponent<CheckPointsController>();
+        carController = GameObject.Find("CarController").GetComponent<CarController>();
         carSpeed = ChooseSpeedRandom(ExperimentParameters.carsSpeed);
-        namingCarStringBuilder = new StringBuilder();
+      //  namingCarStringBuilder = new StringBuilder();
         for (int i = 0; i < carReferences.Length; i++)  //reference every child to the array 
         {
             // namingCarStringBuilder.Length = 0;
             carReferences[i] = this.transform.GetChild(i).gameObject;
+
+            carController.parentsWithCars2DArrayRefernces[parentNumber, i] = carReferences[i];
+
             //namingCarStringBuilder.Append(carReferences[i].name);
             //  stringSubset = carReferences[i].name.Split(' ');
             //  namingCarStringBuilder.Append(stringSubset[0]);
@@ -55,7 +60,7 @@ public class CarParentOnRoad : MonoBehaviour
 
     float ChooseSpeedRandom(string rangeSpeedstr)
     {
-        Debug.Log("range string = " + rangeSpeedstr);
+        //        Debug.Log("range string = " + rangeSpeedstr);
         //extract the main two numbers of the car speed
         string[] mainNumbers = rangeSpeedstr.Split('-');
 
@@ -80,8 +85,8 @@ public class CarParentOnRoad : MonoBehaviour
         }
         else
         {
-            Debug.Log("car INDEX in parent class = " + index + "PARENT = " + this.gameObject.name );
-            if (index > carReferences.Length - 1 )
+            Debug.Log("car INDEX in parent class = " + index + "PARENT = " + this.gameObject.name);
+            if (index > carReferences.Length - 1)
             {
                 Debug.Log("index now zero");
                 index = 0; //exceed limits

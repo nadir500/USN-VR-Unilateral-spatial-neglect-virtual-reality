@@ -24,7 +24,6 @@ public class Gameplay
     public int number_of_accidents_per_player { get; set; }
     public int number_of_successful_crossing_per_player { get; set; }
     public string crossing_type { get; set; }
-
-
+    public System.DateTime date{get;set;}
 
 }

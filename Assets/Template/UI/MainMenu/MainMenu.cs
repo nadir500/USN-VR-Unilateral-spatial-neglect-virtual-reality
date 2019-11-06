@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.VR;
 
@@ -52,7 +53,7 @@ public class MainMenu : MonoBehaviour
             if (PlayerPrefs.GetInt("isSettingsChanged") == 1)
             {
                 Debug.Log("main menu start settings changed, 1");
-               // startGameButton.interactable = false  ;
+                // startGameButton.interactable = false  ;
             }
             else
                 Debug.Log("main menu start settings changed, 0");
@@ -115,27 +116,27 @@ public class MainMenu : MonoBehaviour
             ExperimentParameters.carsAlign = PlayerPrefs.GetString("CarsAlign");
         }
 
-       /*Junk Code */ 
-     /*   if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
-        {
-            if (CheckGamplayID())
-            {
-                ExperimentParameters.gameplay_id = int.Parse(PlayerPrefs.GetString("gameplay_id"));
+        /*Junk Code */
+        /*   if (PlayerPrefs.HasKey("gameplay_id") && (!string.IsNullOrEmpty(PlayerPrefs.GetString("gameplay_id"))))
+           {
+               if (CheckGamplayID())
+               {
+                   ExperimentParameters.gameplay_id = int.Parse(PlayerPrefs.GetString("gameplay_id"));
 
-                Debug.Log("Latest Gameplay_id " + ExperimentParameters.gameplay_id);
-            }
-            else
-            {
-                ExperimentParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
-                Debug.Log("GamePlay ID Not Matched and the new one is " + ExperimentParameters.gameplay_id);
-            }
+                   Debug.Log("Latest Gameplay_id " + ExperimentParameters.gameplay_id);
+               }
+               else
+               {
+                   ExperimentParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
+                   Debug.Log("GamePlay ID Not Matched and the new one is " + ExperimentParameters.gameplay_id);
+               }
 
-        }
-        else
+           }
+           else
 
-        {
-            Debug.Log("NOT FOUND gameplay_id ");
-        }*/
+           {
+               Debug.Log("NOT FOUND gameplay_id ");
+           }*/
 
 
 
@@ -170,7 +171,7 @@ public class MainMenu : MonoBehaviour
             if (PlayerPrefs.GetInt("isSettingsChanged") == 1)
             {
                 Debug.Log("show settings changed, 1");
-              //  startGameButton.interactable = false;
+                //  startGameButton.interactable = false;
             }
             else
             {
@@ -194,7 +195,7 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("newGame()");
         playMode = 1;               //// 0 => test ; 1 => full  
-       PlayerPrefs.SetString("CrossingChoice", playMode.ToString());
+        PlayerPrefs.SetString("CrossingChoice", playMode.ToString());
 
         //ExperimentParameters.gameplay_id = _sqlite_connection_gamoplay.GetGameplayIDFromDatabase();
         _sqlite_connection_gamoplay.CreateGameplayByGameChoice("New Game Mode");
@@ -206,7 +207,8 @@ public class MainMenu : MonoBehaviour
         // roadController.generateRoads();
         // VRSettings.enabled = true;
 
-        Application.LoadLevel(1);
+        //        Application.LoadLevel(1);
+        SceneManager.LoadScene(1);
     }
 
     /*
@@ -232,7 +234,8 @@ public class MainMenu : MonoBehaviour
         // roadController.generateRoads();
         // VRSettings.enabled = true;
         PlayerPrefs.Save();
-        Application.LoadLevel(1);
+        //  Application.LoadLevel(1);
+        SceneManager.LoadScene(1);
     }
     public void settings()
     {
@@ -246,7 +249,8 @@ public class MainMenu : MonoBehaviour
         Debug.Log("credits()");
         uiMainCanvas.enabled = false;
 
-        Application.LoadLevel(2);
+        //        Application.LoadLevel(2);
+        SceneManager.LoadScene(2);
         //this.hide();
         //  creditsWrapper.GetComponent<Canvas>().enabled = true;
         //  creditsWrapper.GetComponent<Animator>().SetBool("Active", true);
