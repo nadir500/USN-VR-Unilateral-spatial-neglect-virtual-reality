@@ -6,19 +6,19 @@ public class CarMove : MonoBehaviour
 {
     //the main script which is attached to every car Instantiated 
     //we can move the car in the direction specified by this script  
-    public static int numberOfRenderdCars = 0;      //??? need abdalla
+    public static int numberOfRenderedCars = 0;      //??? need abdalla
 
-    public float speed;  //speed of the car 
+    public float speed = 0;  //speed of the car 
     public string carDirection;  //knowing which direction is the car 
     public bool hasToStop = false;
     private Vector3 _start_car_position;  //we will use it when we fade the screen and colliding with the player 
-
+    private CarParentOnRoad carParentOnRoad;
     AudioSource carEngineAudio;  //audio source reference to Engine Audio Source from Car Prefab
     AudioSource carCrashSound;  //audio source reference to Crash Audio Source from Car Prefab (deleted in the latest feedback)
     AudioSource carBrakeSound;  //audio source reference to Brake Audio Source from Car Prefab
     AudioSource carHornSound;  //audio source reference to Car Horn Audio Source from Car Prefab
     bool isRendered = false; // ?? Abdalla
-    bool lastIsRenderdState = false; // ?? Abdalla
+    bool lastIsRenderedState = false; // ?? Abdalla
 
     private Renderer renderer;  //??? Abdalla
 
@@ -26,19 +26,29 @@ public class CarMove : MonoBehaviour
     void Start()
     {
         renderer = GetComponent<Renderer>();
-        speed = ExperementParameters.carsSpeed; //Getting the speed value from static variables in ExperementParameters Class which is assigned from the UI and Player Prefs 
+        carParentOnRoad = this.transform.parent.GetComponent<CarParentOnRoad>();
+        InvokeRepeating("GetSpeedCarFromParent", 0, 0.001f);
+
         _start_car_position = this.transform.position; //taking the prev position 
-        //getting audio source refernces from the each Car Prefab after instantiating it from Car Controller
+        //getting audio source references from the each Car Prefab after instantiating it from Car Controller
         carEngineAudio = this.GetComponent<AudioSource>();
         carBrakeSound = this.transform.GetChild(1).GetComponent<AudioSource>();
         carCrashSound = this.transform.GetChild(2).GetComponent<AudioSource>();
         carHornSound = this.transform.GetChild(3).GetComponent<AudioSource>();
-        IntializeCarSounds(); //intialize the state of the sounds from  ExperementParameters by soundDirections variable
-    }
+        InitializeCarSounds(); //initialize the state of the sounds from  Experiment Parameters by soundDirections variable
 
-    private void IntializeCarSounds()
+    }
+    void GetSpeedCarFromParent()
     {
-        switch (ExperementParameters.soundDirections)
+        if (carParentOnRoad != null)
+            speed = carParentOnRoad.carSpeed; //Getting the speed value from static variables in ExperimentParameters Class which is assigned from the UI and Player Prefs 
+        if(speed !=0)
+            CancelInvoke("GetSpeedCarFromParent");
+    }
+     
+    private void InitializeCarSounds()
+    {
+        switch (ExperimentParameters.soundDirections)
         {
             case "Off":
                 {
@@ -120,31 +130,31 @@ public class CarMove : MonoBehaviour
             this.gameObject.SetActive(false);
         }
 
-        if (this.transform.position == _start_car_position) //intializing after the car triggered the player or after the screen faded out 
+        if (this.transform.position == _start_car_position) //initializing after the car triggered the player or after the screen faded out 
         {
-            //when we hit a car the is kinematic will be true thus we need to intialize the car values after the screen faded out or when colliding with the player 
-            rb.isKinematic = false; 
+            //when we hit a car the is kinematic will be true thus we need to initialize the car values after the screen faded out or when colliding with the player 
+            rb.isKinematic = false;
             rb.drag = 1;
         }
 
         isRendered = renderer.isVisible;
-        if (isRendered != lastIsRenderdState)
+        if (isRendered != lastIsRenderedState)
         {
-            numberOfRenderdCars += (isRendered) ? +1 : -1;
-            lastIsRenderdState = isRendered;
+            numberOfRenderedCars += (isRendered) ? +1 : -1;
+            lastIsRenderedState = isRendered;
         }
 
     }
     /****************************************************Audio Events For the Car*******************************************************/
-    public void onBrake()
+    public void onBrake() //when colliding with a car
     {
         carBrakeSound.Play();
     }
-    public void RemoveBrakeSound()
+    public void RemoveBrakeSound()  //to stop the brake sound 
     {
         carBrakeSound.Stop();
     }
-    public void FadeSound()
+    public void FadeSound()  //fading the cars sound after fade (i think it's now deprecated after our last edit in requirements on the project)
     {
         if (carEngineAudio.volume != 0)   //audio threshold 
         {
@@ -157,6 +167,12 @@ public class CarMove : MonoBehaviour
     public void CarHorn()
     {
         carHornSound.Play();
+    }
+
+    public void resetCarsPositions()
+    {
+        Debug.Log("Reset Cars Positions");
+        this.transform.position = _start_car_position;
     }
     /****************************************************END*******************************************************/
 

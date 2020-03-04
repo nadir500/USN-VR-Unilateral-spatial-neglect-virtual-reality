@@ -9,9 +9,9 @@ public class Fading : MonoBehaviour
     public CanvasGroup fadecanvas;  //fade canvas 
     public GameObject fadeGB;
     public float fadeSpeed = 0.8f;
+    public int fadeDirection = -1;
     private int drawDepth = -1000;
     private float alpha = 0.0f;
-    private int fadeDirection = -1;
     private Color darkRedColor;
     GameObject fadeImage;
     GameObject loadingImage;
@@ -25,34 +25,13 @@ public class Fading : MonoBehaviour
     void Start()
     {
 
-        checkPointsController.backToOtherSideCheckPointReachedEvent += backToOtherSideRemoveFade;
-        kinectCamera = GameObject.Find("Camera") as GameObject;//Camera.main.gameObject;
+        //checkPointsController.backToOtherSideCheckPointReachedEvent += backToOtherSideRemoveFade;
+        kinectCamera =  Camera.main.gameObject;
         fakefadechild = GameObject.Find("FadeFakeChildKinect") as GameObject;
         darkRedColor = new Color32(38, 20, 20, 255); //by default 
         fadeImage = GameObject.Find("FadeImage") as GameObject;
         loadingImage = GameObject.Find("LoadingImage") as GameObject;
         loadingImage.SetActive(false);
-
-    }
-
-    private void backToOtherSideRemoveFade()
-    {
-        lastKinektCamera = kinectCamera;
-        InvokeRepeating("SearchKineckCamera", 0, 0.09f);
-    }
-
-    GameObject lastKinektCamera;
-    private void SearchKineckCamera()
-    {
-
-        GameObject tempKinectCamera = GameObject.Find("CenterEyeAnchor") as GameObject;
-        kinectCamera = (tempKinectCamera != null) ? tempKinectCamera : kinectCamera;
-
-        GameObject fakeFadeChildTemp = GameObject.Find("FadeFakeChildLeap") as GameObject;
-        fakefadechild = (fakeFadeChildTemp != null) ? fakeFadeChildTemp : fakefadechild;
-
-        if (lastKinektCamera != kinectCamera && fakefadechild != fakeFadeChildTemp)
-            CancelInvoke("SearchKineckCamera");
     }
     public void SetCanvasFadeReference(CanvasGroup fadecanvas)
     {
@@ -60,7 +39,7 @@ public class Fading : MonoBehaviour
     }
     void LateUpdate()
     {
-        Debug.Log("Camera Current Parent " + fakefadechild.transform.parent.transform.parent.gameObject.name);
+//        Debug.Log("Camera Current Parent " + fakefadechild.transform.parent.transform.parent.gameObject.name);
        fadeGB.transform.position = kinectCamera.transform.TransformPoint(new Vector3(fakefadechild.transform.localPosition.x,fakefadechild.transform.localPosition.y,fakefadechild.transform.localPosition.z+0.02f));
 
         Quaternion From = fadeGB.transform.rotation;
@@ -71,7 +50,7 @@ public class Fading : MonoBehaviour
     {
         if (fadecanvas != null)
         {
-            if (fadeDirection == 1) //fading continously 
+            if (fadeDirection == 1) //fading continuously 
             {
                 fadeImage.GetComponent<Image>().color = darkRedColor;
                 double dd = (Mathf.Sin(Time.time * 5) + 1.0) / 2.0;
@@ -89,7 +68,7 @@ public class Fading : MonoBehaviour
                 fadecanvas.alpha = alpha;  //fading entirly 
                 if (!RoadController.fadeout_after_crossing) //if the server sent the false value to the client 
                 {
-                    Debug.Log("RoadController condition");
+//                    Debug.Log("RoadController condition");
                     darkRedColor = new Color32(38, 20, 20, 255); //return to red by default 
                     loadingImage.SetActive(false);
                     //reverse fading
@@ -104,7 +83,7 @@ public class Fading : MonoBehaviour
     //the trigger to begin fade 
     public void BeginFade(int direction)
     {
-        if (direction == 2) //fade entirly 
+        if (direction == 2) //fade entirely 
         {
             //changing the UI Color for phase 2 Fade
             fadeImage.GetComponent<Image>().color = Color.black;
